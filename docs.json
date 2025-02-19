@@ -1,13 +1,18 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "rhino.fi - Docs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#F3A41B",
+    "light": "#FCDCA4",
+    "dark": "#F3A41B"
   },
   "favicon": "/favicon.svg",
+  "api": {
+    "mdx": {
+      "server": "https://api.rhinofi.dev/bridge"
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -16,20 +21,32 @@
           {
             "group": "Get Started",
             "pages": [
-              "introduction",
-              "quickstart",
-              "development"
+              "get-started/introduction",
+              "get-started/what-is-rhino",
+              {
+                "group": "API integration",
+                "pages": [
+                  "get-started/quickstart"
+                ]
+              },
+              {
+                "group": "Smart Contracts",
+                "pages": [
+                  "get-started/contract-examples",
+                  "get-started/contract/evm",
+                  "get-started/contract/solana",
+                  "get-started/contract/ton",
+                  "get-started/contract/starknet",
+                  "get-started/contract/tron"
+                ]
+              },
+              "get-started/widget"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "General information",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "general/supported-chains"
             ]
           }
         ]
@@ -45,11 +62,7 @@
           },
           {
             "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete"
-            ]
+            "openapi": "https://api.rhinofi.dev/bridge/swagger.json"
           }
         ]
       }
@@ -57,18 +70,18 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "Website",
+          "icon": "globe",
+          "href": "https://rhino.fi/"
         },
         {
           "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "href": "https://discord.gg/26sXx2KAhy",
+          "icon": "discord"
         },
         {
           "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
+          "href": "https://rhino.fi/blog/",
           "icon": "newspaper"
         }
       ]
@@ -82,13 +95,13 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "https://go.crisp.chat/chat/embed/?website_id=598d8062-c46b-40e7-a7cd-0bf2061390a5"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Bridge",
+      "href": "https://app.rhino.fi/"
     }
   },
   "footer": {

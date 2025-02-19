@@ -1,0 +1,67 @@
+---
+title: Starknet
+description: "This guide explains how to interact with the rhino.fi Bridge contract on Starknet."
+---
+
+## Interacting with the Contract
+To execute a bridge transaction, call the `deposit_with_id` function as follows:
+
+<CodeGroup>
+
+```javascript starknet.js
+import {CallData, cairo} from 'starknet'
+
+export const callStarknetBridgeContract = async (
+  {
+    token,
+    commitmentId,
+    amount,
+    token,
+  }) => {
+  // See API Integration -> Fetch Bridge Configs for the full implementation
+  const configs = await getBridgeConfigs()
+  const chainConfig = configs[chain]
+
+  // Replace with your wallet implementation
+  const provider = new RpcProvider({ nodeUrl: chainConfig.rpc });
+  const account = new Account(provider, STARKNET_WALLET_ADDRESS, STARKNET_PRIVATE_KEY);
+
+  const tokenConfig = chainConfig.tokens[token]
+  const amountWithDecimals = +amount * 10 ** tokenConfig.decimals
+  const tokenAddress = tokenConfig.address
+  const bridgeContractAddress = chainConfig.contractAddress
+
+  const depositAmount = cairo.uint256(amountWithDecimals)
+  const id = `0x${commitmentId}`
+  const multiCall = await account.execute([
+    {
+      contractAddress: tokenAddress,
+      entrypoint: 'approve',
+      calldata: CallData.compile({
+        spender: bridgeContractAddress,
+        amount: depositAmount,
+      }),
+    },
+    {
+      contractAddress: bridgeContractAddress,
+      entrypoint: 'deposit_with_id',
+      calldata: CallData.compile({
+        token: tokenAddress,
+        amount: depositAmount,
+        commitment_id: id,
+      }),
+    },
+  ])
+
+  const result = await provider.waitForTransaction(multiCall.transaction_hash)
+
+  if ('revert_reason' in result && 'execution_status' in result) {
+    if (result.execution_status === 'REVERTED') {
+      throw new Error(result.revert_reason)
+    }
+  }
+
+  return {transactionHash: multiCall.transaction_hash}
+}
+```
+</CodeGroup>

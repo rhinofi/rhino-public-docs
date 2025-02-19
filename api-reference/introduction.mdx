@@ -1,33 +1,32 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'This section provides detailed information on our API endpoints, including request formats, response structures, authentication requirements, and error handling.'
 ---
+import RequestApiKey from '/snippets/request-api-key.mdx'
 
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  If you're looking for a quick start guide, check out the [Quick Start](/get-started/quickstart) guide.
 </Note>
 
-## Welcome
+## Welcome to the rhino.fi API reference
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+Our API is designed for seamless integration, enabling you to bridge funds with minimal effort. Each endpoint includes example requests and responses to help you implement features quickly and efficiently.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+What’s Covered
+- Authentication – How to securely connect to our API
+- Endpoints – Detailed descriptions of available API calls
+- Error Handling – Understanding API responses and troubleshooting issues
+- Rate Limits – Guidelines on request limits
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All non-public API endpoints are authenticated using a bearer token. To authenticate your requests, include the token in the `Authorization` header.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+The authentication token can be obtained by reaching out to us. We'll provide you with a unique API key that you can use to access our API.
+
+Use the form below to get in touch with us:
+
+<RequestApiKey />
+
+Alternatively, you can authenticate via an EVM compatible wallet by signing a message with your private key.
+This method is recommended if you're interested in displaying historical transactions to users but an EVM wallet is required.
