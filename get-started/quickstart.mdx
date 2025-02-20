@@ -55,8 +55,8 @@ For the exact response format and more details, see the [API Reference](/api-ref
 Before executing a bridge transaction, you must generate a quote that provides transaction details, including fees and amounts.
 
 ```javascript getBridgeUserQuote.js
-export const getBridgeUserQuote = async (userId, payload, apiKey) => {
-  const request = await fetch(`https://api.rhino.fi/bridge/quote/user/${userId}`, {
+export const getBridgeUserQuote = async (payload, apiKey) => {
+  const request = await fetch(`https://api.rhino.fi/bridge/quote/user`, {
     headers: {
       "content-type": "application/json",
       "authorization": apiKey
@@ -76,8 +76,8 @@ For the exact request / response format and more details, see the [API Reference
 Once you have a quote, you must commit it to confirm the transaction before execution.
 
 ```javascript commitBridgeUserQuote.js
-export const commitBridgeUserQuote = async (userId, quoteId, apiKey) => {
-  const request = await fetch(`https://api.rhino.fi/bridge/quote/commit/${quoteId}/${userId}`, {
+export const commitBridgeUserQuote = async (quoteId, apiKey) => {
+  const request = await fetch(`https://api.rhino.fi/bridge/quote/commit/${quoteId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ const bridge = async () => {
   const configs = await getBridgeConfigs();
 
   // Get a bridge quote for the transaction
-  const quote = await getBridgeUserQuote(depositorAddress, {
+  const quote = await getBridgeUserQuote({
     amount,
     chainIn,
     chainOut,
@@ -132,7 +132,7 @@ const bridge = async () => {
   if (!quote?.quoteId) throw new Error('Failed to generate user quote.');
 
   // Commit the quote to confirm the transaction when you are ready to send on-chain
-  const commitResult = await commitBridgeUserQuote(depositorAddress, quote.quoteId, API_KEY);
+  const commitResult = await commitBridgeUserQuote(quote.quoteId, API_KEY);
 
   if (!commitResult?.quoteId) throw new Error('Failed to commit user quote.');
 
