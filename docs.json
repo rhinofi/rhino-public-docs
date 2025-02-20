@@ -26,7 +26,8 @@
               {
                 "group": "API integration",
                 "pages": [
-                  "get-started/quickstart"
+                  "get-started/api/quickstart",
+                  "get-started/api/status-history"
                 ]
               },
               {
@@ -106,9 +107,8 @@
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/rhinofi",
+      "github": "https://github.com/rhinofi"
     }
   }
 }

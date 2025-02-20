@@ -1,0 +1,103 @@
+---
+title: 'Bridge Status & History'
+description: 'This section explains how to retrieve the status and history of your bridge transactions. You can use these endpoints to monitor transaction progress and confirm successful transfers.'
+---
+
+## **1. Get Bridge Transaction Status**
+
+To check the status of a specific bridge, use the following API request:
+
+```javascript getBridgeStatus.js
+export const getBridgeStatus = async (bridgeId, apiKey) => {
+  const request = await fetch(`https://api.rhino.fi/history/bridge/${bridgeId}`, {
+    headers: {
+      "content-type": "application/json",
+      "authorization": apiKey
+    },
+    method: "GET"
+  })
+
+  return request.json()
+}
+```
+
+When you commit a bridge transaction, you receive a `quoteId` that you can use to track the transaction status.
+
+```javascript
+import { getBridgeStatus } from './getBridgeStatus';
+
+const API_KEY = 'your_api_key'; // Replace with your API key
+const quoteId = '123456'; // Replace with your quote ID
+
+const status = await getBridgeStatus(quoteId, API_KEY);
+
+const depositTxHash = state === 'ACCEPTED' ? status.depositTxHash : ''
+const withdrawTxHash = state === 'EXECUTED' ? status.withdrawTxHash : ''
+
+console.log('Bridge status:', status.state);
+console.log('Deposit transaction hash:', depositTxHash);
+console.log('Withdraw transaction hash:', withdrawTxHash);
+````
+
+#### **Possible state values:**
+
+- `PENDING` - The transaction is being processed.
+- `ACCEPTED` - The deposit is valid and has been accepted.
+- `EXECUTED` - The transaction is complete, and credited on destination chain.
+- `CANCELLED` - The transaction did not complete successfully.
+
+For the full response format and more details, see the [API Reference](/api-reference/history/bridge-history).
+
+---
+
+## **2. Get Bridge History**
+
+To retrieve a list of past transactions:
+
+<Note>
+  rhino.fi prioritizes transaction privacy, so the history endpoint is disabled by default for API keys.
+  If access is required, ensure your API key is kept private and properly configured.
+
+
+  You can request access to the user history endpoint by contacting us.
+</Note>
+
+```javascript getBridgeUserHistory.js
+export const getBridgeUserHistory = async (apiKey) => {
+    const queryParams = new URLSearchParams({
+    page: '1',
+    limit: '20',
+    sortBy: 'createdAt',
+    sortDirection: 'desc',
+  })
+  const request = await fetch(`https://api.rhino.fi/history/user?${queryParams.toString()}`, {
+    headers: {
+      "content-type": "application/json",
+      "authorization": apiKey
+    },
+    method: "GET"
+  })
+
+  return await request.json()
+}
+```
+
+```javascript
+import { getBridgeUserHistory } from './getBridgeUserHistory';
+
+const API_KEY = 'your_api_key'; // Replace with your API key
+
+const history = await getBridgeUserHistory(API_KEY);
+
+console.log('Bridge history:', history.items);
+````
+
+
+
+---
+
+## **Next Steps**
+
+- If you haven’t integrated the bridge yet, start with the [Quickstart Guide](/get-started/api/quickstart).
+- For contract-level interactions, see [Contract Examples](/get-started/contract-examples).
+
