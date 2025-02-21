@@ -47,7 +47,8 @@
           {
             "group": "General information",
             "pages": [
-              "general/supported-chains"
+              "general/supported-chains",
+              "general/contract-addresses"
             ]
           }
         ]
