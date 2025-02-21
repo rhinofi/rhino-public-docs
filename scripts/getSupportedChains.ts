@@ -5,7 +5,7 @@ const getSupportedChains = async () => {
 
   // console.log(Object.keys(data).map(key => `- ${data[key].name} (${Object.keys(data[key].tokens).join(', ')})`).join('\n'))
   console.log(header)
-  console.log('|---|---|')
+  console.log('|---|:---:|')
   console.log(Object.keys(data).map(key => `| ${data[key].name} | ${Object.keys(data[key].tokens).join(', ')} |`).join('\n'))
 }
 
