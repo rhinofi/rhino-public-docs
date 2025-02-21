@@ -31,8 +31,8 @@ const quoteId = '123456'; // Replace with your quote ID
 
 const status = await getBridgeStatus(quoteId, API_KEY);
 
-const depositTxHash = state === 'ACCEPTED' ? status.depositTxHash : ''
-const withdrawTxHash = state === 'EXECUTED' ? status.withdrawTxHash : ''
+const depositTxHash = status.state === 'ACCEPTED' ? status.depositTxHash : ''
+const withdrawTxHash = status.state === 'EXECUTED' ? status.withdrawTxHash : ''
 
 console.log('Bridge status:', status.state);
 console.log('Deposit transaction hash:', depositTxHash);
