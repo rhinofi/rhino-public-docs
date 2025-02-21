@@ -2,6 +2,7 @@
 title: EVM (Ethereum / L2s)
 description: "This guide explains how to interact with the [**Bridge Contract**](https://github.com/rhinofi/contracts_public/blob/master/bridge-deposit/DVFDepositContract.sol) on EVM-compatible blockchains."
 ---
+import CommitIdExplainer from '/snippets/commitid-explainer.mdx'
 
 ## **Contract Overview**
 
@@ -28,7 +29,7 @@ function depositNativeWithId(
 ## ABIs
 <AccordionGroup>
   <Accordion title="Bridge Contract ABI">
-    ```json abi.json
+    ```json bridgeAbi.json
     [
       {
         "inputs": [
@@ -70,7 +71,7 @@ function depositNativeWithId(
     ```
   </Accordion>
   <Accordion title="ERC20 ABI">
-    ```json erc20abi.json
+    ```json erc20Abi.json
     [
       {
         "inputs": [
@@ -125,8 +126,26 @@ function depositNativeWithId(
   </Accordion>
 </AccordionGroup>
 
+### Setup
+For this example we'll use `ethers.js` to interact with the contract, but you can replace it with any EVM library of your choice.
+
+Make sure to install it first:
+
+<CodeGroup>
+  ```bash yarn
+  yarn add ethers
+  ```
+
+  ```bash npm
+  npm install ethers
+  ```
+</CodeGroup>
+
+
 ## Interacting with the Contract
 To execute a bridge transaction, call the `depositWithId` (ERC20) or `depositNativeWithId` (native) function as follows:
+
+<CommitIdExplainer />
 
 <CodeGroup>
 
@@ -137,6 +156,7 @@ import erc20Abi from './erc20Abi'
 import bridgeAbi from './bridgeAbi'
 
 export const callEvmBridgeContract = async ({
+  address,
   amount,
   chain,
   token,

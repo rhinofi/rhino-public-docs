@@ -2,6 +2,7 @@
 title: Solana
 description: "This guide explains how to interact with the rhino.fi Bridge program on Solana."
 ---
+import CommitIdExplainer from '/snippets/commitid-explainer.mdx'
 
 ## **Contract Overview**
 
@@ -615,6 +616,21 @@ pub fn deposit_with_id(
   </Accordion>
 </AccordionGroup>
 
+### Setup
+For this example we'll use `@solana/web3.js`, `@solana/spl-token` and `@coral-xyz/anchor` to interact with the contract, but you can replace it with any Solana library of your choice.
+
+Make sure to install it first:
+
+<CodeGroup>
+  ```bash yarn
+  yarn add @solana/web3.js @solana/spl-token @coral-xyz/anchor
+  ```
+
+  ```bash npm
+  npm install @solana/web3.js @solana/spl-token @coral-xyz/anchor
+  ```
+</CodeGroup>
+
 ## Set-up helpers for Solana accounts
 
 ```javascript solanaBridgeHelpers.js
@@ -660,6 +676,8 @@ export const getSolanaDepositorAccount = async (secondaryWalletAddress, mint) =>
 
 ## Interacting with the Contract
 To execute a bridge transaction, call the `depositWithId` (ERC20) or `depositNativeWithId` (native) function as follows:
+
+<CommitIdExplainer />
 
 <CodeGroup>
 

@@ -2,14 +2,33 @@
 title: TON
 description: "This guide explains how to interact with the rhino.fi Bridge contract on TON."
 ---
+import CommitIdExplainer from '/snippets/commitid-explainer.mdx'
+
+### Setup
+For this example we'll use `@ton/ton` and `@ton/crypto` to interact with the contract, but you can replace it with any TON library of your choice.
+
+Make sure to install it first:
+
+<CodeGroup>
+  ```bash yarn
+  yarn add @ton/ton @ton/crypto
+  ```
+
+  ```bash npm
+  npm install @ton/ton @ton/crypto
+  ```
+</CodeGroup>
 
 ## Interacting with the Contract
 To execute a bridge transaction, send a transfer with the following payload:
 
+<CommitIdExplainer />
+
 <CodeGroup>
 
   ```javascript @ton/ton
-  import {beginCell, toNano, Address, TonClient, internal} from '@ton/ton'
+  import {beginCell, toNano, Address, TonClient, internal, WalletContractV4} from '@ton/ton'
+  import {mnemonicToPrivateKey} from '@ton/crypto';
   import getBridgeConfigs from './getBridgeConfigs'
 
   const getJettonWalletAddress = async (tonWalletAddress, jettonMasterAddress, publicProvider) => {

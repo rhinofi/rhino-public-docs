@@ -2,6 +2,7 @@
 title: Tron
 description: "This guide explains how to interact with the rhino.fi Bridge contract on Tron."
 ---
+import CommitIdExplainer from '/snippets/commitid-explainer.mdx'
 
 ## ABI
 
@@ -44,8 +45,25 @@ description: "This guide explains how to interact with the rhino.fi Bridge contr
   </Accordion>
 </AccordionGroup>
 
+### Setup
+For this example we'll use `tronweb` to interact with the contract, but you can replace it with any Tron library of your choice.
+
+Make sure to install it first:
+
+<CodeGroup>
+  ```bash yarn
+  yarn add tronweb
+  ```
+
+  ```bash npm
+  npm install tronweb
+  ```
+</CodeGroup>
+
 ## Interacting with the Contract
 To execute a bridge transaction, call the `depositWithId` (TRC20) function as follows:
+
+<CommitIdExplainer />
 
 <CodeGroup>
 
