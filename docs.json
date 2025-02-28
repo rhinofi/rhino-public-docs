@@ -10,7 +10,7 @@
   "favicon": "/favicon.svg",
   "api": {
     "mdx": {
-      "server": "https://api.rhinofi.dev/bridge"
+      "server": "https://api.rhino.fi/bridge"
     }
   },
   "navigation": {
@@ -64,7 +64,7 @@
           },
           {
             "group": "Endpoint Examples",
-            "openapi": "https://api.rhinofi.dev/bridge/swagger.json"
+            "openapi": "https://api.rhino.fi/bridge/swagger.json"
           }
         ]
       }
