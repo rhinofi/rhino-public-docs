@@ -1,0 +1,28 @@
+---
+title: Starknet
+---
+
+You can create a Starknet chain adapter from either a [starknet.js](https://www.npmjs.com/package/starknet) account or as a shortcut from a private key.
+
+<CodeGroup>
+```typescript From account
+import { getStarknetChainAdapterFromAccount } from '@rhino.fi/sdk/adapters/starknet'
+
+const chainAdapter = getStarknetChainAdapterFromAccount(
+  account,
+  chainConfig
+)
+```
+```typescript From private key
+import { getStarknetChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/starknet'
+
+const chainAdapter = getStarknetChainAdapterFromPrivateKey(
+  'YOUR_PRIVATE_KEY',
+  chainConfig
+)
+```
+</CodeGroup>
+
+### Options
+
+Both functions also accept a 3rd options parameter. Currently it only includes a `tokenAllowanceOverride` property that allows you to specify a higher token allowance to be used instead of the calculated one. This can be useful to optimize gas usage by setting bigger allowances that will last for multiple bridges.

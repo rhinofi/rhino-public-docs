@@ -1,0 +1,28 @@
+---
+title: EVM chains
+---
+
+Since all EVM chains can use the same tooling and libraries, you can use the same chain adapter for all of them. You can create one either from a EIP-1193 compatible provider or as a shortcut from a private key.
+
+<CodeGroup>
+```typescript From provider
+import { getEvmChainAdapterFromProvider } from '@rhino.fi/sdk/adapters/evm'
+
+const chainAdapter = getEvmChainAdapterFromProvider(
+  provider,
+  chainConfig
+)
+```
+```typescript From private key
+import { getEvmChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/evm'
+
+const chainAdapter = getEvmChainAdapterFromPrivateKey(
+  'YOUR_PRIVATE_KEY',
+  chainConfig
+)
+```
+</CodeGroup>
+
+### Options
+
+Both functions also accept a 3rd options parameter. Currently it only includes a `tokenAllowanceOverride` property that allows you to specify a higher token allowance to be used instead of the calculated one. This can be useful to optimize gas usage by setting bigger allowances that will last for multiple bridges.

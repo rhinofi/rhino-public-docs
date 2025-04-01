@@ -1,0 +1,62 @@
+---
+title: 'Bridge API'
+description: 'Learn how to use the SDK to interact with the bridge API directly.'
+---
+
+## Introduction
+
+You can use the bridge API directly if you need some additional data or if your application requires more control over the bridge flow. For that the SDK offers a typesafe wrapper around the Rhino API through a dedicated object. The following sections showcase some common use cases for this.
+
+
+## Fetch bridge or token configs
+
+```typescript
+const bridgeConfigResult = await rhinoSdk.api.bridge.getBridgeConfig()
+const tokenConfigResult = await rhinoSdk.api.bridge.getTokenConfig({
+  chain: 'ETHEREUM',
+  token: 'USDT'
+})
+```
+
+
+## Generate and commit bridge quotes
+
+```typescript
+const publicQuoteResult = await rhinoSdk.api.bridge.getPublicQuote({
+  token: SupportedTokens.USDT,
+  chainIn: SupportedChains.ETHEREUM,
+  chainOut: SupportedChains.SOLANA,
+  amount: '100',
+  mode: 'pay',
+})
+
+const userQuoteResult = await rhinoSdk.api.bridge.getUserQuote({
+  /// Same args as public quote with additional depositor and recipient address added
+})
+if(userQuoteResult.error) {
+  throw new Error(`Error fetching user quote: ${userQuoteResult.error}`)
+}
+const quoteId = userQuoteResult.data.quoteId
+
+const commitmentResult = await rhinoSdk.api.bridge.commitQuote(quoteId)
+if(commitmentResult.error) {
+  throw new Error(`Error committing quote: ${commitmentResult.error}`)
+}
+```
+
+<Note>
+The [bridge functions](/sdk/bridge-functions/bridge) in the SDK will already handle this logic for you. You should only do this manually if you have a very specific use case that is not covered by those.
+</Note>
+
+## Fetch bridge status or history
+
+If you want to check the status of a bridge or fetch the history of your app, you can use the following functions:
+
+```typescript
+const statusResult = await rhinoSdk.api.bridge.getBridgeStatus(quoteId)
+const historyResult = await rhinoSdk.api.bridge.getUserBridgeHistory({page: 1, limit: 10 })
+```
+
+<Warning>
+Querying the bridge history is only possible with a secret API key. [Learn more about API keys](/get-started/api-keys)
+</Warning>

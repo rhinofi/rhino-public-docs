@@ -1,0 +1,17 @@
+---
+title: API Keys
+description: To use the API or SDK, you need to obtain an API key. API keys can either be secret or public.
+---
+
+import RequestApiKey from '/snippets/request-api-key.mdx'
+
+### Public API keys
+Public API keys can be safely exposed in a browser environment as they don't grant access to any sensitive data. So for example, if your application runs client-side in a browser, you should use a public API key.
+<Note>
+Public API keys can't be used to access the bridge history of your app as that would leak the entire history to the public.
+</Note>
+
+### Secret API keys 
+Secret API keys work just the same as public ones with the difference that they can be used to access the entire bridge history of your app. You should only use secret API keys in code that is not run client side.
+
+<RequestApiKey />

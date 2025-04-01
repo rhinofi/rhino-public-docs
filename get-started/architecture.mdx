@@ -1,0 +1,54 @@
+---
+title: Architecture
+description: Learn about the architecture of the Rhino bridge.
+---
+
+## User concept
+
+To make a bridge, one must first authenticate with the Rhino API to obtain a JSON Web Token belonging to a Rhino user which then can be used to make bridges. There are two ways this can be done:
+1. Authenticating with an EVM wallet on the [Rhino app](https://app.rhino.fi/) by signing a message (end users).
+2. Authenticating with an API key (apps).
+
+This allows users or apps to access a history of all their bridges, even if the address on the destination chain is different than the address the sent the funds on the origin chain.
+
+## Bridge flow
+
+When making a bridge, the following steps are executed:
+
+<Steps>
+  <Step title="Fetching the bridge config">
+    The bridge config lists all supported chains including details on their supported tokens, bridge contract addresses, etc. It acts as the source of truth for the entire bridging flow.
+  </Step>
+  <Step title="Generating a quote">
+    Any user can generate a quote from Rhino by providing details on the bridge they want to make, including
+
+    - Origin & destination chain
+    - Token and token amount to bridge
+    - Recipient address
+    - Mode (pay or receive)
+
+    Rhino will then respond with a quote that specifies the exact fees that would need to be paid to execute this bridge. Rhino will honor this quote with those exact fees until the quote has expired.
+  </Step>
+  <Step title="Committing a quote">
+    If a quote is deemed acceptable it needs to be committed before the bridge can be executed. This tells Rhino to start watching for a transaction on the origin chain that deposits the required funds into the bridge contract. Rhino will then  issue a commitment ID to be used when sending the funds to be bridged.
+  </Step>
+  <Step title="Executing the bridge transaction">
+    The sender now needs to send the funds to be bridged by calling the bridge contract with the commitment ID obtained previously.
+    <Note>
+      If the origin chain requires token approvals, those need to be set before with the bridge contract as spender. Otherwise the deposit transaction will fail if the allowance does not cover the deposit amount.
+    </Note>
+  </Step>
+  <Step title="Waiting for completion">
+    The Rhino API allows tracking the status of a bridge by providing a commitment ID. Once a bridge has been executed by Rhino, it will provide the hash of the transaction that sent the funds to the recipient on the destination chain.
+  </Step>
+</Steps>
+
+## Bridge modes
+
+A bridge can be made in two different modes:
+
+**Pay mode**  
+The sender specifies the amount they want to pay for the entire bridge. The amount they will receive on the destination chain is that pay amount minus the charged fees.
+
+**Receive mode**  
+The sender specifies the amount they want to receive on the destination chain. From that Rhino will calculate the amount that needs to be paid so that the specified amount can be received after deducting the charged fees.

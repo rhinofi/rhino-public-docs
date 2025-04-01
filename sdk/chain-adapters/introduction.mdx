@@ -1,0 +1,16 @@
+---
+title: 'Introduction'
+---
+
+A chain adapter encapsulates all the logic required to interact with a specific blockchain type. Each chain adapter has the following properties:
+
+- `networkId`: A unique identifier for the chain. This matches the `networkId` field that is used in the bridge config returned by the Rhino API.
+- `getTokenBalance`: Returns the balance of a given address for a specific token.
+- `getAllTokenBalances`: Returns the balances of all tokens that are supported by Rhino on a chain for a given address. Ideally some form of multicall is used to get all the data in one request. If that is not possible, multiple requests using `getTokenBalance` for each token individually could be made.
+- `getApprovalAmount`:  Returns the amount of tokens that need to be approved for the bridge contract call to work. If the existing allowance is enough or the chain has no concept of token approvals, this function returns `undefined`.
+- `handleTokenApproval`: Makes the correct call to the token contract to approve the bridge contract as a spender for the needed amount. 
+- `handleDeposit`: Makes the correct call to the bridge contract to deposit the needed amount of tokens to initiate the bridge. Returns the transaction hash if successful.
+- `estimateDepositGas` (optional): Given the same arguments as `handleDeposit`, return the estimated amount of gas tokens needed to pay the transaction fee for the bridge deposit.
+
+The [bridge functions](/sdk/bridge-functions/bridge) included in the SDK will take care of using chain adapters correctly so generally you will not have a need to use most of those functions directly.  
+You might however want to use a chain adapter manually to fetch balances for example.

@@ -8,11 +8,11 @@ description: 'This section explains how to retrieve the status and history of yo
 To check the status of a specific bridge, use the following API request:
 
 ```javascript getBridgeStatus.js
-export const getBridgeStatus = async (bridgeId, apiKey) => {
+export const getBridgeStatus = async (bridgeId, jwt) => {
   const request = await fetch(`https://api.rhino.fi/history/bridge/${bridgeId}`, {
     headers: {
       "content-type": "application/json",
-      "authorization": apiKey
+      "authorization": jwt
     },
     method: "GET"
   })
@@ -26,10 +26,10 @@ When you commit a bridge transaction, you receive a `quoteId` that you can use t
 ```javascript
 import { getBridgeStatus } from './getBridgeStatus';
 
-const API_KEY = 'your_api_key'; // Replace with your API key
+const JWT = 'YOUR_JWT'; // Replace with your JWT generated from our API
 const quoteId = '123456'; // Replace with your quote ID
 
-const status = await getBridgeStatus(quoteId, API_KEY);
+const status = await getBridgeStatus(quoteId, JWT);
 
 const depositTxHash = status.state === 'ACCEPTED' || status.state === 'EXECUTED' ? status.depositTxHash : ''
 const withdrawTxHash = status.state === 'EXECUTED' ? status.withdrawTxHash : ''
@@ -63,7 +63,7 @@ To retrieve a list of past transactions:
 </Note>
 
 ```javascript getBridgeUserHistory.js
-export const getBridgeUserHistory = async (apiKey) => {
+export const getBridgeUserHistory = async (jwt) => {
     const queryParams = new URLSearchParams({
     page: '1',
     limit: '20',
@@ -73,7 +73,7 @@ export const getBridgeUserHistory = async (apiKey) => {
   const request = await fetch(`https://api.rhino.fi/history/user?${queryParams.toString()}`, {
     headers: {
       "content-type": "application/json",
-      "authorization": apiKey
+      "authorization": jwt
     },
     method: "GET"
   })
@@ -85,9 +85,9 @@ export const getBridgeUserHistory = async (apiKey) => {
 ```javascript
 import { getBridgeUserHistory } from './getBridgeUserHistory';
 
-const API_KEY = 'your_api_key'; // Replace with your API key
+const JWT = 'YOUR_JWT'; // Replace with your JWT generated from our API
 
-const history = await getBridgeUserHistory(API_KEY);
+const history = await getBridgeUserHistory(JWT);
 
 console.log('Bridge history:', history.items);
 ````
@@ -98,6 +98,6 @@ console.log('Bridge history:', history.items);
 
 ## **Next Steps**
 
-- If you haven’t integrated the bridge yet, start with the [Quickstart Guide](/get-started/api/quickstart).
-- For contract-level interactions, see [Contract Examples](/get-started/contract-examples).
+- If you haven’t integrated the bridge yet, start with the [Quickstart Guide](/api/bridge#quickstart).
+- For contract-level interactions, see [Contract Examples](/contracts/contract-examples).
 

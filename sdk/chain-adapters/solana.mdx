@@ -1,0 +1,25 @@
+---
+title: Solana
+---
+
+You can either create a Solana chain adapter from an [Anchor](https://www.npmjs.com/package/@coral-xyz/anchor) `Wallet` instance or as a shortcut from a Solana secret key:
+
+<CodeGroup>
+```typescript From wallet
+import { getSolanaChainAdapterFromWallet } from '@rhino.fi/sdk/adapters/solana'
+
+// You can initialize the wallet yourself or depending on the specific browser wallet find it in th global window object
+const chainAdapter = getSolanaChainAdapterFromWallet(
+  wallet,
+  chainConfig
+)
+```
+```typescript From secret key
+import { getSolanaChainAdapterFromSecretKey } from '@rhino.fi/sdk/adapters/solana'
+
+const chainAdapter = getSolanaChainAdapterFromSecretKey(
+  'YOUR_SECRET_KEY',
+  chainConfig
+)
+```
+</CodeGroup>

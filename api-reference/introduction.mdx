@@ -2,10 +2,9 @@
 title: 'Introduction'
 description: 'This section provides detailed information on our API endpoints, including request formats, response structures, authentication requirements, and error handling.'
 ---
-import RequestApiKey from '/snippets/request-api-key.mdx'
 
 <Note>
-  If you're looking for a quick start guide, check out the [Quick Start](/get-started/api/quickstart) guide.
+  If you're looking for a quick start guide, check out the [Quick Start](/api/bridge#quickstart) guide.
 </Note>
 
 ## Welcome to the rhino.fi API reference
@@ -20,12 +19,6 @@ What’s Covered
 
 ## Authentication
 
-All non-public API endpoints are authenticated using a bearer token. To authenticate your requests, include the token in the `Authorization` header.
+All non-public API endpoints are authenticated using a JSON Web Token. To authenticate your requests, include the token in the `Authorization` header.
 
-The authentication token can be obtained by reaching out to us. We'll provide you with a unique API key that you can use to access our API.
-
-Use the form below to get in touch with us:
-
-<RequestApiKey />
-
-Alternatively, you can authenticate via an EVM compatible wallet by signing a message with your private key.
+To obtain a JWT for your app, please follow the [Authentication](/api/authentication) guide.

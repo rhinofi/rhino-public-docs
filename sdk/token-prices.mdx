@@ -1,0 +1,31 @@
+---
+title: 'Token Prices'
+description: 'Learn how to easily fetch token prices through the SDK.'
+---
+
+## Introduction
+
+If you are building any kind of UI application, you most likely want to show the user the USD amount of tokens they are about to bridge. For this the SDK includes a set of function that can provide this data to you.
+
+## Usage
+
+You can fetch a USD prices as follows:
+
+<CodeGroup>
+```typescript Single token price
+// Fetch the price of a single token
+const ethPrice = await sdk.api.usdPrices.getTokenPrice('ETH')
+console.log(ethPrice)
+// => { token: "ETH", price: 4500, timestamp: '<timestamp>'}
+```
+
+```typescript All token prices
+// Fetch the prices of all supported tokens
+const allPrices = await sdk.api.usdPrices.getAllPrices()
+console.log(allPrices)
+// => { ETH: { token: "ETH", price: 4500, timestamp: '<timestamp>' }, ... }
+```
+
+</CodeGroup>
+
+In both cases, the timestamp of a token price will tell you how old this specific price is.

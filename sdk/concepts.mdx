@@ -1,0 +1,114 @@
+---
+title: 'Concepts'
+description: 'Learn about the core concepts of the SDK.'
+---
+
+## Bridge & Chain configs
+
+Rhino has one bridge configuration that lists all the chains and tokens that are available for bridging. You can get the bridge config through the following SDK call:
+```typescript
+const configResult = await sdk.api.bridge.getBridgeConfig()
+if(configResult.data) {
+  console.log('Bridge config: ', configResult.data)
+} else {
+  console.log('Error fetching bridge config:', configResult.error)
+}
+```
+
+[Learn about the bridge API](/sdk/bridge-api).
+
+Assuming no error occured, the result will look like this:
+```typescript Bridge config [expandable]
+{
+  ETHEREUM: {
+    name: "Ethereum",
+    type: "EVM",
+    networkId: "1",
+    contractAddress: "0xbca3039a18c0d2f2f84ba8a028c67290bc045afa",
+    multicallContractAddress: "0x0dbBD1bB03Ed63AE2beA0Ce892567884dffb70a5",
+    confirmationBlocks: 5,
+    avgBlockTime: 12,
+    nativeTokenName: "ETH",
+    nativeTokenDecimals: 18,
+    nativeTokenSafeguard: 0.008,
+    blockExplorer: "https://etherscan.io",
+    rpc: "https://eth-mainnet.blastapi.io/7efcf8bf-0f7a-4364-8a59-c1917983dbdc",
+    site: "https://ethereum.org",
+    status: "enabled",
+    tokens: {
+      ETH: {
+        token: "ETH",
+        address: "0x0000000000000000000000000000000000000000",
+        decimals: 18
+      },
+      USDC: {
+        token: "USDC",
+        address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        decimals: 6
+      },
+      USDT: {
+        token: "USDT",
+        address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+        decimals: 6
+      }
+    },
+    gasBoostEnabled: false
+  },
+  SOLANA: {
+    // same format as above
+  },
+  // Every supported chain will have an entry here
+}
+```
+
+The whole object corrosponds to the `BridgeConfig` type that is exported by the SDK.
+Each key will be a chain while the value will represent the chain config (`ChainConfig` type). Each value in the `tokens` field of a chain config represents a `TokenConfig`.
+
+A lot of functions in the SDK will have the `BridgeConfig` or a specific `ChainConfig`/`TokenConfig` as parameters. So for most advanced usecases you will most likely want to fetch the bridge config first.
+
+## Chain Adapters
+
+The SDK follows a modular approach where all blockchain interactions are encapsulated in chain adapters. When using one of the provided bridge functions, you always need to explicitly pass in a chain adapter that matches the origin chain.  
+Chain adapters handle the following:
+- Fetching balances
+- Checking and setting token allowances
+- Making a deposit to a bridge contract
+- Estimating the gas fees for a bridge transaction (optional)
+
+### Resources
+
+- [More about chain adapters](/sdk/chain-adapters/introduction)
+- [Chain adapters provided by the SDK](/sdk/chain-adapters/overview)
+- [How to implement custom chain adapters](/sdk/chain-adapters/custom-chain-adapters)
+
+## Supported chains and tokens
+
+Since the bridge functions will often take chains or tokens as `string` parameters, the SDK provides a list of supported chains and tokens to avoid the usage of magic strings. You can use them like this:
+
+```typescript
+import { SupportedChains, SupportedTokens } from '@rhino.fi/sdk'
+
+const chainIn = SupportedChains.ETHEREUM
+const chainOut = SupportedChains.SOLANA
+const token = SupportedTokens.USDT
+```
+
+<Warning>
+Those lists are generated at release time of the SDK and are not guaranteed to be always up to date. Therefore those lists might be out sync with the bridge config if Rhino adds a new supported chain/token or temporarily suspends one.  
+**Always use a freshly fetched bridge config if you want to display a list of available chains or tokens to a user for example. Do not rely on hardcoded lists for such purposes.**
+</Warning>
+
+## Error handling
+
+A lot functions in the SDK will return an object with nullable `data` and `error` fields instead of throwing. Checking one for being defined will automatically narrow down the type of the other to non-nullable in the opposite code path. Errors are always a discriminated union type with a `_tag` or `type` field as discriminator. Some error types will also contain some additional fields with specific information about the error.  
+For example, an error that could occur when generating a user quote could be:
+
+```typescript
+{
+  _tag: 'WithdrawLimitReached',
+  token: 'USDT',
+  chain: 'ETHEREUM',
+  receiveAmount: '5000',
+  maxWithdrawAmount: '1000'
+}
+```

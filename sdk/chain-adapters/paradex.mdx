@@ -1,0 +1,44 @@
+---
+title: Paradex
+---
+
+### Prerequisites
+
+You will need to install the [Paradex SDK](https://www.npmjs.com/package/@paradex/sdk) to instantiate a Paradex chain adapter. As Paradex can derive an account from either a Starknet or an EVM based signature, you have two options of initializing a Paradex account to be passed into the chain adapter function.
+
+<CodeGroup>
+
+```typescript From Starknet account
+import { Account, Config, ParaclearProvider } from '@paradex/sdk'
+
+const config = Config.fetchConfig('prod')
+const paradexAccount = await Account.fromStarknetAccount(
+  {
+    provider: new ParaclearProvider.DefaultProvider(config),
+    config,
+    account // your starknet.js account
+  },
+)
+```
+```typescript From EVM account
+import { Account, Config, ParaclearProvider, Signer } from '@paradex/sdk'
+
+const config = await Config.fetchConfig('prod')
+const account = await Account.fromEthSigner({
+  provider: new ParaclearProvider.DefaultProvider(config),
+  config,
+  signer: Signer.ethersSignerAdapter(ethersSigner) // Pass your ethers signer here
+})
+```
+</CodeGroup>
+
+Once you have your Paradex account object set up, you can create the chain adapter from it:
+
+```typescript
+import { getParadexChainAdapterFromAccount } from '@rhino.fi/sdk/adapters/paradex'
+
+const chainAdapter = getParadexChainAdapterFromAccount(
+  paradexAccount,
+  chainConfig
+)
+```

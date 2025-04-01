@@ -23,25 +23,69 @@
             "pages": [
               "get-started/introduction",
               "get-started/what-is-rhino",
+              "get-started/architecture",
+              "get-started/api-keys"
+            ]
+          },
+          {
+            "group": "SDK",
+            "pages": [
+              "sdk/quickstart",
+              "sdk/concepts",
               {
-                "group": "API integration",
+                "group": "Bridge functions",
                 "pages": [
-                  "get-started/api/quickstart",
-                  "get-started/api/status-history"
+                  "sdk/bridge-functions/bridge",
+                  "sdk/bridge-functions/prepare-bridge"
                 ]
               },
+              "sdk/token-prices",
+              "sdk/bridge-api",
               {
-                "group": "Smart Contracts",
+                "group": "Chain Adapters",
                 "pages": [
-                  "get-started/contract-examples",
-                  "get-started/contract/evm",
-                  "get-started/contract/solana",
-                  "get-started/contract/ton",
-                  "get-started/contract/starknet",
-                  "get-started/contract/tron"
+                  "sdk/chain-adapters/introduction",
+                  "sdk/chain-adapters/custom-chain-adapters",
+                  {
+                    "group": "Included chain adapters",
+                    "pages": [
+                      "sdk/chain-adapters/overview",
+                      "sdk/chain-adapters/evm-chains",
+                      "sdk/chain-adapters/paradex",
+                      "sdk/chain-adapters/solana",
+                      "sdk/chain-adapters/starknet",
+                      "sdk/chain-adapters/ton",
+                      "sdk/chain-adapters/tron"
+                    ]
+                  }
                 ]
-              },
-              "get-started/widget"
+              }
+            ]
+          },
+          {
+            "group": "Widget",
+            "pages": [
+              "widget/widget"
+            ]
+          },
+          {
+            "group": "API",
+            "pages": [
+              "api/introduction",
+              "api/authentication",
+              "api/bridge",
+              "api/status-history"
+            ]
+          },
+          {
+            "group": "Smart Contracts",
+            "pages": [
+              "contracts/contract-examples",
+              "contracts/evm",
+              "contracts/solana",
+              "contracts/starknet",
+              "contracts/ton",
+              "contracts/tron"
             ]
           },
           {

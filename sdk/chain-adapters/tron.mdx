@@ -1,0 +1,15 @@
+---
+title: Tron
+---
+
+To create a chain adapter for Tron you will need to pass a [TronWeb](https://www.npmjs.com/package/tronweb) instance.
+
+```typescript
+import { getTronChainAdapter } from '@rhino.fi/sdk/adapters/tron'
+
+const chainAdapter = getTronChainAdapter(
+  tronWeb,
+  chainConfig
+)
+```
+

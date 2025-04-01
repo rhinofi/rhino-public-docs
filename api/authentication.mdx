@@ -1,0 +1,48 @@
+---
+title: 'Authentication'
+---
+
+Most API endpoints require you to authenticate your requests using a Json Web Token (JWT). You can obtain a JWT by making a `POST` request to https://api.rhino.fi/authentication/auth/apiKey and including your API key in the payload.
+
+<CodeGroup>
+```bash cURL
+curl https://api.rhino.fi/authentication/auth/apiKey \
+  -d '{"apiKey": "YOUR_API_KEY"}'\
+  -H 'content-type: application/json'
+```
+```javascript JavaScript
+const response = await fetch('https://api.rhino.fi/authentication/auth/apiKey', {
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json',
+  },
+  body: JSON.stringify({
+    apiKey: 'YOUR_API_KEY',
+  }),
+})
+const { jwt } = await response.json()
+```
+</CodeGroup>
+
+## Using the JWT
+
+Once you have a JWT, you need to include it in your API requests using the `Authorization` header. Example:
+
+<CodeGroup>
+```bash cURL
+curl https://api.rhino.fi -H 'Authorization: YOUR_JWT'
+```
+```javascript JavaScript
+fetch('https://api.rhino.fi', {
+  headers: {
+    'Authorization': 'YOUR_JWT',
+  },
+})
+```
+</CodeGroup>
+
+**A JWT obtained from an API key is only valid for one hour.** Once expired, you can just use your API key again in the same way to obtain a fresh JWT.
+
+<Note>
+We recommend using the SDK if you use JavaScript/TypeScript for your application as it will take care of handling the JWT flow for you.
+</Note>

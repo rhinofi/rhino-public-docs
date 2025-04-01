@@ -1,0 +1,103 @@
+---
+title: 'Bridge'
+description: The SDK offers convenience functions to make bridges that handle all the low level logic of fetching/commiting quotes and making the correct blockchain transactions needed. 
+---
+
+## Example
+
+A call to the bridge function that uses all possible options can look like this:
+
+```typescript
+import { SupportedChains, SupportedTokens } from '@rhino.fi/sdk'
+import { getEvmChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/evm'
+
+const bridgeResult = await rhinoSdk.bridge({
+  amount: '100',
+  token: SupportedTokens.USDT,
+  chainIn: SupportedChains.ARBITRUM_ONE,
+  chainOut: SupportedChains.BASE,
+  depositor: 'DEPOSITOR_ADDRESS',
+  recipient: 'RECIPIENT_ADDRESS',
+  mode: 'receive',
+}, {
+  getChainAdapter: chainConfig =>
+    getEvmChainAdapterFromPrivateKey(
+      'YOUR_PRIVATE_KEY',
+      chainConfig,
+    ),
+  hooks: {
+    checkQuote: quote => quote.fees.feeUsd < 5,
+    onBridgeStatusChange: status => console.log('Bridge status changed', status),
+  },
+  timeoutSeconds: 600,
+  bridgeConfig: bridgeConfig,
+})
+
+if (bridgeResult.data) {
+  console.log('Bridge successful', bridgeResult.data.withdrawTxHash)
+} else {
+  console.log('Bridge error', bridgeResult.error)
+}
+```
+
+## Bridge data
+
+The first parameter of this function specifies the main parameters of the bridge.
+- `amount` & `token` specify how much of which token should be bridged.
+- `chainIn` & `chainOut` specify the origin (`chainIn`) and destination (`chainOut`) chain.
+- `depositor` specifies the address that will send the funds on the origin chain.
+- `recipient` specifies the address that will receive the funds on the destination chain.
+- `mode` specifies if the fees should be added on top of the `amount` or subtracted from it. [Learn more about the bridge modes](/get-started/architecture#bridge-modes)
+
+## Options
+
+The second parameter of this function is an options object that allows you to customize the bridge flow. Only `getChainAdapter` is mandatory.
+
+### getChainAdapter
+
+This function has to return a [chain adapter](/sdk/chain-adapters/introduction) that matches the origin chain. It will be used to check if the depositors balance is sufficient, handle token approvals (if needed) and deposit the funds into the bridge contract.  
+Since all chain adapters included in this SDK will require the Rhino chain config to be initialized, this function will provide it as an argument to simply be passed through into the chain adapter function.  
+This modular design allows you to only import the chain adapters that you actually need which will ensure that only the code you actually need will be included in your final bundle.
+
+### hooks.checkQuote (optional)
+
+You can provide a predicate function that will receive the generated quote and has to return a boolean indicating if the quote is acceptable or not. If `false` is returned, the bridge will be aborted.  
+You can use this to make sure you only make bridges under a certain fee threshold for example.
+
+### hooks.onBridgeStatusChange (optional)
+
+Since the bridge only provides a result at the end, you can use this callback to be notified whenever the status of the bridge changes.
+
+### timeoutSeconds (optional)
+
+Once the deposit into the bridge contract is made, the `bridge` function will poll the Rhino API until the bridge has been confirmed as completed. By default the polling will be aborted after a default timeout of 10 minutes. With this property you can specify a different timeout.
+
+### bridgeConfig (optional)
+
+Internally the `bridge` function will fetch the current bridge config from the Rhino API. If you already fetched this config manually for some other purpose you can pass it into this property to avoid the extra network request.
+
+<Warning>
+Please make sure that you pass in a somewhat recent bridge config. Using a too old bridge config can lead to errors in the quote handling later.
+</Warning>
+
+## Handling the bridge result
+
+The `bridge` function will return a result object with nullable `data` and `error` properties. If the bridge was successful, the `data` property will contain:
+
+- `depositTxHash`: The hash of the transaction on the origin chain that sent the funds to the bridge contract.
+- `withdrawTxHash`: The hash of the transaction on the destination chain that sent the funds to the recipient address.
+
+If an error occurred during the bridge, the `error` property will contain the exect error that happened and potentially some additional properties to provide more context to the error. For example, if the given route is not supported you might receive a bridge result like this:
+
+```typescript
+{
+  error: {
+    type: 'TokenNotSupported',
+    token: 'ETH',
+    chains: ['SOLANA']
+  }
+}
+```
+
+This error would indicate that you tried to bridge ETH from or to Solana but Rhino does not support this combination.
+
