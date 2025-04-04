@@ -15,7 +15,8 @@ import { getSolanaChainAdapterFromWallet } from '@rhino.fi/sdk/adapters/solana'
 // wallet find it in th global window object
 const chainAdapter = getSolanaChainAdapterFromWallet(
   wallet,
-  chainConfig
+  chainConfig,
+  rpcUrl,
 )
 ```
 
@@ -29,5 +30,10 @@ import { getSolanaChainAdapterFromSecretKey } from '@rhino.fi/sdk/adapters/solan
 const chainAdapter = getSolanaChainAdapterFromSecretKey(
   'YOUR_SECRET_KEY',
   chainConfig
+  rpcUrl,
 )
 ```
+
+<Warning>
+As there are no stable public Solana RPC endpoints, you will need to provide your own.
+</Warning>
