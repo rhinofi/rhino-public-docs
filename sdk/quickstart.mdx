@@ -46,16 +46,23 @@ const bridgeResult = await rhinoSdk.bridge({
   amount: '100',
   token: SupportedTokens.USDT,
   chainIn: SupportedChains.ARBITRUM_ONE,
-  chainOut: SupportedChains.BASE,
+  chainOut: SupportedChains.SOLANA,
   depositor: 'DEPOSITOR_ADDRESS',
   recipient: 'RECIPIENT_ADDRESS',
   mode: 'receive',
+  gasBoost: {
+    amountNative: '4'
+  }
 }, {
   getChainAdapter: chainConfig =>
     getEvmChainAdapterFromPrivateKey(
       'YOUR_PRIVATE_KEY',
       chainConfig,
     ),
+    hooks: {
+      checkQuote: quote => quote.fees.feeUsd < 5,
+      onBridgeStatusChange: status => console.log('Bridge status changed', status),
+    },
 })
 
 if (bridgeResult.data) {
@@ -65,11 +72,13 @@ if (bridgeResult.data) {
 }
 ```
 
+This would bridge **100 USDT** from **Arbitrum to Base** while also receiving **4 SOL** tokens at the recipient address. Through the `checkQuote` hook a bridge that would cost over $5 in fees would be aborted.
+
 ## Resources
 
 <CardGroup cols={2}>
   <Card title="SDK concepts" icon="book" href="/sdk/concepts">Learn about the core concepts of the SDK</Card>
   <Card title="Rhino architecture" icon="book" href="/get-started/architecture" >Learn about the overall architecture of the Rhino bridge</Card>
-  <Card title="Bridge function" icon="code" href="/sdk/bridge-functions/bridge">Learn more on how to use the bridge functions</Card>
+  <Card title="Bridge functions" icon="code" href="/sdk/bridge-functions/bridge">Learn more on how to use the bridge functions</Card>
   <Card title="Chain adapters" icon="plug" href="/sdk/chain-adapters/introduction">Learn how to use chain adapters to connect to all supported chains</Card>
 </CardGroup>

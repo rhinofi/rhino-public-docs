@@ -1,6 +1,6 @@
 ---
 title: 'Bridge'
-description: The SDK offers convenience functions to make bridges that handle all the low level logic of fetching/commiting quotes and making the correct blockchain transactions needed. 
+description: The SDK offers convenience functions to make bridges that handle all the low level logic of fetching/committing quotes and making the correct blockchain transactions needed. 
 ---
 
 ## Example
@@ -15,10 +15,13 @@ const bridgeResult = await rhinoSdk.bridge({
   amount: '100',
   token: SupportedTokens.USDT,
   chainIn: SupportedChains.ARBITRUM_ONE,
-  chainOut: SupportedChains.BASE,
+  chainOut: SupportedChains.SOLANA,
   depositor: 'DEPOSITOR_ADDRESS',
   recipient: 'RECIPIENT_ADDRESS',
   mode: 'receive',
+  gasBoost: {
+    amountNative: '4'
+  }
 }, {
   getChainAdapter: chainConfig =>
     getEvmChainAdapterFromPrivateKey(
@@ -48,6 +51,7 @@ The first parameter of this function specifies the main parameters of the bridge
 - `depositor` specifies the address that will send the funds on the origin chain.
 - `recipient` specifies the address that will receive the funds on the destination chain.
 - `mode` specifies if the fees should be added on top of the `amount` or subtracted from it. [Learn more about the bridge modes](/get-started/architecture#bridge-modes)
+- `gasBoost.amountNative` specifies the amount of native tokens that should be sent to the recipient address on top of the bridged tokens.
 
 ## Options
 
@@ -87,7 +91,7 @@ The `bridge` function will return a result object with nullable `data` and `erro
 - `depositTxHash`: The hash of the transaction on the origin chain that sent the funds to the bridge contract.
 - `withdrawTxHash`: The hash of the transaction on the destination chain that sent the funds to the recipient address.
 
-If an error occurred during the bridge, the `error` property will contain the exect error that happened and potentially some additional properties to provide more context to the error. For example, if the given route is not supported you might receive a bridge result like this:
+If an error occurred during the bridge, the `error` property will contain the exact error that happened and potentially some additional properties to provide more context to the error. For example, if the given route is not supported you might receive a bridge result like this:
 
 ```typescript
 {

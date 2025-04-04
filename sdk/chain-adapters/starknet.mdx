@@ -4,8 +4,11 @@ title: Starknet
 
 You can create a Starknet chain adapter from either a [starknet.js](https://www.npmjs.com/package/starknet) account or as a shortcut from a private key.
 
-<CodeGroup>
-```typescript From account
+### From account
+
+Use this method to use connected wallets in webapps or if you want to set up an account yourself.
+
+```typescript
 import { getStarknetChainAdapterFromAccount } from '@rhino.fi/sdk/adapters/starknet'
 
 const chainAdapter = getStarknetChainAdapterFromAccount(
@@ -13,7 +16,12 @@ const chainAdapter = getStarknetChainAdapterFromAccount(
   chainConfig
 )
 ```
-```typescript From private key
+
+### From private key
+
+Use this method as a shortcut to setting up an account yourself.
+
+```typescript
 import { getStarknetChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/starknet'
 
 const chainAdapter = getStarknetChainAdapterFromPrivateKey(
@@ -21,7 +29,6 @@ const chainAdapter = getStarknetChainAdapterFromPrivateKey(
   chainConfig
 )
 ```
-</CodeGroup>
 
 ### Options
 

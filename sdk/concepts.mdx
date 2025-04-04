@@ -17,7 +17,7 @@ if(configResult.data) {
 
 [Learn about the bridge API](/sdk/bridge-api).
 
-Assuming no error occured, the result will look like this:
+Assuming no error occurred, the result will look like this:
 ```typescript Bridge config [expandable]
 {
   ETHEREUM: {
@@ -64,7 +64,7 @@ Assuming no error occured, the result will look like this:
 The whole object corrosponds to the `BridgeConfig` type that is exported by the SDK.
 Each key will be a chain while the value will represent the chain config (`ChainConfig` type). Each value in the `tokens` field of a chain config represents a `TokenConfig`.
 
-A lot of functions in the SDK will have the `BridgeConfig` or a specific `ChainConfig`/`TokenConfig` as parameters. So for most advanced usecases you will most likely want to fetch the bridge config first.
+A lot of functions in the SDK will have the `BridgeConfig` or a specific `ChainConfig`/`TokenConfig` as parameters. So for most advanced use cases you will most likely want to fetch the bridge config first.
 
 ## Chain Adapters
 
@@ -100,7 +100,7 @@ Those lists are generated at release time of the SDK and are not guaranteed to b
 
 ## Error handling
 
-A lot functions in the SDK will return an object with nullable `data` and `error` fields instead of throwing. Checking one for being defined will automatically narrow down the type of the other to non-nullable in the opposite code path. Errors are always a discriminated union type with a `_tag` or `type` field as discriminator. Some error types will also contain some additional fields with specific information about the error.  
+A lot of functions in the SDK will return an object with nullable `data` and `error` fields instead of throwing. Checking one for being defined will automatically narrow down the type of the other to non-nullable in the opposite code path. Errors are always a discriminated union type with a `_tag` or `type` field as discriminator. Some error types will also contain some additional fields with specific information about the error.  
 For example, an error that could occur when generating a user quote could be:
 
 ```typescript

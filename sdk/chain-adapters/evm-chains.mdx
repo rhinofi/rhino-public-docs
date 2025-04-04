@@ -2,10 +2,13 @@
 title: EVM chains
 ---
 
-Since all EVM chains can use the same tooling and libraries, you can use the same chain adapter for all of them. You can create one either from a EIP-1193 compatible provider or as a shortcut from a private key.
+Since all EVM chains can use the same tooling and libraries, you can use the same chain adapter function for all of them. You can create one either from a EIP-1193 compatible provider or as a shortcut from a private key.
 
-<CodeGroup>
-```typescript From provider
+### From EIP-1193 provider
+
+Use this method to use connected wallets in webapps or if you want to set up a provider yourself.
+
+```typescript
 import { getEvmChainAdapterFromProvider } from '@rhino.fi/sdk/adapters/evm'
 
 const chainAdapter = getEvmChainAdapterFromProvider(
@@ -13,7 +16,12 @@ const chainAdapter = getEvmChainAdapterFromProvider(
   chainConfig
 )
 ```
-```typescript From private key
+
+### From private key
+
+Use this method as a shortcut to setting up a provider yourself.
+
+```typescript
 import { getEvmChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/evm'
 
 const chainAdapter = getEvmChainAdapterFromPrivateKey(
@@ -21,8 +29,37 @@ const chainAdapter = getEvmChainAdapterFromPrivateKey(
   chainConfig
 )
 ```
-</CodeGroup>
 
 ### Options
 
 Both functions also accept a 3rd options parameter. Currently it only includes a `tokenAllowanceOverride` property that allows you to specify a higher token allowance to be used instead of the calculated one. This can be useful to optimize gas usage by setting bigger allowances that will last for multiple bridges.
+
+## Fetching EVM balances
+
+Normally you would use the `getAllBalances` function on a chain adapter to fetch all balances of an address on a chain. However as the same address is can hold assets on any EVM chain, it would be very cumbersome to create a chain adapter for each EVM chain and query it's balances.  
+To make this easier, the the SDK provides a shortcut function to fetch all balances on all supported EVM chains by only providing the [bridge config](/sdk/concepts#bridge-and-chain-configs) and a wallet address. You can use it like this:
+
+```typescript
+import { getAllEvmBalances } from '@rhino.fi/sdk/adapters/evm'
+
+const balances = await getAllEvmBalances(bridgeConfig, 'WALLET_ADDRESS')
+
+console.log(balances)
+```
+
+The result will look like this:
+
+```typescript
+{
+  ETHEREUM: {
+    USDT: {
+      tokenConfig: {...},
+      balance: 10550000n,
+      balanceWithDecimals; 10.55,
+      balanceFormatted: '10.55',
+    },
+    USDC: {...},
+  },
+  BASE: {...}
+}
+```
