@@ -69,12 +69,12 @@
             ]
           },
           {
-            "group": "API",
+            "group": "API Integration",
             "pages": [
-              "api/introduction",
-              "api/authentication",
-              "api/bridge",
-              "api/status-history"
+              "api-integration/introduction",
+              "api-integration/authentication",
+              "api-integration/bridge",
+              "api-integration/status-history"
             ]
           },
           {
