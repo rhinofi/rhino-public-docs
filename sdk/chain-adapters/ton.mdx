@@ -1,0 +1,19 @@
+---
+title: TON
+---
+
+To create a chain adapter for TON you will need to pass a [TonConnectUI](https://www.npmjs.com/package/@tonconnect/ui) instance.
+
+```typescript
+import { getTonChainAdapter } from '@rhino.fi/sdk/adapters/ton'
+
+const chainAdapter = getTonChainAdapter(
+  tonConnectUI,
+  chainConfig,
+  rpcUrl
+)
+```
+
+<Warning>
+As there are no stable public TON RPC endpoints, you will need to provide your own.
+</Warning>

@@ -1,0 +1,39 @@
+---
+title: Solana
+---
+
+You can either create a Solana chain adapter from an [Anchor](https://www.npmjs.com/package/@coral-xyz/anchor) `Wallet` instance or as a shortcut from a Solana secret key:
+
+### From wallet
+
+Use this method to use connected wallets in webapps or if you want to set up a wallet yourself.
+
+```typescript
+import { getSolanaChainAdapterFromWallet } from '@rhino.fi/sdk/adapters/solana'
+
+// You can initialize the wallet yourself or depending on the specific browser
+// wallet find it in th global window object
+const chainAdapter = getSolanaChainAdapterFromWallet(
+  wallet,
+  chainConfig,
+  rpcUrl,
+)
+```
+
+### From secret key
+
+Use this method as a shortcut to setting up a wallet yourself.
+
+```typescript
+import { getSolanaChainAdapterFromSecretKey } from '@rhino.fi/sdk/adapters/solana'
+
+const chainAdapter = getSolanaChainAdapterFromSecretKey(
+  'YOUR_SECRET_KEY',
+  chainConfig
+  rpcUrl,
+)
+```
+
+<Warning>
+As there are no stable public Solana RPC endpoints, you will need to provide your own.
+</Warning>

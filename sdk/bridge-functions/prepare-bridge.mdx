@@ -1,0 +1,51 @@
+---
+title: Prepare bridge
+description: If you need more control over the bridge flow, you can use the `prepareBridge` function instead of the previously discussed `bridge` function.
+---
+
+## Use case
+
+The `prepareBridge` function is particularly useful if you want to make bridges based on user input in a UI. The standard bridge function will execute the entire bridge flow in one go, meaning only one user input to start the entire process is possible. The `prepareBridge` function however will allow you to first present the user with the generated quote and then only start the token approval (if needed) and actual bridge when the user explicitly initiates them.
+
+## Usage example
+
+```typescript {5,8,16}
+// Same parameters as the bridge function
+const preparedBridge = await rhinoSdk.prepareBridge(bridgeData, options)
+
+switch (preparedBridge.type) {
+  case 'no-approval-needed':
+    const bridgeResult = await preparedBridge.bridge()
+    break
+  case 'approval-needed':
+    const approvalResult = await preparedBridge.approve()
+    if (approvalResult.type === 'success') {
+      const bridgeResult = await approvalResult.bridge()
+    } else {
+      console.log('Approval error', approvalResult.error)
+    }
+    break
+  case 'error':
+    console.log('Bridge error', preparedBridge.error)
+    break
+}
+```
+
+
+Unlike the `bridge` function, `prepareBridge` will not make any transactions immediately. The initial call will only
+
+- Fetch the bridge config and validate the given parameters
+- Set up the chain adapter
+- Fetch a quote
+- Check if a token approval is needed
+
+Then it will return with a discriminated union type with three different cases, highlighted in the code example:
+
+`no-approval-needed`  
+This means that no token approval is needed and the bridge can be initiated directly. The object will contain the generated quote and a `bridge` function that will initiate the actual bridge transaction when called. It will return the same result as the [standard bridge function](/sdk/bridge-functions/bridge).
+
+`approval-needed`  
+This means that a token approval is needed before the bridge can be initiated. The object will contain the generated quote and an `approve` function that can be called to initiate the token approval. This `approval` function will then return on object containing a function to make the actual bridge or an error if the token approval failed. This bridge function will behave the same as in the previous case.
+
+`error`  
+This means an error occurred during the preparation. It will contain the same error type as the standard bridge function result.

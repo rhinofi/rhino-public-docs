@@ -1,0 +1,84 @@
+---
+title: 'Quickstart'
+description: 'Learn how to use the bridge SDK to make bridges with only a few lines of code.'
+---
+
+import RequestApiKey from '/snippets/request-api-key.mdx'
+
+### Install the package
+
+<CodeGroup>
+```bash npm
+npm install @rhino.fi/sdk
+```
+```bash yarn
+yarn add @rhino.fi/sdk
+```
+```bash pnpm
+pnpm install @rhino.fi/sdk
+```
+```bash bun
+bun install @rhino.fi/sdk
+```
+</CodeGroup>
+
+### Initialize the SDK
+
+
+```typeScript rhino-sdk.ts
+import { RhinoSdk } from '@rhino.fi/sdk'
+
+export const rhinoSdk = RhinoSdk({
+  apiKey: 'YOUR_API_KEY',
+})
+```
+
+<RequestApiKey />
+
+### Make a bridge
+
+```typescript bridge.ts
+import { SupportedChains, SupportedTokens } from '@rhino.fi/sdk'
+import { getEvmChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/evm'
+import { rhinoSdk } from './rhino-sdk'
+
+const bridgeResult = await rhinoSdk.bridge({
+  amount: '100',
+  token: SupportedTokens.USDT,
+  chainIn: SupportedChains.ARBITRUM_ONE,
+  chainOut: SupportedChains.SOLANA,
+  depositor: 'DEPOSITOR_ADDRESS',
+  recipient: 'RECIPIENT_ADDRESS',
+  mode: 'receive',
+  gasBoost: {
+    amountNative: '4'
+  }
+}, {
+  getChainAdapter: chainConfig =>
+    getEvmChainAdapterFromPrivateKey(
+      'YOUR_PRIVATE_KEY',
+      chainConfig,
+    ),
+    hooks: {
+      checkQuote: quote => quote.fees.feeUsd < 5,
+      onBridgeStatusChange: status => console.log('Bridge status changed', status),
+    },
+})
+
+if (bridgeResult.data) {
+  console.log('Bridge successful', bridgeResult.data.withdrawTxHash)
+} else {
+  console.log('Bridge error', bridgeResult.error)
+}
+```
+
+This would bridge **100 USDT** from **Arbitrum to Base** while also receiving **4 SOL** tokens at the recipient address. Through the `checkQuote` hook a bridge that would cost over $5 in fees would be aborted.
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card title="SDK concepts" icon="book" href="/sdk/concepts">Learn about the core concepts of the SDK</Card>
+  <Card title="Rhino architecture" icon="book" href="/get-started/architecture" >Learn about the overall architecture of the Rhino bridge</Card>
+  <Card title="Bridge functions" icon="code" href="/sdk/bridge-functions/bridge">Learn more on how to use the bridge functions</Card>
+  <Card title="Chain adapters" icon="plug" href="/sdk/chain-adapters/introduction">Learn how to use chain adapters to connect to all supported chains</Card>
+</CardGroup>

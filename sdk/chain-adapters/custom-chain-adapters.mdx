@@ -1,0 +1,53 @@
+---
+title: 'Custom chain adapters'
+---
+
+If you need more control over the chain interactions than the included chain adapters provider, you can also implement your own or extend an existing one.
+
+<Warning>
+Implementing and using your own chain adapters can lead to a loss of funds if implemented incorrectly. Please make sure to test your adapter on a testnet thoroughly before using it with real funds.
+</Warning>
+
+## Implementing your own custom chain adapter
+
+All you need to implement your own chain adapter is to implement the `ChainAdapter` type exported by the SDK. You can find a list of the required properties in the [chain adapter introduction](/sdk/chain-adapters/introduction).  It would like something like this:
+
+
+```typescript
+import type { ChainAdapter } from '@rhino.fi/sdk'
+
+const customEvmChainAdapter: ChainAdapter = {
+  networkId: '',
+  getApprovalAmount: () => ...,
+  handleTokenApproval: () => ...,
+  handleDeposit: () => ...,
+  getTokenBalance: () => ...,
+  getAllTokenBalances: () => ...,
+}
+```
+
+
+## Extending an existing chain adapter
+
+If you only want to tweak a specific aspect of an existing chain adapter, you could simply take one as base and only re-implement some specific functions. Example:
+
+```typescript From provider
+import { getEvmChainAdapterFromProvider } from '@rhino.fi/sdk/adapters/evm'
+import type { ChainAdapter } from '@rhino.fi/sdk'
+
+const evmChainAdapter = getEvmChainAdapterFromProvider(
+  provider,
+  chainConfig
+)
+
+const customEvmChainAdapter: ChainAdapter = {
+  ...chainAdapter,
+  handleDeposit: (args) => {
+    // Your custom bridge deposit function
+  }
+}
+```
+
+<Warning>
+Please check [this section](/contracts/contract-examples) for guidance on how to interact with the Rhino bridge contracts if you plan on implementing a custom bridge deposit function.
+</Warning>

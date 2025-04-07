@@ -1,16 +1,14 @@
 ---
-title: 'Quickstart'
+title: 'Making a bridge'
 description: 'This guide walks you through integrating our bridge API into your application. By following these steps, you’ll be able to transfer assets between chains using our API and smart contract interactions.'
 ---
-
-import RequestApiKey from '/snippets/request-api-key.mdx'
 
 ## Quickstart
 
 The whole process consists of:
 <Steps>
   <Step title="Authentication">
-    Get an API key to authenticate your requests.
+    Get a JWT to authenticate your requests.
   </Step>
   <Step title="Fetching bridge configs">
     Retrieve supported chains and tokens.
@@ -30,13 +28,7 @@ The whole process consists of:
 
 ### 1. Authentication
 
-All non-public API endpoints are authenticated using a bearer token. To authenticate your requests, include the token in the `Authorization` header.
-
-The authentication token can be obtained by reaching out to us. We'll provide you with a unique API key that you can use to access our API.
-
-Use the form below to get in touch with us:
-
-<RequestApiKey />
+All non-public API endpoints are authenticated using a JSON Web Token. To authenticate your requests, include the token in the `Authorization` header. [Learn about API authentication](/api/authentication).
 
 ### 2. Fetch Bridge Configs
 Retrieve available chains and supported tokens to ensure your transaction uses the correct parameters.
@@ -55,11 +47,11 @@ For the exact response format and more details, see the [API Reference](/api-ref
 Before executing a bridge transaction, you must generate a quote that provides transaction details, including fees and amounts.
 
 ```javascript getBridgeUserQuote.js
-export const getBridgeUserQuote = async (payload, apiKey) => {
+export const getBridgeUserQuote = async (payload, jwt) => {
   const request = await fetch(`https://api.rhino.fi/bridge/quote/user`, {
     headers: {
       "content-type": "application/json",
-      "authorization": apiKey
+      "authorization": jwt
     },
     method: "POST",
     body: JSON.stringify(payload)
@@ -76,12 +68,12 @@ For the exact request / response format and more details, see the [API Reference
 Once you have a quote, you must commit it to confirm the transaction before execution.
 
 ```javascript commitBridgeUserQuote.js
-export const commitBridgeUserQuote = async (quoteId, apiKey) => {
+export const commitBridgeUserQuote = async (quoteId, jwt) => {
   const request = await fetch(`https://api.rhino.fi/bridge/quote/commit/${quoteId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'authorization': apiKey
+      'authorization': jwt
     }
   })
 
@@ -94,7 +86,7 @@ For the exact request / response format and more details, see the [API Reference
 ### 5. Execute the Bridge Transaction
 Now, you can execute the bridge transaction by interacting with the smart contract.
 
-See [examples](/get-started/contract-examples) for interacting with the bridge smart contracts across different blockchain environments.
+See [examples](/contracts/contract-examples) for interacting with the bridge smart contracts across different blockchain environments.
 
 ### 6. Full Example
 Here’s the complete implementation combining all the steps above:
@@ -104,7 +96,7 @@ import { getBridgeUserQuote } from "./getBridgeUserQuote";
 import { getBridgeConfigs } from "./getBridgeConfigs";
 import { commitBridgeUserQuote } from "./commitBridgeUserQuote";
 
-const API_KEY = 'your_api_key'; // Replace with your API key -- see step 1
+const JWT = 'YOUR_JWT'; // Replace with your JWT generated from our API
 
 const amount = '3';
 const chainIn = 'BASE';
@@ -127,12 +119,12 @@ const bridge = async () => {
     depositor: depositorAddress,
     recipient: recipientAddress,
     amountNative: '0'
-  }, API_KEY);
+  }, JWT);
 
   if (!quote?.quoteId) throw new Error('Failed to generate user quote.');
 
   // Commit the quote to confirm the transaction when you are ready to send on-chain
-  const commitResult = await commitBridgeUserQuote(quote.quoteId, API_KEY);
+  const commitResult = await commitBridgeUserQuote(quote.quoteId, JWT);
 
   if (!commitResult?.quoteId) throw new Error('Failed to commit user quote.');
 
@@ -155,7 +147,7 @@ For a detailed breakdown of API endpoints and parameters, check the [API Referen
 
 ## Next steps
 
-For the smart contract integration see - [contract examples](/get-started/contract-examples)
+For the smart contract integration see - [contract examples](/contracts/contract-examples)
 
-To track your bridge transaction status, see [Bridge Status & History](/get-started/api/status-history).
+To track your bridge transaction status, see [Bridge Status & History](/api/status-history).
 
