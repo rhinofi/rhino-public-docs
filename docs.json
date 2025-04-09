@@ -39,6 +39,7 @@
                   "sdk/bridge-functions/prepare-bridge"
                 ]
               },
+              "sdk/bridge-and-swap",
               "sdk/token-prices",
               "sdk/bridge-api",
               {
@@ -58,6 +59,13 @@
                       "sdk/chain-adapters/tron"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Migration guides",
+                "pages": [
+                  "sdk/migration-guides/to-1x",
+                  "sdk/migration-guides/from-api"
                 ]
               }
             ]
