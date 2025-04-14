@@ -1,5 +1,79 @@
 ---
-title: 'Coming soon..'
-description: 'The widget will allow you easily integrate a fully functional bridge UI into your application with only a few lines of code. Stay tuned!'
+title: 'Widget'
+description: 'The widget will allow you easily integrate a fully functional bridge UI into your application with only a few lines of code.'
 ---
+import RequestApiKey from '/snippets/request-api-key.mdx'
+
+## Embedding the Rhino.fi Widget (iframe)
+You can easily embed the Rhino.fi Widget into any site using a simple `<iframe>`. This allows you to integrate our widget without needing to install or bundle anything into your app.
+
+### ⚡ Quick Start
+Paste the following HTML code where you want the widget to appear:
+
+```html
+<iframe
+  src="https://widget.rhino.fi/?apiKey=YOUR_API_KEY"
+  style="width: 400px; height: 581px; max-width: 100%; border: none"
+  scrolling="no"
+/>
+```
+Replace `YOUR_API_KEY` with your actual Rhino.fi API key.
+
+<RequestApiKey />
+
+## Customization
+You can customize the widget’s appearance using URL query parameters. Here's a quick overview:
+
+| Query Param	| Description | Example |
+| --- | --- | :---: |
+| apiKey | Required API key to authenticate |	`apiKey=abc123` |
+| mode | Widget mode (light or dark) | `mode=dark` |
+| theme |	Theme configuration in JSON |	`theme={...}` (URL-encoded JSON) |
+
+## 🎨 Theming
+You can customize the appearance of the widget by passing a theme query param in URL-encoded JSON format.
+
+✅ Supported Theme Properties
+```ts
+type WidgetTheme = {
+  colors?: {
+    primary?: string               // Primary color / CTA color
+    primaryLight?: string          // Light variation of the primary color
+    secondary?: string             // Secondary color
+    widgetBackground?: string      // Background of the full widget
+    select?: string                // Background of input/select fields
+    textPrimary?: string           // Default widget text color
+    textSecondary?: string         // Secondary or muted text
+    textPrimaryCta?: string        // Text color for primary buttons
+    textSecondaryCta?: string      // Text color for secondary buttons
+    stroke?: string                // Border/stroke color
+  }
+  radius?: {
+    widget?: string                // Border radius for main widget container
+    actionElements?: string        // Radius for buttons and actions
+    tokenSelect?: string           // Radius for token select
+  }
+}
+```
+
+Example with custom theme:
+
+```html
+<iframe
+  src="https://widget.rhino.fi/?apiKey=abc123&mode=light&theme=%7B%22colors%22%3A%7B%22primary%22%3A%22red%22%7D%7D"
+  style="width: 400px; height: 581px; max-width: 100%; border: none"
+  scrolling="no"
+/>
+```
+
+## Live Preview
+You can see the widget in action below:
+
+<div style={{ background: '#FCDCA4', padding: '24px', textAlign: 'center', display: 'flex', justifyContent: 'center', borderRadius: '24px' }}>
+<iframe
+  src="https://widget.rhino.fi/"
+  style={{ width: '400px', height: '581px', maxWidth: '100%', border: 'none'}}
+  scrolling="no"
+></iframe>
+</div>
 
