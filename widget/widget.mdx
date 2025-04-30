@@ -1,5 +1,130 @@
 ---
-title: 'Coming soon..'
-description: 'The widget will allow you easily integrate a fully functional bridge UI into your application with only a few lines of code. Stay tuned!'
+title: 'iframe Widget'
+description: 'The widget will allow you easily integrate a fully functional bridge UI into your application with only a few lines of code.'
 ---
+import RequestApiKey from '/snippets/request-api-key.mdx'
 
+## Embedding the Rhino.fi Widget (iframe)
+You can easily embed the Rhino.fi Widget into any site using a simple `<iframe>`. This allows you to integrate our widget without needing to install or bundle anything into your app.
+
+## Live Preview
+See the widget in action:
+
+<div style={{ background: '#FCDCA4', padding: '24px', textAlign: 'center', display: 'flex', justifyContent: 'center', borderRadius: '24px' }}>
+  <iframe
+    id='widget-frame'
+    src="https://widget.rhinofi.dev/"
+    style={{ width: '400px', height: '581px', border: 'none'}}
+    scrolling="no"
+  ></iframe>
+</div>
+
+
+
+### ⚡ Quick Start
+Paste the following HTML code where you want the widget to appear:
+
+```html
+<iframe
+  src="https://widget.rhino.fi/?apiKey=YOUR_API_KEY"
+  style="width: 400px; height: 581px; border: none"
+  scrolling="no"
+/>
+```
+Replace `YOUR_API_KEY` with your actual Rhino.fi API key.
+
+<RequestApiKey />
+
+## Customization
+You can customize the widget’s appearance using URL query parameters. Here's a quick overview:
+
+| Query Param	| Description | Example |
+| --- | --- | :---: |
+| <b>apiKey</b> | Required API key to authenticate |	`apiKey=YOUR_API_KEY` |
+| <b>mode</b> | Widget mode (light or dark) | `mode=dark` |
+| <b>theme</b> |	Theme configuration in JSON |	`theme={...}` (URL-encoded JSON) |
+| <b>chainIn</b> | Default source chain | `chainIn=ETHEREUM` |
+| <b>chainOut</b> | Default destination chain | `chainOut=BASE` |
+| <b>token</b> | Default token | `token=USDT` |
+| <b>recipient</b> | Default recipient | `recipient=0x0` |
+| <b>amount</b> | Default amount | `amount=10` |
+| <b>exclude</b> | Exclude chains or tokens | `exclude={...}` (URL-encoded JSON) |
+
+## 🎨 Theming
+You can customize the appearance of the widget by passing a theme query param in URL-encoded JSON format.
+
+Supported Theme Properties
+```ts
+type WidgetTheme = {
+  colors?: {
+    primary?: string               // Primary color / CTA color
+    primaryLight?: string          // Light variation of the primary color
+    secondary?: string             // Secondary color
+    widgetBackground?: string      // Background of the full widget
+    select?: string                // Background of input/select fields
+    textPrimary?: string           // Default widget text color
+    textSecondary?: string         // Secondary or muted text
+    textPrimaryCta?: string        // Text color for primary buttons
+    textSecondaryCta?: string      // Text color for secondary buttons
+    stroke?: string                // Border/stroke color
+  }
+  radius?: {
+    widget?: string                // Border radius for main widget container
+    actionElements?: string        // Radius for buttons and actions
+    tokenSelect?: string           // Radius for token select
+  }
+  tokenInputStroke?: boolean       // Whether to show stroke or fill on token input
+}
+```
+
+Example with custom theme:
+
+```html
+<iframe
+  src="https://widget.rhino.fi/?apiKey=YOUR_API_KEY&mode=light&theme=%7B%22colors%22%3A%7B%22primary%22%3A%22red%22%7D%7D"
+  style="width: 400px; height: 581px; max-width: 100%; border: none"
+  scrolling="no"
+/>
+```
+
+## 🔒 Excluding Chains or Tokens
+
+You can control which chains and tokens are available in the widget by using the `exclude` option. This allows you to fine-tune the user experience by disabling entire chains or specific tokens.
+
+**Exclude Option Type**
+```ts
+type ChainExclude = Record<string, boolean | string[]>
+```
+
+**How it works:**
+- To **disable an entire chain**, set its value to `false`.
+- To **disable specific tokens** for a chain, provide an array of token symbols to exclude.
+
+**Examples:**
+
+**Disable a whole chain:**
+```json
+{
+  "ETHEREUM": false
+}
+```
+This will disable Ethereum entirely from the widget.
+
+**Disable specific tokens:**
+```json
+{
+  "ETHEREUM": ["USDT", "USDC"]
+}
+```
+This will allow bridging from Ethereum but will hide USDT and USDC tokens.
+
+**Combined example:**
+```json
+{
+  "ETHEREUM": ["USDT"],
+  "POLYGON": false
+}
+```
+This disables USDT on Ethereum and disables the Polygon chain entirely.
+
+> **Note:** Token symbols must match exactly as defined in the bridge configuration.
