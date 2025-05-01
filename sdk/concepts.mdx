@@ -5,19 +5,20 @@ description: 'Learn about the core concepts of the SDK.'
 
 ## Bridge & Chain configs
 
-Rhino has one bridge configuration that lists all the chains and tokens that are available for bridging. You can get the bridge config through the following SDK call:
+Rhino has one bridge configuration that lists all the chains and tokens that are available for bridging. Additionally there is a configuration that lists all tokens that are available for bridge and swap. You can get those configs through the following SDK calls:
 ```typescript
-const configResult = await sdk.api.bridge.getBridgeConfig()
-if(configResult.data) {
-  console.log('Bridge config: ', configResult.data)
-} else {
-  console.log('Error fetching bridge config:', configResult.error)
-}
+// General bridge config
+const bridgeConfigResult = await sdk.api.config.bridge()
+// Tokens available for swapping by chain
+const swapTokensResult = await sdk.api.config.swapTokens()
+// Shortcut to fetch both configs in one call
+const allConfigsResult = await sdk.api.config.all()
+
 ```
 
 [Learn about the bridge API](/sdk/bridge-api).
 
-Assuming no error occurred, the result will look like this:
+Assuming no error occurred, the result of the bridge config call will look like this:
 ```typescript Bridge config [expandable]
 {
   ETHEREUM: {
@@ -97,6 +98,9 @@ const token = SupportedTokens.USDT
 Those lists are generated at release time of the SDK and are not guaranteed to be always up to date. Therefore those lists might be out sync with the bridge config if Rhino adds a new supported chain/token or temporarily suspends one.  
 **Always use a freshly fetched bridge config if you want to display a list of available chains or tokens to a user for example. Do not rely on hardcoded lists for such purposes.**
 </Warning>
+<Note>
+`SupportedTokens` does not include swap tokens as those are too dynamic to be included in a static list like this.
+</Note>
 
 ## Error handling
 

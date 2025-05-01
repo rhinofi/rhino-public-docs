@@ -43,6 +43,7 @@ import { getEvmChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/evm'
 import { rhinoSdk } from './rhino-sdk'
 
 const bridgeResult = await rhinoSdk.bridge({
+  type: 'bridge',
   amount: '100',
   token: SupportedTokens.USDT,
   chainIn: SupportedChains.ARBITRUM_ONE,
