@@ -1,0 +1,56 @@
+---
+title: To version 1.x
+description: Learn how to upgrade your code to version 1.x if you have been using a 0.x version of the SDK before.
+---
+
+## Summary
+
+Version 1 of the SDK introduces bridge and swap and marks the first major stable release. It also introduces a shortcut to fetch bridge and token swap configs.
+
+## Breaking change
+
+The only breaking change is that the first argument of the `bridge` and `prepareBridge` functions now require an additional `type` field with the possible values of `bridge` and `bridgeSwap`. This is required as a swap requires slighly different arguments.
+
+To adjust your existing code, you only need to add the highlighted field to your existing `bridge` or `prepareBridge` calls:
+
+```typescript {2}
+const bridgeResult = await rhinoSdk.bridge({
+  type: 'bridge',
+  amount: '100',
+  token: SupportedTokens.USDT,
+  chainIn: SupportedChains.ARBITRUM_ONE,
+  chainOut: SupportedChains.SOLANA,
+  depositor: 'DEPOSITOR_ADDRESS',
+  recipient: 'RECIPIENT_ADDRESS',
+  mode: 'receive',
+}, {
+  getChainAdapter: chainConfig =>
+    getEvmChainAdapterFromPrivateKey(
+      'YOUR_PRIVATE_KEY',
+      chainConfig,
+    ),
+})
+```
+
+## Config shortcuts
+
+Previously you might have fetched the bridge config like this:
+
+```typescript
+const bridgeConfig = await rhinoSdk.api.bridge.getBridgeConfig()
+```
+
+To streamline this with the addition of the new swap tokens config, a new API is now available:
+
+```typescript
+// New way to fetch bridge config
+const bridgeConfig = await rhinoSdk.api.config.bridge()
+// New token swap config
+const swapTokens = await rhinoSdk.api.config.swapTokens()
+// Fetch both configs in one call
+const configs = await rhinoSdk.api.config.all()
+````
+
+<Note>
+The `getBridgeConfig` in the bridge API wrapper is still available and will keep working. However, we recommend to use the new function for more idiomatic code.
+</Note>

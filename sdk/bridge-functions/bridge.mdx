@@ -12,6 +12,7 @@ import { SupportedChains, SupportedTokens } from '@rhino.fi/sdk'
 import { getEvmChainAdapterFromPrivateKey } from '@rhino.fi/sdk/adapters/evm'
 
 const bridgeResult = await rhinoSdk.bridge({
+  type: 'bridge',
   amount: '100',
   token: SupportedTokens.USDT,
   chainIn: SupportedChains.ARBITRUM_ONE,
@@ -76,12 +77,12 @@ Since the bridge only provides a result at the end, you can use this callback to
 
 Once the deposit into the bridge contract is made, the `bridge` function will poll the Rhino API until the bridge has been confirmed as completed. By default the polling will be aborted after a default timeout of 10 minutes. With this property you can specify a different timeout.
 
-### bridgeConfig (optional)
+### bridgeConfig and swapTokensConfig (optional)
 
-Internally the `bridge` function will fetch the current bridge config from the Rhino API. If you already fetched this config manually for some other purpose you can pass it into this property to avoid the extra network request.
+Internally the `bridge` function will fetch the current bridge and swap tokens (if needed) config from the Rhino API. If you already fetched those configs manually for some other purpose you can pass it into this property to avoid the extra network requests.
 
 <Warning>
-Please make sure that you pass in a somewhat recent bridge config. Using a too old bridge config can lead to errors in the quote handling later.
+Please make sure that you pass in a somewhat recent bridge/swap tokens config. Using a too old config can lead to errors in the quote handling later.
 </Warning>
 
 ## Handling the bridge result
