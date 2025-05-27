@@ -155,5 +155,10 @@
       "x": "https://x.com/rhinofi",
       "github": "https://github.com/rhinofi"
     }
+  },
+  "integrations": {
+    "heap": {
+      "appId": "3649556247"
+    }
   }
 }
