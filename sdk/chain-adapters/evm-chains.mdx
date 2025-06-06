@@ -37,7 +37,7 @@ Both functions also accept a 3rd options parameter. Currently it only includes a
 ## Fetching EVM balances
 
 Normally you would use the `getAllBalances` function on a chain adapter to fetch all balances of an address on a chain. However as the same address is can hold assets on any EVM chain, it would be very cumbersome to create a chain adapter for each EVM chain and query it's balances.  
-To make this easier, the the SDK provides a shortcut function to fetch all balances on all supported EVM chains by only providing the [bridge config](/sdk/concepts#bridge-and-chain-configs) and a wallet address. You can use it like this:
+To make this easier, the SDK provides a shortcut function to fetch all balances on all supported EVM chains by only providing the [bridge config](/sdk/concepts#bridge-and-chain-configs) and a wallet address. You can use it like this:
 
 ```typescript
 import { getAllEvmBalances } from '@rhino.fi/sdk/adapters/evm'
