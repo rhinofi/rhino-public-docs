@@ -7,9 +7,13 @@ description: Learn how to upgrade your code to version 1.x if you have been usin
 
 Version 1 of the SDK introduces bridge and swap and marks the first major stable release. It also introduces a shortcut to fetch bridge and token swap configs.
 
-## Breaking change
+## Breaking changes
 
-The only breaking change is that the first argument of the `bridge` and `prepareBridge` functions now require an additional `type` field with the possible values of `bridge` and `bridgeSwap`. This is required as a swap requires slighly different arguments.
+This release contains some minor breaking changes. Migration is very straightforward.
+
+### Bridge functions change
+
+The first argument of the `bridge` and `prepareBridge` functions now require an additional `type` field with the possible values of `bridge` and `bridgeSwap`. This is required as a swap requires slighly different arguments.
 
 To adjust your existing code, you only need to add the highlighted field to your existing `bridge` or `prepareBridge` calls:
 
@@ -31,6 +35,13 @@ const bridgeResult = await rhinoSdk.bridge({
     ),
 })
 ```
+
+### Chain adapter interface changes
+
+The `getApprovalAmount` function on chain adapters previously only returned the required approval amount (or undefined if no approval needed). Now this function returns an object with `requiredAllowance` and `availableAllowance` fields.  
+This change was neccessary to include those two fields into the `approval-needed` variant of the `prepareBridge` function. It allows integrations to display the available and required allowance before users initiate the approval transaction.
+
+There is no action needed regarding this change unless you have implemented your own chain adapter.  
 
 ## Config shortcuts
 
