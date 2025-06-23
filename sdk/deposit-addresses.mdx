@@ -1,0 +1,54 @@
+---
+title: 'Deposit addresses'
+description: 'Manage deposit addresses conveniently with the SDK.'
+---
+
+import DepositAddressDisclaimer from '/snippets/deposit-address-disclaimer.mdx'
+
+<DepositAddressDisclaimer />
+
+Please read about the [general concepts of deposit addresses](/api-integration/deposit-addresses) before continuing here.
+
+## Using the SDK wrappers
+
+The SDK provides wrappers around the [API calls](/api-integration/deposit-addresses#api-interactions) to manage deposit addresses. Those wrappers are available under `sdk.depositAddresses`.
+
+### Examples
+
+```typescript Find supported chains
+const depositAddresses = await sdk.depositAddresses.getSupportedChains()
+// Result:
+['ETHEREUM', ...]
+```
+
+```typescript Set up a new deposit address
+const depositAddresses = await sdk.depositAddresses.create({
+  depositChain: 'ETHEREUM',
+  destinationChain: 'BASE',
+  destinationAddress: '0x123...',
+})
+// Result:
+{
+  depositAddress: '0x457...',
+  depositChain: 'ETHEREUM',
+  destinationChain: 'BASE',
+  destinationAddress: '0x123...',
+  supportedTokens: [{symbol: 'USDT', address: '0x789...'}],
+  isActive: true,
+}
+```
+
+```typescript Check the status of a deposit address
+// Same result as the create function above
+const status = await sdk.depositAddresses.getStatus({
+  depositAddress: '0x123...',
+  depositChain: 'ETHEREUM',
+})
+```
+
+```typescript Activate an existing deposit address
+await sdk.depositAddresses.activate({
+  depositAddress: '0x123...',
+  depositChain: 'ETHEREUM',
+})
+```
