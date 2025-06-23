@@ -116,6 +116,11 @@
     "global": {
       "anchors": [
         {
+          "anchor": "Developer Portal",
+          "href": "https://developers.rhino.fi",
+          "icon": "code"
+        },
+        {
           "anchor": "Website",
           "icon": "globe",
           "href": "https://rhino.fi/"
