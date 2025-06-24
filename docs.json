@@ -7,7 +7,7 @@
     "light": "#fcd9b6",
     "dark": "#e96c19"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
   "api": {
     "mdx": {
       "server": "https://api.rhino.fi/bridge"
