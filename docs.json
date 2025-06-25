@@ -7,6 +7,9 @@
     "light": "#fcd9b6",
     "dark": "#e96c19"
   },
+  "fonts": {
+    "family": "Geist"
+  },
   "favicon": "/favicon.png",
   "api": {
     "mdx": {
