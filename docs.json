@@ -3,11 +3,14 @@
   "theme": "mint",
   "name": "rhino.fi - Docs",
   "colors": {
-    "primary": "#F3A41B",
-    "light": "#FCDCA4",
-    "dark": "#F3A41B"
+    "primary": "#e96c19",
+    "light": "#fcd9b6",
+    "dark": "#e96c19"
   },
-  "favicon": "/favicon.svg",
+  "fonts": {
+    "family": "Geist"
+  },
+  "favicon": "/favicon.png",
   "api": {
     "mdx": {
       "server": "https://api.rhino.fi/bridge"
