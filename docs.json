@@ -42,7 +42,11 @@
                   "sdk/bridge-functions/prepare-bridge"
                 ]
               },
+<<<<<<< deposit-addresses
+              "sdk/deposit-addresses",
+=======
               "sdk/bridge-and-swap",
+>>>>>>> main
               "sdk/token-prices",
               "sdk/bridge-api",
               {
@@ -85,7 +89,8 @@
               "api-integration/introduction",
               "api-integration/authentication",
               "api-integration/bridge",
-              "api-integration/status-history"
+              "api-integration/status-history",
+              "api-integration/deposit-addresses"
             ]
           },
           {
