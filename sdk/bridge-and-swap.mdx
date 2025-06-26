@@ -1,0 +1,60 @@
+---
+title: Bridge and swap
+description: Rhino also supports cross chain swaps using external swap aggregators.
+---
+
+## Introduction
+
+Cross chain swaps in general work the same way as a normal bridge:
+
+1. Fetch bridge config and additionally also a new config for supported swap tokens.
+2. Generate a special swap quote.
+3. Commit the quote.
+4. Deposit funds into the bridge contract.
+5. Rhino handles the swap and bridge logic under the hood and sends the funds to the recipient on the destination chain.
+
+## Making  cross chain swaps
+
+To make cross chain swaps you can use the same `bridge` or `prepareBridge` functions. The only difference is that the arguments are slightly different compared to normal bridges:
+
+```typescript {2,4,5}
+const bridgeResult = await rhinoSdk.bridge({
+  type: 'bridgeSwap',
+  amount: '100',
+  tokenIn: SupportedTokens.USDT,
+  tokenOut: 'agEUR',
+  chainIn: SupportedChains.ARBITRUM_ONE,
+  chainOut: SupportedChains.BASE,
+  depositor: 'DEPOSITOR_ADDRESS',
+  recipient: 'RECIPIENT_ADDRESS',
+  mode: 'pay',
+}, {
+  getChainAdapter: chainConfig =>
+    getEvmChainAdapterFromPrivateKey(
+      'YOUR_PRIVATE_KEY',
+      chainConfig,
+    ),
+})
+```
+
+Instead of the `token` field, a swap requires `tokenIn` and `tokenOut` fields as well as `type: 'bridgeSwap'` to indicate that a swap should be performed.
+
+<Warning>
+When using swaps only the `pay` mode is available. `receive` mode is only supported for bridges without swaps.
+</Warning>
+
+## Swap quotes
+
+When using the `prepareBridge` function with swaps or using the `checkQuote` hook, you will receive a quote object that contains some additional properties compared to the quote for normal bridges. You will need to compare the `_tag` field against `bridgeSwap` first to narrow the type down to the swap quote case to get access to those properties:
+
+- `bridgePayAmount`: The amount of `tokenIn` that will be paid
+- `bridgePayAmountUsd`: The USD value of the pay amout
+- `minReceiveAmount`: The minimum amount of `tokenOut` that will be received on the destination chain after considering slippage.
+- `minReceiveAmountUsd`: The USD value of the minimum receive amount
+- `usdPriceTokenIn`: The current USD price of `tokenIn`
+- `usdPriceTokenOut`: The current USD price of `tokenOut`
+
+## Failed swaps
+
+Swaps can fail for a number of reasons, most commonly due to market volatility. Rhino will automatically refund failed swaps to the depositor address on the origin chain. The bridge function will in this case return an error with type `SwapFailed` that contains metadata about the refund (refund chain, token, amount and transaction hash).  
+Additionally, the `onBridgeStatusChange` hook will also first report `swap-failed` and then follow up with `failed-swap-refunded` once the refund has been processed. The latter update will contain the same metadata about the swap refund as the returned error.
