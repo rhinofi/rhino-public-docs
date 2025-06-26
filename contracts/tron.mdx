@@ -70,6 +70,8 @@ To execute a bridge transaction, call the `depositWithId` (TRC20) function as fo
 ```javascript tronweb
 import { TronWeb, providers } from 'tronweb'
 import getBridgeConfigs from './getBridgeConfigs'
+// You can find the bridgeABI above in the ABI section
+import bridgeAbi from './bridgeAbi'
 
 export const callTronBridgeContract = async (
   {
@@ -84,7 +86,7 @@ export const callTronBridgeContract = async (
 
   // Replace with your wallet implementation
   const tronWeb = new TronWeb({
-    fullHost: new providers.HttpProvider('https://api.shasta.trongrid.io'),
+    fullHost: new providers.HttpProvider('https://api.trongrid.io'),
     // headers: { "TRON-PRO-API-KEY": 'your api key' }, -- if using a custom RPC
     privateKey: TRON_PRIVATE_KEY
   })
@@ -104,10 +106,6 @@ export const callTronBridgeContract = async (
   if (formattedAllowance < parseFloat(amount)) {
      await trc20Contract.approve(bridgeContractAddress, amountWithDecimals).send()
   }
-
-  const {
-    abi: bridgeAbi
-  } = await tronWeb.trx.getContract(bridgeContractAddress);
 
   const contract = tronWeb.contract(bridgeAbi, bridgeContractAddress)
   const tx = await contract.depositWithId(tokenAddress, amountWithDecimals, `0x${commitmentId}`).send({shouldPollResponse: true})

@@ -3,11 +3,14 @@
   "theme": "mint",
   "name": "rhino.fi - Docs",
   "colors": {
-    "primary": "#F3A41B",
-    "light": "#FCDCA4",
-    "dark": "#F3A41B"
+    "primary": "#e96c19",
+    "light": "#fcd9b6",
+    "dark": "#e96c19"
   },
-  "favicon": "/favicon.svg",
+  "fonts": {
+    "family": "Geist"
+  },
+  "favicon": "/favicon.png",
   "api": {
     "mdx": {
       "server": "https://api.rhino.fi/bridge"
@@ -39,7 +42,11 @@
                   "sdk/bridge-functions/prepare-bridge"
                 ]
               },
+<<<<<<< deposit-addresses
               "sdk/deposit-addresses",
+=======
+              "sdk/bridge-and-swap",
+>>>>>>> main
               "sdk/token-prices",
               "sdk/bridge-api",
               {
@@ -59,6 +66,13 @@
                       "sdk/chain-adapters/tron"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "Migration guides",
+                "pages": [
+                  "sdk/migration-guides/to-1x",
+                  "sdk/migration-guides/from-api"
                 ]
               }
             ]
