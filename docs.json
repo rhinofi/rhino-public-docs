@@ -42,11 +42,8 @@
                   "sdk/bridge-functions/prepare-bridge"
                 ]
               },
-<<<<<<< deposit-addresses
               "sdk/deposit-addresses",
-=======
               "sdk/bridge-and-swap",
->>>>>>> main
               "sdk/token-prices",
               "sdk/bridge-api",
               {
