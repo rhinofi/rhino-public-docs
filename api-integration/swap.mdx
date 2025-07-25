@@ -51,6 +51,7 @@ export const getSwapTokenConfig = async () => {
   return request.json()
 }
 ```
+For the exact response format and more details, see the [API Reference](/api-reference/configs/get-all-token-configs-for-bridge-and-swap).
 
 ### 3. Get a Bridge & Swap Quote
 Before executing a bridge transaction, you must generate a quote that provides transaction details, including fees and amounts.
@@ -71,7 +72,7 @@ export const getBridgeSwapUserQuote = async (payload, jwt) => {
 
 ```
 
-For the exact request / response format and more details, see the [API Reference](/api-reference/quote/user-quote).
+For the exact request / response format and more details, see the [API Reference](/api-reference/quote/user-quote-for-bridge-&-swap).
 
 ### 4. Commit the Quote
 Once you have a quote, you must commit it to confirm the transaction before execution.
