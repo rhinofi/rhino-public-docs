@@ -150,7 +150,7 @@ const bridgeAndSwap = async () => {
     chainConfig,
     swapConfig,
     amount: quote.payAmount,
-    token,
+    tokenIn,
     commitmentId: commitResult.quoteId,
     callback: (hash) => console.info('Transaction hash:', hash)
   });
