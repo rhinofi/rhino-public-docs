@@ -86,6 +86,7 @@
               "api-integration/introduction",
               "api-integration/authentication",
               "api-integration/bridge",
+              "api-integration/swap",
               "api-integration/status-history",
               "api-integration/deposit-addresses"
             ]

@@ -1,6 +1,6 @@
 ---
-title: 'Making a bridge'
-description: 'This guide walks you through integrating our bridge API into your application. By following these steps, you’ll be able to transfer assets between chains using our API and smart contract interactions.'
+title: 'Making a bridge & swap'
+description: 'This guide walks you through integrating our bridge API into your application. By following these steps, you’ll be able to transfer and swap assets between chains using our API and smart contract interactions.'
 ---
 
 ## Quickstart
@@ -31,24 +31,33 @@ The whole process consists of:
 All non-public API endpoints are authenticated using a JSON Web Token. To authenticate your requests, include the token in the `Authorization` header. [Learn about API authentication](/api-integration/authentication).
 
 ### 2. Fetch Bridge Configs
-Retrieve available chains and supported tokens to ensure your transaction uses the correct parameters.
+Retrieve available chains to ensure your transaction uses the correct parameters.
 
 ```javascript getBridgeConfigs.js
 export const getBridgeConfigs = async () => {
   const request = await fetch('https://api.rhino.fi/bridge/configs')
   return request.json()
 }
-
 ```
 For the exact response format and more details, see the [API Reference](/api-reference/configs).
 
 
-### 3. Get a Bridge Quote
+### 3. Fetch Swap token config
+Retrieve available tokens for swap transactions.
+
+```javascript
+export const getSwapTokenConfig = async () => {
+  const request = await fetch('https://api.rhino.fi/bridge/bridge-swap-token-configs')
+  return request.json()
+}
+```
+
+### 3. Get a Bridge & Swap Quote
 Before executing a bridge transaction, you must generate a quote that provides transaction details, including fees and amounts.
 
-```javascript getBridgeUserQuote.js
-export const getBridgeUserQuote = async (payload, jwt) => {
-  const request = await fetch(`https://api.rhino.fi/bridge/quote/user`, {
+```javascript getBridgeSwapUserQuote.js
+export const getBridgeSwapUserQuote = async (payload, jwt) => {
+  const request = await fetch(`https://api.rhino.fi/bridge/quote/bridge-swap/user`, {
     headers: {
       "content-type": "application/json",
       "authorization": jwt
@@ -67,8 +76,8 @@ For the exact request / response format and more details, see the [API Reference
 ### 4. Commit the Quote
 Once you have a quote, you must commit it to confirm the transaction before execution.
 
-```javascript commitBridgeUserQuote.js
-export const commitBridgeUserQuote = async (quoteId, jwt) => {
+```javascript commitBridgeSwapUserQuote.js
+export const commitBridgeSwapUserQuote = async (quoteId, jwt) => {
   const request = await fetch(`https://api.rhino.fi/bridge/quote/commit/${quoteId}`, {
     method: 'POST',
     headers: {
@@ -83,7 +92,7 @@ export const commitBridgeUserQuote = async (quoteId, jwt) => {
 
 For the exact request / response format and more details, see the [API Reference](/api-reference/quote/commit-quote).
 
-### 5. Execute the Bridge Transaction
+### 5. Execute the Bridge & Swap Transaction
 Now, you can execute the bridge transaction by interacting with the smart contract.
 
 See [examples](/contracts/contract-examples) for interacting with the bridge smart contracts across different blockchain environments.
@@ -92,30 +101,34 @@ See [examples](/contracts/contract-examples) for interacting with the bridge sma
 Here’s the complete implementation combining all the steps above:
 
 ```javascript index.js
-import { getBridgeUserQuote } from "./getBridgeUserQuote";
+import { getBridgeSwapUserQuote } from "./getBridgeSwapUserQuote";
 import { getBridgeConfigs } from "./getBridgeConfigs";
-import { commitBridgeUserQuote } from "./commitBridgeUserQuote";
+import { getSwapTokenConfig } from "./getSwapTokenConfig";
+import { commitBridgeSwapUserQuote } from "./commitBridgeSwapUserQuote";
 
 const JWT = 'YOUR_JWT'; // Replace with your JWT generated from our API
 
-const amount = '3';
+const amount = '1';
 const chainIn = 'BASE';
-const chainOut = 'SOLANA';
-const token = 'USDT';
+const chainOut = 'ARBITRUM';
+const tokenIn = 'USDT';
+const tokenOut = 'USDC';
 const depositorAddress = '0x0000000000000000000000000000000000000000'; // Replace with your depositor address
 const recipientAddress = '0x0000000000000000000000000000000000000000'; // Replace with your recipient address
 
-const bridge = async () => {
+const bridgeAndSwap = async () => {
   // Get bridge configs to determine supported chains and tokens or later use for the contract call
   const configs = await getBridgeConfigs();
+  const swapTokenConfig = await getSwapTokenConfig();
 
   // Get a bridge quote for the transaction
-  const quote = await getBridgeUserQuote({
+  const quote = await getBridgeSwapUserQuote({
     amount,
     chainIn,
     chainOut,
-    token,
-    mode: 'receive',
+    tokenIn,
+    tokenOut,
+    mode: 'pay',
     depositor: depositorAddress,
     recipient: recipientAddress,
     amountNative: '0'
@@ -124,15 +137,17 @@ const bridge = async () => {
   if (!quote?.quoteId) throw new Error('Failed to generate user quote.');
 
   // Commit the quote to confirm the transaction when you are ready to send on-chain
-  const commitResult = await commitBridgeUserQuote(quote.quoteId, JWT);
+  const commitResult = await commitBridgeSwapUserQuote(quote.quoteId, JWT);
 
   if (!commitResult?.quoteId) throw new Error('Failed to commit user quote.');
 
   const chainConfig = configs[chainIn];
+  const swapConfig = swapTokenConfig[chainIn][tokenIn];
 
   // Execute the bridge transaction by interacting with the smart contract -- see contract examples section on exact implementation
   await callBridgeContract({
     chainConfig,
+    swapConfig,
     amount: quote.payAmount,
     token,
     commitmentId: commitResult.quoteId,
@@ -140,7 +155,7 @@ const bridge = async () => {
   });
 };
 
-bridge();
+bridgeAndSwap();
 ```
 
 For a detailed breakdown of API endpoints and parameters, check the [API Reference](/api-reference/introduction).
