@@ -53,7 +53,7 @@ export const getSwapTokenConfig = async () => {
 ```
 For the exact response format and more details, see the [API Reference](/api-reference/configs/get-all-token-configs-for-bridge-and-swap).
 
-### 3. Get a Bridge & Swap Quote
+### 4. Get a Bridge & Swap Quote
 Before executing a bridge transaction, you must generate a quote that provides transaction details, including fees and amounts.
 
 ```javascript getBridgeSwapUserQuote.js
@@ -74,7 +74,7 @@ export const getBridgeSwapUserQuote = async (payload, jwt) => {
 
 For the exact request / response format and more details, see the [API Reference](/api-reference/quote/user-quote-for-bridge-&-swap).
 
-### 4. Commit the Quote
+### 5. Commit the Quote
 Once you have a quote, you must commit it to confirm the transaction before execution.
 
 ```javascript commitBridgeSwapUserQuote.js
@@ -93,12 +93,12 @@ export const commitBridgeSwapUserQuote = async (quoteId, jwt) => {
 
 For the exact request / response format and more details, see the [API Reference](/api-reference/quote/commit-quote).
 
-### 5. Execute the Bridge & Swap Transaction
+### 6. Execute the Bridge & Swap Transaction
 Now, you can execute the bridge transaction by interacting with the smart contract.
 
 See [examples](/contracts/contract-examples) for interacting with the bridge smart contracts across different blockchain environments.
 
-### 6. Full Example
+### 7. Full Example
 Here’s the complete implementation combining all the steps above:
 
 ```javascript index.js
