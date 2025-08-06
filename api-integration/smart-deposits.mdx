@@ -10,7 +10,7 @@ import DepositAddressDisclaimer from '/snippets/deposit-address-disclaimer.mdx'
 ## Introduction
 
 To bridge funds through Rhino you would normally need to generate a quote, commit it and then interact with the bridge contract on the origin chain to initiate the bridge. However, this is not always an option for all use cases where a smart contract interaction is not possible or very inconvenient.  
-To also cater to those use casas, Rhino supporting bridging through manual transfers.
+To also cater to those use casas, Rhino is supporting bridging through manual transfers.
 
 ## How it works
 
@@ -69,7 +69,7 @@ The following examples showcase the use of our API to manage Smart Deposit Addre
 
 ### Generating a Smart Deposit Address
 
-You can generate new Smart Deposit Address with the following API call:
+You can generate a new Smart Deposit Address with the following API call:
 
 ```javascript
 const response = await fetch('https://api.rhino.fi/bridge/deposit-addresses', {
@@ -111,7 +111,7 @@ The first highlighted line contains the generated Smart Deposit Address. Funds c
 
 #### Multiple deposit chains
 
-You can provide multiple deposit chains in the request. The API will then generate one Smart Deposit Address that can be used on all the provided chains. This is why the response is also a list - one element for each chain provided. The Smart Deposit Addresses in the individial elements will be identical in this case.  
+You can provide multiple deposit chains in the request. The API will then generate one Smart Deposit Address that can be used on all the provided chains. This is why the response is also a list - one element for each chain provided. The Smart Deposit Addresses in the individual elements will be identical in this case.  
 **Please note that providing multiple deposit chains only works for EVM chains currently.** Only then can the same address be used for all of them.
 
 ### Checking Smart Deposit Address status
