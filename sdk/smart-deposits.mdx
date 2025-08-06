@@ -1,17 +1,17 @@
 ---
-title: 'Deposit addresses'
-description: 'Manage deposit addresses conveniently with the SDK.'
+title: 'Smart Deposits'
+description: 'Manage Smart Deposits conveniently with the SDK.'
 ---
 
 import DepositAddressDisclaimer from '/snippets/deposit-address-disclaimer.mdx'
 
 <DepositAddressDisclaimer />
 
-Please read about the [general concepts of deposit addresses](/api-integration/deposit-addresses) before continuing here.
+Please read about the [general concepts of Smart Deposits](/api-integration/deposit-addresses) before continuing here.
 
 ## Using the SDK wrappers
 
-The SDK provides wrappers around the [API calls](/api-integration/deposit-addresses#api-interactions) to manage deposit addresses. Those wrappers are available under `sdk.depositAddresses`.
+The SDK provides wrappers around the [API calls](/api-integration/deposit-addresses#api-interactions) to manage Smart Deposits. Those wrappers are available under `sdk.depositAddresses`.
 
 ### Examples
 
@@ -21,7 +21,7 @@ const depositAddresses = await sdk.depositAddresses.getSupportedChains()
 ['ETHEREUM', ...]
 ```
 
-```typescript Set up a new deposit address
+```typescript Set up a new Smart Deposit
 const depositAddresses = await sdk.depositAddresses.create({
   depositChain: 'ETHEREUM',
   destinationChain: 'BASE',
@@ -38,7 +38,7 @@ const depositAddresses = await sdk.depositAddresses.create({
 }
 ```
 
-```typescript Check the status of a deposit address
+```typescript Check the status of a Smart Deposit
 // Same result as the create function above
 const status = await sdk.depositAddresses.getStatus({
   depositAddress: '0x123...',
@@ -46,7 +46,7 @@ const status = await sdk.depositAddresses.getStatus({
 })
 ```
 
-```typescript Activate an existing deposit address
+```typescript Activate an existing Smart Deposit
 await sdk.depositAddresses.activate({
   depositAddress: '0x123...',
   depositChain: 'ETHEREUM',
