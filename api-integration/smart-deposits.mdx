@@ -1,0 +1,165 @@
+---
+title: 'Smart Deposit Addresses'
+description: 'Smart Deposit Addresses allow you to generate unique addresses that automatically bridge assets to a specified destination upon receiving a transfer.'
+---
+
+import DepositAddressDisclaimer from '/snippets/deposit-address-disclaimer.mdx'
+
+<DepositAddressDisclaimer />
+
+## Introduction
+
+To bridge funds through Rhino you would normally need to generate a quote, commit it and then interact with the bridge contract on the origin chain to initiate the bridge. However, this is not always an option for all use cases where a smart contract interaction is not possible or very inconvenient.  
+To also cater to those use casas, Rhino is supporting bridging through manual transfers.
+
+## How it works
+
+<Steps>
+  <Step title="Generate address">
+    Call our API with deposit chain, destination chain and destination address.
+  </Step>
+  <Step title="Transfer funds">
+    Make a standard ERC20 transfer to the generated address.
+  </Step>
+  <Step title="Receive funds">
+    After the deposit has been confirmed on chain, the funds will be automatically bridged to the specified destination.
+  </Step>
+</Steps>
+
+Smart Deposit Addresses are reusable and can be used for multiple bridges indefinetely (see caveats below).
+
+**This makes bridging accessible to any wallet or app that supports standard ERC20 transfers.**
+
+## Smart Deposit Address expiration
+
+To conserve resources when monitoring Smart Deposit Addresses, we will stop monitoring addresses that have not been used for a certain period of time. This is basically a timer that runs down from initial creation and is reset whenever a bridge is performed through an address.  
+An inactive Smart Deposit Address can still be used for bridging by manually reactivating it through the API if it is needed. **Funds that are sent to an inactive Smart Deposit Address are not lost**, they will only require one API call to activate the address and initate a bridge for the transfers made while inactive.
+
+## Supported chains
+
+Deposit addresses are enabled on Ethereum, Arbitrum, BSC, and Tron, as well as other chains.
+
+The general bridge config endpoint provides a boolean `enabledDepositAddress` flag that can be used to find chains that Smart Deposit Addresses are enabled for. Example:
+
+```javascript
+const response = await fetch('https://api.rhino.fi/bridge/configs')
+```
+
+The response will then specify which chains have Smart Deposit Addresses enabled:
+
+```json {5,10}
+{
+  "ETHEREUM": {
+    "name": "Ethereum",
+    ...,
+    "enabledDepositAddress": true,
+  },
+  "SOLANA": {
+    "name": "Solana",
+    ...,
+    "enabledDepositAddress": false,
+  },
+}
+```
+
+
+## API interactions
+
+The following examples showcase the use of our API to manage Smart Deposit Addresses. All those calls require authentication, see details on this [here](/api-integration/authentication).
+
+### Generating a Smart Deposit Address
+
+You can generate a new Smart Deposit Address with the following API call:
+
+```javascript
+const response = await fetch('https://api.rhino.fi/bridge/deposit-addresses', {
+  method: 'POST',
+  body: JSON.stringify({
+    depositChains: ['ETHEREUM'],
+    destinationChain: 'BASE',
+    destinationAddress: '0x123...',
+  }),
+  headers: {
+    'Content-Type': 'application/json',
+    'authorization': 'YOUR_JWT',
+  },
+})
+```
+
+The response will then look like this:
+
+```json {3,6}
+[{
+  "depositChain": "ETHEREUM",
+  "depositAddress": "0x456...",
+  "destinationChain": "BASE",
+  "destinationAddress": "0x123...",
+  "supportedTokens": [
+    {
+      "symbol": "USDT",
+      "address": "0x789...",
+      "maxDepositLimitUsd": 100000,
+      "minDepositLimitUsd": 10,
+    }
+  ],
+  "isActive": true,
+}]
+```
+
+The first highlighted line contains the generated Smart Deposit Address. Funds can be sent there to be bridged.  
+**However, only tokens from the `supportedTokens` list will be processed.** Transfers of tokens that are not in this list will not be processed. Transfers that are smaller than the `minDepositLimitUsd` or larger than the `maxDepositLimitUsd` will not be processed (there is a "grace" window to account for different price sources and price fluctuations). If this happens, funds can be returned through our customer service.
+
+#### Multiple deposit chains
+
+You can provide multiple deposit chains in the request. The API will then generate one Smart Deposit Address that can be used on all the provided chains. This is why the response is also a list - one element for each chain provided. The Smart Deposit Addresses in the individual elements will be identical in this case.  
+**Please note that providing multiple deposit chains only works for EVM chains currently.** Only then can the same address be used for all of them.
+
+### Checking Smart Deposit Address status
+
+You can also check the current status of a Smart Deposit Address with the following call:
+
+```javascript
+const depositAddress = '0x123...'
+const depositChain = 'ETHEREUM'
+const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}`, {
+  headers: {
+    'authorization': 'YOUR_JWT',
+  },
+})
+```
+
+The response format will be the same as the one returned when generating a new Smart Deposit Address **with the exception of the `destinationAddress`. That field will only be included if the request was made with a secret API key.**
+
+### Checking Smart Deposit Address history
+
+You can check the history of a Smart Deposit Address with the following call:
+
+```javascript
+const depositAddress = '0x123...'
+const depositChain = 'ETHEREUM'
+const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}/history`, {
+  headers: {
+    'authorization': 'YOUR_JWT_FROM_SECRET_KEY',
+  },
+})
+```
+
+The response will contain a list of transfers that have been processed through the Smart Deposit Address. By default it gives you the transfers from the last 7 days. To see older transfers you can provide a `from` and `to` query parameter with a timestamp in milliseconds. Only a `SECRET_` key is allowed to access history.
+
+### Reactivating a Smart Deposit Address
+
+If the `isActive` flag returned by the status check is `false` you can reactivate the Smart Deposit Address manually with the following call:
+
+```javascript
+const depositAddress = '0x123...'
+const depositChain = 'ETHEREUM'
+const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}/activate`, {
+  method: 'PATCH',
+  headers: {
+    'authorization': 'YOUR_JWT',
+  },
+})
+```
+
+This will cause the address to be monitored again. Additionally the address will be checked for transfers since the last activity to process transfers made while the address was inactive.
+
