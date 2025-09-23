@@ -41,10 +41,20 @@ console.log('Withdraw transaction hash:', withdrawTxHash);
 
 #### **Possible state values:**
 
-- `PENDING` - The transaction is being processed.
-- `ACCEPTED` - The deposit is valid and has been accepted.
-- `EXECUTED` - The transaction is complete, and credited on destination chain.
-- `CANCELLED` - The transaction did not complete successfully.
+**Bridge (non‑swap) flows**
+
+- `PENDING` – Quote committed; we’re waiting for a deposit on the source chain.
+- `PENDING_CONFIRMATION` – *Fast chains only (WebSocket monitored)*. We’ve detected the deposit and are waiting for network confirmations. Not every bridge moves through this state.
+- `ACCEPTED` – We’ve detected the deposit and are executing on the destination chain.
+- `EXECUTED` – Bridge is complete; funds are credited on the destination chain.
+- `CANCELLED` – *Cosmetic state*. Can occur only if the user cancels a **pending** bridge via API. If the deposit later arrives, the bridge will move out of this state and be executed. Useful for hiding pending records you no longer intend to fund.
+- `FAILED` – *Rare, manual state*. Used only when there’s a specific issue and no way to complete the bridge. The user should contact Customer Support for a refund if one hasn’t already been issued.
+
+**Additional states for swap flows**
+
+- `DEPOSIT_ACCEPTED` – We’ve accepted the deposit and are performing a pre‑swap on the source chain (occurs **before** `ACCEPTED`).
+- `SWAP_FAILED` – The swap failed; we’ll look into issuing a refund.
+- `SWAP_FAILED_REFUNDED` – The swap failed and a refund was successfully issued.
 
 For the full response format and more details, see the [API Reference](/api-reference/history/bridge-history).
 
