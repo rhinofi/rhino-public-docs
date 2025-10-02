@@ -57,6 +57,7 @@ You can customize the widget’s appearance using URL query parameters. Here's a
 | <b>recipient</b> | Default recipient | `recipient=0x0` |
 | <b>amount</b> | Default amount | `amount=10` |
 | <b>exclude</b> | Exclude chains or tokens | `exclude={...}` (URL-encoded JSON) |
+| <b>include</b> | Include chains or tokens | `include={...}` (URL-encoded JSON) |
 
 ## 🎨 Theming
 You can customize the appearance of the widget by passing a theme query param in URL-encoded JSON format.
@@ -136,3 +137,47 @@ This will allow bridging from Ethereum but will hide USDT and USDC tokens.
 This disables USDT on Ethereum and disables the Polygon chain entirely.
 
 > **Note:** Token symbols must match exactly as defined in the bridge configuration.
+
+
+### Including Chains or Tokens
+
+Alternatively, you can control which chains and tokens are included in the widget by using the `include` option. This whitelists only the specified chains or tokens, hiding all others.
+
+**Filter Option Type**
+```ts
+type ChainFilter = Record<string, boolean | string[]>
+```
+
+**How it works:**
+- To **include an entire chain**, set its value to `true` or omit the token list.
+- To **include specific tokens** for a chain, provide an array of token symbols to include.
+
+**Examples:**
+
+**Include a whole chain:**
+```json
+{
+  "ETHEREUM": true
+}
+```
+This will show only the Ethereum chain and hide all others.
+
+**Include specific tokens:**
+```json
+{
+  "ETHEREUM": ["USDT", "USDC"]
+}
+```
+This will show only USDT and USDC tokens on the Ethereum chain.
+
+**Combined example:**
+```json
+{
+  "ETHEREUM": ["USDT"],
+  "POLYGON": true
+}
+```
+This includes USDT on Ethereum and all tokens on the Polygon chain.
+
+> **Note:** When using `include`, only the specified chains and tokens will be visible in the widget.
+
