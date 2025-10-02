@@ -27,7 +27,8 @@
               "get-started/introduction",
               "get-started/what-is-rhino",
               "get-started/architecture",
-              "get-started/api-keys"
+              "get-started/api-keys",
+              "get-started/sda"
             ]
           },
           {

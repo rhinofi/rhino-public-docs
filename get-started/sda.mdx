@@ -1,0 +1,107 @@
+---
+title: 'Smart Deposit Addresses'
+description: 'Smart Deposit Addresses (SDAs) are a flexible way to simplify onboarding flows, reconcile deposits, and abstract cross-chain complexity. Instead of asking users to navigate bridges or swap flows themselves, you give them a simple deposit address. The system takes care of the rest.'
+---
+
+See some live use cases here: [5 ways to use SDAs](https://rhino.fi/blog/5-ways-to-use-smart-deposit-addresses)
+
+The Flow
+--------
+
+At a high level, the process works as follows:
+
+1.  **Generate an SDA**: Call the API to create a new deposit address, linked to a destination chain and address or a target action (coming soon).
+
+2.  **User deposits**: Any wallet, CEX, or payment service can send supported tokens to the SDA. The user only performs a normal token transfer.
+
+3.  **Monitoring & orchestration**: The system continuously watches for incoming transfers. If a valid deposit arrives (correct token, within limits), it triggers the bridge process.
+
+4.  **Cross-chain execution**: Funds are credited on the destination chain, or the requested post-bridge action (e.g. swap, pool deposit) is performed.
+
+5.  **Reconciliation & sweeping**: After crediting is complete, addresses are swept periodically to consolidate balances and keep monitoring efficient.
+
+
+From the client/user perspective: user sends → destination credited → job done.
+
+The Features
+------------
+
+Key properties that make SDAs flexible:
+
+*   **Many-to-one**: Multiple SDAs can funnel to the same destination address.
+
+*   **Multi-chain source support**: SDAs can currently be generated on Ethereum, Arbitrum, Base, BSC, Polygon, Optimism, Kaia, Tron, with Solana in progress.
+
+*   **Any-chain destination**: Funds can settle on any of the 35+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
+
+*  **Stablecoin primitives**:
+
+    * Same-to-same (e.g. USDC → USDC)
+
+    * Cross-stable swap (e.g. USDC → USDT)
+
+*   **Programmable actions**: Trigger post-bridge actions like swaps, pool deposits, or contract interactions.
+
+*   **Metadata support**: Attach arbitrary data (e.g. UUID) to track users, payments, or invoices.
+
+*   **Flexible fees**: Either end-user pays or client covers on their behalf. Volume-based plus destination gas.
+
+*   **Monitoring lifecycle**:
+
+    *   Default: 1 week
+
+    *   Extendable via API
+
+    *   Addresses don’t expire, monitoring just stops
+
+*   **Deposit size**: Typically 5-digit USD+ supported, 7-digit on request.
+
+*   **Compliance built-in**: All deposits are screened for KYT/AML before crediting. Clients never touch illicit funds.
+
+*   **Privacy benefit**: SDAs are naturally decoupled from destination addresses.
+
+
+Coming soon:
+
+*   **Refund address** – Users/clients can specify fallback if a credit fails (< 1% of cases).
+
+*   **Webhooks** – Real-time push updates on deposit results.
+
+
+The Constraints
+---------------
+
+There are some limitations to be aware of:
+
+*   Only tokens are supported, no native gas coins such as ETH or MATIC.
+
+*   Wrong tokens will not be credited and require a manual refund.
+
+*   Deposits below or above set limits will not process and require a manual refund.
+
+*   If liquidity is insufficient, deposits will retry until successful or refunded.
+
+*   Fees can be fetched in real time through the API or fixed by agreement.
+
+
+### Core Technologies
+
+Several technologies come together to make Smart Deposit Addresses (SDAs) work in practice:
+
+*   **API / SDK (SDA generation)**: Developers generate deposit addresses via Rhino’s API or SDK with zero blockchain complexity. No private key management or contract deployment is required.
+
+*   **Wallet & App Transfers (funding SDA)**: Any wallet, CEX, or app that supports token transfers can send funds to an SDA. This keeps the user interaction primitive and universal.
+
+*   **Rhino Solver & Liquidity Layer (orchestration & crediting)**: Our solver system monitors deposits in real time and uses Rhino’s liquidity to credit the specified destination chain/address.
+
+*   **Reconciliation (sweeping)**: On EVM chains we use **EIP-7702**; for non-EVMs we maintain custom implementations. This ensures SDA balances are reconciled safely after crediting.
+
+
+Before You Start
+----------------
+
+*   You’ll need an account in the [Rhino developer dashboard](https://developers.rhino.fi/).
+
+*   Developer accounts must be whitelisted to generate and monitor SDAs.
+
+*   The [API docs](/api-integration/smart-deposits) are the source of truth for supported chains, tokens, and endpoints.
