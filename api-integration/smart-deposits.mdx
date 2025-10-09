@@ -10,7 +10,7 @@ import DepositAddressDisclaimer from '/snippets/deposit-address-disclaimer.mdx'
 ## Introduction
 
 To bridge funds through Rhino you would normally need to generate a quote, commit it and then interact with the bridge contract on the origin chain to initiate the bridge. However, this is not always an option for all use cases where a smart contract interaction is not possible or very inconvenient.  
-To also cater to those use casas, Rhino is supporting bridging through manual transfers.
+To also cater to those use cases, Rhino is supporting bridging through manual transfers.
 
 ## How it works
 
@@ -120,6 +120,39 @@ The first highlighted line contains the generated Smart Deposit Address. Funds c
 You can provide multiple deposit chains in the request. The API will then generate one Smart Deposit Address that can be used on all the provided chains. This is why the response is also a list - one element for each chain provided. The Smart Deposit Addresses in the individual elements will be identical in this case.  
 **Please note that providing multiple deposit chains only works for EVM chains currently.** Only then can the same address be used for all of them.
 
+#### Swaps
+
+When creating a Smart Deposit Address you can also specify a `tokenOut` field. This will cause all withdrawals on the destination chain to be in that token, swapping if needed. This is currently only supported for stablecoins (USDC and USDT). The given `tokenOut` needs to be a bridgable token on the destination chain, otherwise creation of the SDA will fail.
+
+#### Post Bridge Data
+
+Rhino provides the option to execute contract calls as part of the withdrawal process on the destination chain. Then every bridge through the deposit address will execute this action on the destination. For security reasons, only predefined actions are available. Please [contact us] with details on your use case if interested.
+
+#### Custom data and reusing of addresses
+
+When creating a Smart Deposit Address you can provide a `addressNote` field to be stored in our database. This field will be returned from all status endpoints as well.  
+Additionally, a `reusePolicy` can be specified when creating a Smart Deposit Address. It can have the following values:
+
+- `reuse-existing`: Reuse an existing Smart Deposit Address if it exists. Only create a new one if no existing address matches the given parameters. An existing Smart Deposit Address that is reused this way is also reactivated automatically. 
+- `create-new`: Always create a new Smart Deposit Address.
+
+When no `reusePolicy` is specified it defaults to `reuse-existing`.
+
+To determine if a Smart Deposit Address already exists, the following combination of fields is used:
+
+- `depositChain`
+- `destinationChain`
+- `destinationAddress`
+- `userId` (only Smart Deposit Addresses previously created by you will be considered)
+- `addressNote` if provided
+- `tokenOut` if provided
+- `postBridgeData` if provided
+
+Example use cases for this feature:
+
+- Your users have unique destination addresses and you want to show users their previously used Smart Deposit Address.
+- You consolidate multiple Smart Deposit Addresses into the same destination address but store a user ID in the `addressNote` field to make sure to only have one address per user.
+
 ### Checking Smart Deposit Address status
 
 You can also check the current status of a Smart Deposit Address with the following call:
@@ -151,6 +184,26 @@ const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${de
 ```
 
 The response will contain a list of transfers that have been processed through the Smart Deposit Address. By default it gives you the transfers from the last 7 days. To see older transfers you can provide a `from` and `to` query parameter with a timestamp in milliseconds. Only a `SECRET_` key is allowed to access history.
+
+### Checking Smart Deposit Address bridge status with a PUBLIC API key
+
+Generally the above history endpoint can be used to track the bridges through a Smart Deposit Address. However it is not possible to use this in a frontend integration as a SECRET API key would be exposed in an unsafe browser environment.  
+To also track bridges in this case, a public status endpoint exists. However, this endpoint additionally takes a `destinationAddress` as query parameter that has to match the requested Smart Deposit Address (this value should still be available in the local state after creating a Smart Deposit Address). If it does not match, the request will be rejected.  
+Example:
+
+```javascript
+const depositAddress = '0x123...'
+const depositChain = 'ETHEREUM'
+const destinationAddress = '0x456...'
+const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}/public-status?destinationAddress=${destinationAddress}`, {
+  headers: {
+    'authorization': 'YOUR_JWT_FROM_SECRET_KEY',
+  },
+})
+```
+
+The response will contain the last bridge (accepted or rejected) through the Smart Deposit Address in the `lastBridges` field. If this array is empty it means that no transfer has been picked up yet.  
+Please note that this array will currently only contain the last event. In the future this endpoint will be expanded with the option to return all bridges after a certain timestamp.
 
 ### Reactivating a Smart Deposit Address
 
