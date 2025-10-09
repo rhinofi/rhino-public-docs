@@ -120,9 +120,17 @@ The first highlighted line contains the generated Smart Deposit Address. Funds c
 You can provide multiple deposit chains in the request. The API will then generate one Smart Deposit Address that can be used on all the provided chains. This is why the response is also a list - one element for each chain provided. The Smart Deposit Addresses in the individual elements will be identical in this case.  
 **Please note that providing multiple deposit chains only works for EVM chains currently.** Only then can the same address be used for all of them.
 
+#### Swaps
+
+When creating a Smart Deposit Address you can also specify a `tokenOut` field. This will cause all withdrawals on the destination chain to be in that token, swapping if needed. This is currently only supported for stablecoins (USDC and USDT). The given `tokenOut` needs to be a bridgable token on the destination chain, otherwise creation of the SDA will fail.
+
+#### Post Bridge Data
+
+Rhino provides the option to execute contract calls as part of the withdrawal process on the destination chain. Then every bridge through the deposit address will execute this action on the destination. For security reasons, only predefined actions are available. Please [contact us] with details on your use case if interested.
+
 #### Custom data and reusing of addresses
 
-When creating a Smart Deposit Address you can provide a `customData` field to be stored in our database. This field will be returned from all status endpoints as well.  
+When creating a Smart Deposit Address you can provide a `addressNote` field to be stored in our database. This field will be returned from all status endpoints as well.  
 Additionally, a `reusePolicy` can be specified when creating a Smart Deposit Address. It can have the following values:
 
 - `reuse-existing`: Reuse an existing Smart Deposit Address if it exists. Only create a new one if no existing address matches the given parameters. An existing Smart Deposit Address that is reused this way is also reactivated automatically. 
@@ -136,12 +144,14 @@ To determine if a Smart Deposit Address already exists, the following combinatio
 - `destinationChain`
 - `destinationAddress`
 - `userId` (only Smart Deposit Addresses previously created by you will be considered)
-- `customData` if provided
+- `addressNote` if provided
+- `tokenOut` if provided
+- `postBridgeData` if provided
 
 Example use cases for this feature:
 
 - Your users have unique destination addresses and you want to show users their previously used Smart Deposit Address.
-- You consolidate multiple Smart Deposit Addresses into the same destination address but store a user ID in the `customData` field to make sure to only have one address per user.
+- You consolidate multiple Smart Deposit Addresses into the same destination address but store a user ID in the `addressNote` field to make sure to only have one address per user.
 
 ### Checking Smart Deposit Address status
 
