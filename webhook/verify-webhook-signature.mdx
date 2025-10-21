@@ -1,0 +1,45 @@
+---
+title: 'Verify signature'
+---
+
+As your endpoint is public, anyone can send it some data. For you to make sure the data is coming from Rhino.fi, you'll receive a signature in the request header, called `rhino_signature`.
+
+To verify the signature you have 2 options:
+* Using the SDK
+* Manual verification
+
+### SDK
+To verify the signature received using the SDK, you can do the following:
+
+```typescript
+const isValid = await sdk.api.webhook.verifySignature(receivedEventBody, signature)
+```
+
+Under the hood it will fetch the Rhino.fi webhook public key and verify the data provided was signed by Rhino.fi.
+
+### Manual verification
+Manually verifying the received signature is a two step process.
+You first need to fetch Rhino.fi webhook public key and then use it to verify the signature.
+This can be done with the following function:
+
+```typescript
+import { createHash, createVerify } from 'crypto'
+
+const isSignatureValid = async (receivedEventBody, signature) => {
+  // Fetch Rhino.fi webhook public key
+  const res = await fetch('https://api.rhino.fi/webhook/public-key')
+  const publicKeyBase64 = await res.json()
+  const publicKey = Buffer.from(publicKeyBase64, 'base64').toString()  
+
+  // Hash the stringified event
+  const hash = createHash('sha256')
+  const hashedMessage = hash.update(
+    JSON.stringify(receivedEventBody),
+  )
+
+  // Verify the signature
+  const verify = createVerify('RSA-SHA256')
+  verify.update(hashedMessage.digest('hex'))
+  return verify.verify(publicKey, signature, 'hex') 
+}
+```

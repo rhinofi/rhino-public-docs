@@ -1,0 +1,40 @@
+---
+title: 'Endpoint setup'
+---
+
+## Overview
+
+Setting up a webhook server involves creating an HTTP endpoint that can receive POST requests from Rhino.fi, process the webhook payloads, and respond appropriately. This guide covers the essential components and best practices for webhook server implementation.
+
+## Basic Server Requirements
+
+### **Endpoint**
+Your endpoint must be a `POST` endpoint and called `/rhinofi-bridge-event`.
+
+It will receive a signature header called: `rhino_signature` which can be then verified ([see verification details](/webhook/verify-webhook-signature)).
+
+The received body structure will be the following:
+```
+{
+  event: WebhookEvent, // check the Webhook Events section for more details
+  eventId: string,
+  ts: number,
+}
+```
+
+It must return a 200 status with the following content:
+```
+{ success: true }
+```
+
+### **HTTPS Only**
+Your webhook endpoint must use HTTPS to ensure secure data transmission. Rhino.fi will not send webhooks to HTTP endpoints.
+
+### **Public Accessibility**
+The endpoint must be publicly accessible. Rhino.fi will provide a signature when calling your endpoint for you to be able to identify the sender.
+
+Your endpoint might implement rate limiting to prevent anyone from abusing it.
+
+### **Reliable Uptime**
+Ensure your server has good uptime. Failed webhook deliveries will be retried a few times, but consistent failures may result in events being lost.
+
