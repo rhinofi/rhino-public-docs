@@ -99,7 +99,8 @@
               "webhook/endpoint-setup",
               "webhook/subscribe",
               "webhook/events-list",
-              "webhook/verify-webhook-signature"
+              "webhook/verify-webhook-signature",
+              "webhook/get-missed-events"
             ]
           },
           {

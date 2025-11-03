@@ -1,5 +1,5 @@
 ---
-title: 'Endpoint setup'
+title: 'Server setup'
 ---
 
 ## Overview
@@ -9,7 +9,7 @@ Setting up a webhook server involves creating an HTTP endpoint that can receive 
 ## Basic Server Requirements
 
 ### **Endpoint**
-Your endpoint must be a `POST` endpoint and called `/rhinofi-bridge-event`.
+Your endpoint must be a `POST` endpoint and called `/rhinofi-event`.
 
 It will receive a signature header called: `rhino_signature` which can be then verified ([see verification details](/webhook/verify-webhook-signature)).
 

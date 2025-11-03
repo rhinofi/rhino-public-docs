@@ -4,85 +4,14 @@ title: 'Events list'
 
 ## Bridge events
 
-### **BRIDGE_PENDING**
+The following bridge events will be sent to your webhook servers.
 
-When the bridge quote is committed, the `BRIDGE_PENDING` event will be sent.
+The bridge events data structure is the same as the [Bridge Status endpoint](https://docs.rhino.fi/api-reference/history/bridge-status).
 
-Event structure:
-```
-{
-  _tag: "BRIDGE_PENDING"
-  _id: string // bridge ID
-  chainIn: string // source chain
-  chainOut: string // destination chain
-  amountIn: string
-  amountOut: string
-  tokenIn: string
-  tokenOut: string // might be the same as tokenIn when no swap involved
-  depositor: string // depositor address
-  recipient: string // recipient address
-}
-```
-
-### **BRIDGE_ACCEPTED**
-
-When the deposit transaction was received and validated, the `BRIDGE_ACCEPTED` event will be sent.
-
-Event structure:
-```
-{
-  _tag: "BRIDGE_ACCEPTED"
-  _id: string // bridge ID
-  chainIn: string // source chain
-  chainOut: string // destination chain
-  amountIn: string
-  amountOut: string
-  tokenIn: string
-  tokenOut: string // might be the same as tokenIn when no swap involved
-  depositor: string // depositor address
-  recipient: string // recipient address
-}
-```
-
-### **BRIDGE_EXECUTED**
-
-When the bridge is completed and received on the destination chain, the `BRIDGE_EXECUTED` event will be sent.
-
-Event structure:
-```
-{
-  _tag: "BRIDGE_EXECUTED"
-  _id: string // bridge ID
-  chainIn: string // source chain
-  chainOut: string // destination chain
-  amountIn: string
-  amountOut: string
-  tokenIn: string
-  tokenOut: string // might be the same as tokenIn when no swap involved
-  depositor: string // depositor address
-  recipient: string // recipient address
-}
-```
-
-### **BRIDGE_REFUNDED**
-
-When a swap is involved, the bridge might get refunded if the token price moved too much since the quote was emitted. In this case, the `BRIDGE_REFUNDED` event will be sent.
-
-Event structure:
-```
-{
-  _tag: "BRIDGE_REFUNDED"
-  _id: string // bridge ID
-  chainIn: string // source chain
-  chainOut: string // destination chain
-  amountIn: string
-  amountOut: string
-  tokenIn: string
-  tokenOut: string // might be the same as tokenIn when no swap involved
-  depositor: string // depositor address
-  recipient: string // recipient address
-}
-```
+- **BRIDGE_PENDING** - sent when the bridge quote is committed
+- **BRIDGE_ACCEPTED** - sent when the deposit transaction was received and validated
+- **BRIDGE_EXECUTED** - sent when the bridge is completed and received on the destination chain
+- **BRIDGE_REFUNDED** - when a swap is involved, the bridge might get refunded if the token price moved too much since the quote was emitted
 
 ## Smart Deposit Addresses events
 
