@@ -128,6 +128,10 @@ When creating a Smart Deposit Address you can also specify a `tokenOut` field. T
 
 Rhino provides the option to execute contract calls as part of the withdrawal process on the destination chain. Then every bridge through the deposit address will execute this action on the destination. For security reasons, only predefined actions are available. Please [contact us] with details on your use case if interested.
 
+#### Refund address
+
+Rhino provides the option to pass a refund address when creating a Smart Deposit Address. If for some reason there is an issue with your smart deposit, the funds deposited will be refunded to the specified refund address.
+
 #### Custom data and reusing of addresses
 
 When creating a Smart Deposit Address you can provide a `addressNote` field to be stored in our database. This field will be returned from all status endpoints as well.  
@@ -147,6 +151,8 @@ To determine if a Smart Deposit Address already exists, the following combinatio
 - `addressNote` if provided
 - `tokenOut` if provided
 - `postBridgeData` if provided
+- `webhookUrl` if provided
+- `refundAddress` if provided
 
 Example use cases for this feature:
 
@@ -222,3 +228,48 @@ const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${de
 
 This will cause the address to be monitored again. Additionally the address will be checked for transfers since the last activity to process transfers made while the address was inactive.
 
+### Supported tokens
+
+To get the list of tokens supported between a deposit chain and destination chain you can execute the following code:
+
+```javascript
+const depositChain = 'ETHEREUM'
+const destinationChain = 'BASE'
+const tokenOut = 'USDT' // optional
+const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositChain}/${destinationChain}/supported-tokens?tokenOut=${tokenOut}`, {
+  method: 'GET',
+  headers: {
+    'authorization': 'YOUR_JWT',
+  },
+})
+```
+
+It will return the list of supported tokens between the 2 specified chains along with their associated deposit limit.
+
+### Search your addresses
+
+Rhino provides an endpoint that allows you to search for your Smart Deposit Addresses with some optional filters.
+
+This endpoint is authenticated and will only returns the addresses associated with your user.
+
+The result is paginated and you can set the page number and the number of items per page in your query.
+
+```javascript
+// all filters are optional and can be combined
+const addressNote = 'my_note'
+const depositChain = 'ETHEREUM'
+const destinationChain = 'BASE'
+const destinationAddress = '0x....'
+const page = 1
+const limit = 10
+
+const response = await fetch(
+  `https://api.rhino.fi/bridge/deposit-addresses/search?addressNote=${addressNote}&depositChain=${depositChain}&destinationChain=${destinationChain}&destinationAddress=${destinationAddress}&page=${page}&limit=${limit}`,
+  {
+    method: 'GET',
+    headers: {
+      'authorization': 'YOUR_JWT',
+    },
+  },
+)
+```

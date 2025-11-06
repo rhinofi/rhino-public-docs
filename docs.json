@@ -93,6 +93,17 @@
             ]
           },
           {
+            "group": "Webhook",
+            "pages": [
+              "webhook/introduction",
+              "webhook/endpoint-setup",
+              "webhook/subscribe",
+              "webhook/events-list",
+              "webhook/verify-webhook-signature",
+              "webhook/get-missed-events"
+            ]
+          },
+          {
             "group": "Smart Contracts",
             "pages": [
               "contracts/contract-examples",

@@ -1,0 +1,16 @@
+---
+title: 'Introduction'
+---
+
+## What are Webhooks?
+
+Webhooks are HTTP callbacks that Rhino.fi sends to your application when specific events occur during the bridging process. Instead of continuously polling our API to check for transaction updates, webhooks allow you to receive real-time notifications directly to your server.
+
+Think of webhooks as a "push" notification system - when your bridge status changes, Rhino.fi will immediately send a POST request to your specified endpoint with all the relevant details.
+
+## Main steps to start using webhooks:
+
+1. [**Create your webhook server**](/webhook/endpoint-setup)- Create an HTTP endpoint that can receive POST requests
+2. [**Subscribe to webhook events**](/webhook/subscribe) - Setup your webhook URL to start receiving webhook events
+3. [**Check the list of webhook events**](/webhook/events-list) - List of all the events that you can receive
+4. [**Verify webhook signature**](/webhook/verify-webhook-signature) - Verify webhook signatures to ensure authenticity

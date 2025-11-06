@@ -1,0 +1,93 @@
+---
+title: 'Events list'
+---
+
+## Bridge events
+
+The following bridge events will be sent to your webhook servers.
+
+The bridge events data structure is the same as the [Bridge Status endpoint](https://docs.rhino.fi/api-reference/history/bridge-status).
+
+- **BRIDGE_PENDING** - sent when the bridge quote is committed
+- **BRIDGE_ACCEPTED** - sent when the deposit transaction was received and validated
+- **BRIDGE_EXECUTED** - sent when the bridge is completed and received on the destination chain
+- **BRIDGE_REFUNDED** - when a swap is involved, the bridge might get refunded if the token price moved too much since the quote was emitted
+
+## Smart Deposit Addresses events
+
+### **DEPOSIT_ADDRESS_CREATED**
+
+When a new Smart Deposit Address is generated, the `DEPOSIT_ADDRESS_CREATED` event will be sent.
+
+Event structure:
+```
+{
+  _tag: "DEPOSIT_ADDRESS_CREATED",
+  depositChain: string
+  depositAddress: string
+  destinationChain: string
+  destinationAddress: string
+  tokenOut?: string
+  postBridgeData?: PostBridgeData
+  addressNote?: string
+}
+```
+
+### **BRIDGE_\***
+
+The same `BRIDGE_PENDING`, `BRIDGE_ACCEPTED` and `BRIDGE_EXECUTED` events as described above will be sent for Smart Deposit Addresses.
+
+
+### **DEPOSIT_ADDRESS_BRIDGE_REJECTED**
+
+When a Smart Deposit Address bridge is rejected, the `DEPOSIT_ADDRESS_BRIDGE_REJECTED` event will be sent.
+
+Event structure:
+```
+{
+  _tag: "DEPOSIT_ADDRESS_BRIDGE_REJECTED",
+  _id: string, // bridge ID
+  tokenSymbol: string
+  tokenAddress: string
+  amount: string
+  amountUsd: string
+  amountWei: string
+  sender: string // depositor address
+  txHash: string // deposit transaction hash
+  reason: string // reason why it was rejected, e.g "UNDER_MIN"
+  createdAt: string
+  depositAddress: { // associated deposit address parameters
+    depositChain: string
+    depositAddress: string
+    destinationChain: string
+    destinationAddress: string
+  }
+}
+```
+
+### **DEPOSIT_ADDRESS_BRIDGE_DELAYED**
+
+Sometimes some bridges can take a bit longer than usual, in this case the `DEPOSIT_ADDRESS_BRIDGE_DELAYED` event is sent.
+
+Event structure:
+```
+{
+  _tag: "DEPOSIT_ADDRESS_BRIDGE_DELAYED",
+  _id: string, // bridge ID
+  tokenSymbol: string
+  tokenAddress: string
+  amount: string
+  amountUsd: string
+  amountWei: string
+  sender: string // depositor address
+  txHash: string // deposit transaction hash
+  originalErrorTag: string // reason why the bridge is delayed
+  depositAddress: { // associated deposit address parameters
+    depositChain: string
+    depositAddress: string
+    destinationChain: string
+    destinationAddress: string
+  }
+}
+```
+

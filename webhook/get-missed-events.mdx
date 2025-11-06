@@ -1,0 +1,15 @@
+---
+title: 'Get missed events'
+---
+
+If your webhook server goes down for a while and you need to fetch the events that occurred during the down time you can use the following endpoint:
+```
+GET https://api.rhino.fi/webhook/user-events
+```
+
+The endpoint is authenticated and it takes a few query parameters:
+- `sinceTimestamp`: you'll receive all the events that happened after this timestamp
+- `page`: the result is paginated so you can specify the page number
+- `limit`: how many events you want to receive per page (max 50)
+
+[Full API spec](https://api.rhino.fi/webhook/docs)
