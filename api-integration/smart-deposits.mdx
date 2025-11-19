@@ -252,7 +252,7 @@ Rhino provides an endpoint that allows you to search for your Smart Deposit Addr
 
 This endpoint is authenticated and will only returns the addresses associated with your user.
 
-The result is paginated and you can set the page number and the number of items per page in your query.
+The result is paginated and you can set the `pageToken` field to get to the next page. If not provided, it'll return the first page of results and a `nextTokenPage` value that can be used to query for the next page.
 
 ```javascript
 // all filters are optional and can be combined
@@ -260,8 +260,9 @@ const addressNote = 'my_note'
 const depositChain = 'ETHEREUM'
 const destinationChain = 'BASE'
 const destinationAddress = '0x....'
-const page = 1
-const limit = 10
+
+const pageSize = 20 // optional, default to 20, max 50
+const pageToken = "eyJkZXBvc2l0Q2hhaW4iOiJCQVNFIiwiZGVwb3NpdEFkZHJlc3MiOiIweDlmYTE1MDdiNTY0YzRlNWM1YmJjN2E5Yzc1ZWQ1MmFhMTc5ODIxNjkifQ==" // optional, returns the first page of results if not provided
 
 const response = await fetch(
   `https://api.rhino.fi/bridge/deposit-addresses/search?addressNote=${addressNote}&depositChain=${depositChain}&destinationChain=${destinationChain}&destinationAddress=${destinationAddress}&page=${page}&limit=${limit}`,
