@@ -254,6 +254,12 @@ This endpoint is authenticated and will only returns the addresses associated wi
 
 The result is paginated and you can set the `pageToken` field to get to the next page. If not provided, it'll return the first page of results and a `nextTokenPage` value that can be used to query for the next page.
 
+The following filters are available (all are optional and can be combined):
+- `addressNote`
+- `depositChain`
+- `destinationChain`
+- `destinationAddress`: requires `destinationChain` to be set as well
+
 ```javascript
 // all filters are optional and can be combined
 const addressNote = 'my_note'
