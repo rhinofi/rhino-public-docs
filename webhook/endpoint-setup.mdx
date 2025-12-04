@@ -22,10 +22,7 @@ The received body structure will be the following:
 }
 ```
 
-It must return a 200 status with the following content:
-```
-{ "success": true }
-```
+It should return a 204 status with no content.
 
 ### **HTTPS Only**
 Your webhook endpoint must use HTTPS to ensure secure data transmission. Rhino.fi will not send webhooks to HTTP endpoints.
