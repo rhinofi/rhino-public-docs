@@ -11,7 +11,7 @@ Setting up a webhook server involves creating an HTTP endpoint that can receive 
 ### **Endpoint**
 Your endpoint must be a `POST` endpoint and called `/rhinofi-event`.
 
-It will receive a signature header called: `rhino_signature` which can be then verified ([see verification details](/webhook/verify-webhook-signature)).
+It will receive a signature header called: `X-Rhino-Signature` which can be then verified ([see verification details](/webhook/verify-webhook-signature)).
 
 The received body structure will be the following:
 ```
