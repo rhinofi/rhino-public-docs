@@ -6,7 +6,7 @@ title: 'Events list'
 
 The following bridge events will be sent to your webhook servers.
 
-The bridge events data structure is the same as the [Bridge Status endpoint](https://docs.rhino.fi/api-reference/history/bridge-status).
+The bridge events data structure is the same as the [Bridge Status endpoint](https://docs.rhino.fi/api-reference/history/bridge-status) excluding the `state` field, use the `_tag` for the event type.
 
 - **BRIDGE_PENDING** - sent when the bridge quote is committed
 - **BRIDGE_ACCEPTED** - sent when the deposit transaction was received and validated
