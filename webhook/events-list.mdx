@@ -12,6 +12,7 @@ The bridge events data structure is the same as the [Bridge Status endpoint](htt
 - **BRIDGE_ACCEPTED** - sent when the deposit transaction was received and validated
 - **BRIDGE_EXECUTED** - sent when the bridge is completed and received on the destination chain
 - **BRIDGE_REFUNDED** - when a swap is involved, the bridge might get refunded if the token price moved too much since the quote was emitted
+- **BRIDGE_CANCELLED** - sent when a committed bridge is CANCELLED (note that that cancelled bridges can still be actioned if a matching deposit is detected on-chain, subsequent bridge events will be sent)
 
 ## Smart Deposit Addresses events
 
