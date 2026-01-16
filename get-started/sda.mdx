@@ -9,8 +9,9 @@ See some live use cases here: [5 ways to use SDAs](https://rhino.fi/blog/5-ways-
 
 At a high level, the process works as follows:
 
-1. **Generate an SDA**: Call the API to create a new deposit address, linked to a destination chain and address or a target action (coming soon).
-2. **User deposits**: Any wallet, CEX, or payment service can send supported tokens to the SDA. The user only performs a normal token transfer.
+1. **Generate an SDA**: Call the API to create a new deposit address, linked to a destination chain and address or a target action (coming soon).\
+   We strongly recommend generating an SDA on all available EVM chains immediately to ensure that funds accidentally sent by customers to the wrong chain are automatically detected.
+1. **User deposits**: Any wallet, CEX, or payment service can send supported tokens to the SDA. The user only performs a normal token transfer.
 3. **Monitoring & orchestration**: The system continuously watches for incoming transfers. If a valid deposit arrives (correct token, within limits), it triggers the bridge process.
 4. **Cross-chain execution**: Funds are credited on the destination chain, or the requested post-bridge action (e.g. swap, pool deposit) is performed.
 5. **Reconciliation & sweeping**: After crediting is complete, addresses are swept periodically to consolidate balances and keep monitoring efficient.
