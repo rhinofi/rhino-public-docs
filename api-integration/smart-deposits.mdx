@@ -16,7 +16,8 @@ To also cater to those use cases, Rhino is supporting bridging through manual tr
 
 <Steps>
   <Step title="Generate address">
-    Call our API with deposit chain, destination chain and destination address.
+    Call our API with deposit chain, destination chain and destination address.\
+    We strongly recommend generating an SDA on all available EVM chains immediately to ensure that funds accidentally sent by customers to the wrong chain are automatically detected.
   </Step>
   <Step title="Transfer funds">
     Make a standard ERC20 transfer to the generated address.
