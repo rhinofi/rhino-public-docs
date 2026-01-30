@@ -23,7 +23,7 @@ From the client/user perspective: user sends → destination credited → job do
 Key properties that make SDAs flexible:
 
 - **Many-to-one**: Multiple SDAs can funnel to the same destination address.
-- **Multi-chain source support**: SDAs can currently be generated on Ethereum, Arbitrum, Base, BSC, Polygon, Optimism, Kaia, Tron, with Solana in progress.
+- **Multi-chain source support**: SDAs can currently be generated on many EVM chains plus Solana and Tron. The full list of supported chains can be found [here](https://docs.rhino.fi/general/supported-chains#smart-deposit-address): 
 - **Any-chain destination**: Funds can settle on any of the 35+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
 - **Stablecoin primitives**:
   - Same-to-same (e.g. USDC → USDC)
@@ -31,7 +31,7 @@ Key properties that make SDAs flexible:
 - **Programmable actions**: Trigger post-bridge actions like swaps, pool deposits, or contract interactions.
 - **Metadata support**: Attach arbitrary data (e.g. UUID) to track users, payments, or invoices.
 - **Flexible fees**: Either end-user pays or client covers on their behalf. Volume-based plus destination gas.
-- **Validity: **unlimited
+- \*\*Validity: \*\*unlimited
 - **Deposit size**: Typically 5-digit USD+ supported, 7-digit on request.
 - **Compliance built-in**: All deposits are screened for KYT/AML before crediting. Clients never touch illicit funds.
 - **Privacy benefit**: SDAs are naturally decoupled from destination addresses.
