@@ -134,11 +134,17 @@
           },
           {
             "group": "Bridge & swap endpoints",
-            "openapi": "https://api.rhino.fi/bridge/swagger.json"
+            "openapi": {
+              "source": "https://api.rhino.fi/bridge/swagger.json",
+              "directory": "api-reference/bridge"
+            }
           },
           {
             "group": "SDA endpoints",
-            "openapi": "https://api.rhino.fi/sda/swagger.json"
+            "openapi": {
+              "source": "https://api.rhino.fi/sda/swagger.json",
+              "directory": "api-reference/sda"
+            }
           }
         ]
       }
