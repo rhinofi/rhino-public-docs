@@ -1,5 +1,6 @@
 ---
-title: 'Quickstart'
+title: "Quickstart"
+"og:title": "Quickstart SDK Documentation | Docs | Rhino.fi"
 description: 'Learn how to use the bridge SDK to make bridges with only a few lines of code.'
 ---
 
@@ -75,11 +76,56 @@ if (bridgeResult.data) {
 
 This would bridge **100 USDT** from **Arbitrum to Base** while also receiving **4 SOL** tokens at the recipient address. Through the `checkQuote` hook a bridge that would cost over $5 in fees would be aborted.
 
+### Create a Smart Deposit Address
+
+Smart Deposit Addresses let users bridge by making a simple token transfer — no contract interaction needed.
+
+```typescript sda.ts
+import { rhinoSdk } from './rhino-sdk'
+
+const sda = await rhinoSdk.api.depositAddresses.create({
+  depositChains: ['ETHEREUM', 'ARBITRUM', 'BASE'],
+  destinationChain: 'BASE',
+  destinationAddress: '0x123...',
+})
+// Result:
+// {
+//   depositAddress: '0x457...',
+//   depositChain: 'ETHEREUM',
+//   destinationChain: 'BASE',
+//   destinationAddress: '0x123...',
+//   supportedTokens: [{ symbol: 'USDT', address: '0x789...' }],
+//   isActive: true,
+// }
+```
+
+Once created, anyone can send supported tokens to the deposit address and funds will be automatically bridged to the destination.
+
+```typescript sda-status.ts
+import { rhinoSdk } from './rhino-sdk'
+
+// Check status of an existing SDA
+const status = await rhinoSdk.api.depositAddresses.getStatus({
+  depositAddress: '0x457...',
+  depositChain: 'ETHEREUM',
+})
+
+// Reactivate an inactive SDA
+await rhinoSdk.api.depositAddresses.activate({
+  depositAddress: '0x457...',
+  depositChain: 'ETHEREUM',
+})
+```
+
+<Tip>We recommend generating SDAs on all available EVM chains at once to ensure funds sent to the wrong chain are still detected automatically.</Tip>
+
+For more details, see the full [SDK SDA reference](/sdk/smart-deposits) or the [API integration guide](/api-integration/smart-deposits).
+
 ## Resources
 
 <CardGroup cols={2}>
   <Card title="SDK concepts" icon="book" href="/sdk/concepts">Learn about the core concepts of the SDK</Card>
   <Card title="Rhino architecture" icon="book" href="/get-started/architecture" >Learn about the overall architecture of the Rhino bridge</Card>
   <Card title="Bridge functions" icon="code" href="/sdk/bridge-functions/bridge">Learn more on how to use the bridge functions</Card>
-  <Card title="Chain adapters" icon="plug" href="/sdk/chain-adapters/introduction">Learn how to use chain adapters to connect to all supported chains</Card>
+  <Card title="Chain adapters" icon="plug" href="/sdk/chain-adapters/overview">Learn how to use chain adapters to connect to all supported chains</Card>
 </CardGroup>

@@ -1,6 +1,7 @@
 ---
-title: 'Bridge'
-description: The SDK offers convenience functions to make bridges that handle all the low level logic of fetching/committing quotes and making the correct blockchain transactions needed. 
+title: "Bridge"
+"og:title": "Bridge | Bridge Functions | Rhino.fi"
+description: The SDK offers convenience functions to make bridges that handle all the low level logic of fetching/committing quotes and making the correct blockchain transactions needed.
 ---
 
 ## Example
@@ -60,7 +61,7 @@ The second parameter of this function is an options object that allows you to cu
 
 ### getChainAdapter
 
-This function has to return a [chain adapter](/sdk/chain-adapters/introduction) that matches the origin chain. It will be used to check if the depositors balance is sufficient, handle token approvals (if needed) and deposit the funds into the bridge contract.  
+This function has to return a [chain adapter](/sdk/chain-adapters/overview) that matches the origin chain. It will be used to check if the depositors balance is sufficient, handle token approvals (if needed) and deposit the funds into the bridge contract.  
 Since all chain adapters included in this SDK will require the Rhino chain config to be initialized, this function will provide it as an argument to simply be passed through into the chain adapter function.  
 This modular design allows you to only import the chain adapters that you actually need which will ensure that only the code you actually need will be included in your final bundle.
 
