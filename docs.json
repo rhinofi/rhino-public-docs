@@ -28,7 +28,8 @@
               "get-started/what-is-rhino",
               "get-started/architecture",
               "get-started/api-keys",
-              "get-started/sda"
+              "get-started/sda",
+              "get-started/post-bridge-actions"
             ]
           },
           {
