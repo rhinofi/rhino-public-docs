@@ -27,44 +27,39 @@
               "get-started/introduction",
               "get-started/what-is-rhino",
               "get-started/architecture",
-              "get-started/api-keys",
               "get-started/sda",
-              "get-started/post-bridge-actions"
+              "get-started/post-bridge-actions",
+              "get-started/api-keys",
+              "get-started/supported-chains"
             ]
           },
           {
             "group": "SDK",
             "pages": [
               "sdk/quickstart",
-              "sdk/concepts",
+              "sdk/smart-deposits",
               {
-                "group": "Bridge functions",
+                "group": "Bridging",
                 "pages": [
                   "sdk/bridge-functions/bridge",
-                  "sdk/bridge-functions/prepare-bridge"
+                  "sdk/bridge-functions/prepare-bridge",
+                  "sdk/bridge-and-swap",
+                  "sdk/bridge-api"
                 ]
               },
-              "sdk/smart-deposits",
-              "sdk/bridge-and-swap",
+              "sdk/concepts",
               "sdk/token-prices",
-              "sdk/bridge-api",
               {
                 "group": "Chain Adapters",
                 "pages": [
-                  "sdk/chain-adapters/introduction",
-                  "sdk/chain-adapters/custom-chain-adapters",
-                  {
-                    "group": "Included chain adapters",
-                    "pages": [
-                      "sdk/chain-adapters/overview",
-                      "sdk/chain-adapters/evm-chains",
-                      "sdk/chain-adapters/paradex",
-                      "sdk/chain-adapters/solana",
-                      "sdk/chain-adapters/starknet",
-                      "sdk/chain-adapters/ton",
-                      "sdk/chain-adapters/tron"
-                    ]
-                  }
+                  "sdk/chain-adapters/overview",
+                  "sdk/chain-adapters/evm-chains",
+                  "sdk/chain-adapters/solana",
+                  "sdk/chain-adapters/starknet",
+                  "sdk/chain-adapters/ton",
+                  "sdk/chain-adapters/tron",
+                  "sdk/chain-adapters/paradex",
+                  "sdk/chain-adapters/custom-chain-adapters"
                 ]
               },
               {
@@ -77,9 +72,18 @@
             ]
           },
           {
-            "group": "Widget",
+            "group": "Webhook",
             "pages": [
-              "widget/widget"
+              {
+                "group": "Setup",
+                "pages": [
+                  "webhook/endpoint-setup",
+                  "webhook/subscribe",
+                  "webhook/verify-webhook-signature",
+                  "webhook/get-missed-events"
+                ]
+              },
+              "webhook/events-list"
             ]
           },
           {
@@ -87,38 +91,42 @@
             "pages": [
               "api-integration/introduction",
               "api-integration/authentication",
-              "api-integration/bridge",
-              "api-integration/swap",
-              "api-integration/status-history",
+              {
+                "group": "Bridge & Swap",
+                "pages": [
+                  "api-integration/bridge",
+                  "api-integration/swap",
+                  "api-integration/status-history"
+                ]
+              },
               "api-integration/smart-deposits"
-            ]
-          },
-          {
-            "group": "Webhook",
-            "pages": [
-              "webhook/introduction",
-              "webhook/endpoint-setup",
-              "webhook/subscribe",
-              "webhook/events-list",
-              "webhook/verify-webhook-signature",
-              "webhook/get-missed-events"
             ]
           },
           {
             "group": "Smart Contracts",
             "pages": [
               "contracts/contract-examples",
-              "contracts/evm",
-              "contracts/solana",
-              "contracts/starknet",
-              "contracts/ton",
-              "contracts/tron"
+              {
+                "group": "Direct Integration",
+                "pages": [
+                  "contracts/evm",
+                  "contracts/solana",
+                  "contracts/starknet",
+                  "contracts/ton",
+                  "contracts/tron"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Widget",
+            "pages": [
+              "widget/widget"
             ]
           },
           {
             "group": "General information",
             "pages": [
-              "general/supported-chains",
               "general/contract-addresses"
             ]
           }

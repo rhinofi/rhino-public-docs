@@ -43,6 +43,14 @@ When making a bridge, the following steps are executed:
   </Step>
 </Steps>
 
+## Smart Deposit Addresses
+
+[Smart Deposit Addresses (SDAs)](/get-started/sda) offer an alternative to the standard bridge flow. Instead of interacting with the bridge contract directly, you generate a deposit address via the API or SDK. Any wallet, CEX, or app can then send supported tokens to that address with a standard transfer, no quote, commit, or contract interaction needed. Rhino detects the deposit and automatically bridges the funds to the specified destination chain and address.
+
+This makes SDAs ideal for use cases where a smart contract interaction is not possible or inconvenient, such as CEX withdrawals, payment flows, or onboarding funnels.
+
+See the [SDA overview](/get-started/sda) for more details on features and constraints.
+
 ## Bridge modes
 
 A bridge can be made in two different modes:
