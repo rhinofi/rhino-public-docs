@@ -29,15 +29,20 @@ We configure everything else: tokens and amounts, contract specific inputs, toke
 
 ## Use Cases
 
-PBAs apply wherever you need a defined on-chain outcome rather than just a token credit. Common patterns:
+PBAs apply wherever you need a defined on-chain outcome rather than just a token credit. 
+
+Common patterns:
 
 **Yield and protocol integrations**
+
 Deposit bridged funds directly into a vault, lending pool, or staking contract. The user's recipient address receives the protocol's output token (e.g. vault shares, staked positions).
 
 **Custodial and off-chain crediting**
+
 For custodial platforms and exchanges, PBAs can trigger a contract that signals an off-chain system like crediting a user's account, updating a balance, or notifying a clearing layer, without requiring the user to interact with your chain/system directly.
 
 **Payments and holding accounts**
+
 Trigger a contract that routes funds to a payment processor, holding account, or escrow. Useful for on-chain invoicing, subscription flows, or multi-party settlement.
 
 In all cases, the integration surface is the same: one additional field on a request you're already making.
@@ -137,10 +142,10 @@ Test your contract integration before going live. Contact your account represent
 
 ## Limitations
 
-- ERC-20 type tokens only — native gas tokens (ETH, SOL, etc.) cannot be the input to a post-bridge action yet
-- One action per bridge — chaining multiple contract calls in sequence is not currently supported
-- EVM destination chains only — non-EVM destinations (i.e. Solana) are on the roadmap
-- PBA must be enabled on your account — the field is optional but your quote/SDA generation will fail if your account does not have PBA activated
+- **ERC-20 type tokens only** — native gas tokens (ETH, SOL, etc.) cannot be the input to a post-bridge action yet
+- **One action per bridge** — chaining multiple contract calls in sequence is not currently supported
+- **EVM destination chains only** — non-EVM destinations (i.e. Solana) are on the roadmap
+- **PBA must be enabled on your account** — the field is optional but your quote/SDA generation will fail if your account does not have PBA activated
 
 ---
 
