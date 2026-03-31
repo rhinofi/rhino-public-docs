@@ -1,0 +1,151 @@
+---
+title: "Post-Bridge Actions"
+description: "Post-Bridge Actions (PBAs) let you specify a smart contract call that executes automatically the moment bridged funds land on the destination chain. You define the target contract, the function to call, and any custom parameters we handle everything else."
+---
+
+#### The result: your user makes one transfer, and arrives at the exact on-chain state you defined.
+
+<aside>
+⭐
+
+**PBA must be configured and enabled on your account before use.** [Contact us to get access.](https://claude.ai/chat/e617942d-d850-4b20-9898-a510665c47dd#)
+
+</aside>
+
+---
+
+## How It Works
+
+Enabling a post-bridge action requires no additional API calls or integration steps. You simply include a `postBridgeData` field in your bridge quote or Smart Deposit Address generation request. We take care of the contract approval, encoding, execution, and error handling on the destination chain.
+
+The `postBridgeData` field accepts:
+
+- **Tag** under `_tag` that specifies the post bridge action you want to execute
+- **Optional custom parameters** to specify a custom target like vault, user ID or invoice ID
+
+We configure everything else: tokens and amounts, contract specific inputs, token approval, amount injection, gas estimation, and execution sequencing.
+
+---
+
+## Use Cases
+
+PBAs apply wherever you need a defined on-chain outcome rather than just a token credit. Common patterns:
+
+**Yield and protocol integrations**
+Deposit bridged funds directly into a vault, lending pool, or staking contract. The user's recipient address receives the protocol's output token (e.g. vault shares, staked positions).
+
+**Custodial and off-chain crediting**
+For custodial platforms and exchanges, PBAs can trigger a contract that signals an off-chain system like crediting a user's account, updating a balance, or notifying a clearing layer, without requiring the user to interact with your chain/system directly.
+
+**Payments and holding accounts**
+Trigger a contract that routes funds to a payment processor, holding account, or escrow. Useful for on-chain invoicing, subscription flows, or multi-party settlement.
+
+In all cases, the integration surface is the same: one additional field on a request you're already making.
+
+---
+
+## Integration
+
+### With a Bridge Quote
+
+Add `postBridgeData` to your `POST /bridge/quote/user` request body:
+
+```json
+{
+  "token": "USDC",
+  "chainIn": "ARBITRUM",
+  "chainOut": "BASE",
+  "amount": "100.5",
+  "mode": "pay",
+  "depositor": "0x0",
+  "recipient": "0x0",
+  "postBridgeData": {
+    "_tag": "postBridgeActionTag",
+    "userId": "1"
+  }
+}
+```
+
+The destination token and amount is injected automatically into the matching function argument. You only need to specify the unique tag and any custom parameters like userId in the example above.
+
+### With a Smart Deposit Address
+
+Add `postBridgeData` to your `POST /sda/deposit-addresses` request. Every deposit to that address will trigger the same action automatically — no per-deposit configuration needed.
+
+```json
+{
+  "depositChains": ["ARBITRUM", "BASE", "ETHEREUM"],
+  "destinationChain": "BASE",
+  "destinationAddress": "0x0",
+  "postBridgeData": {
+    "_tag": "postBridgeActionTag",
+    "userId": "1"
+  }
+}
+```
+
+This is the recommended pattern for onboarding flows. Generate an SDA per user with their recipient address baked in, and every inbound deposit routes directly to the target contract outcome.
+
+---
+
+## The `postBridgeData` Field
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `_tag` | `string` | ✓ | Specifies the post bridge action configuration. |
+| optional custom params | `string` / `integer` | - | Specifies a custom target like a user, merchant or payment |
+
+---
+
+## Example — Bridge into a Morpho Vault
+
+A user holds USDT on Arbitrum and wants to enter a USDC yield vault on Base.
+
+**Without PBA**, they would need to: swap USDT → USDC, bridge to Base, approve the vault, and call `deposit()` themselves — four to five steps across two chains.
+
+**With PBA + SDA**, you generate one deposit address per user. They send USDT on Arbitrum. We swap, bridge, and execute the vault deposit. Their wallet receives vault shares on Base.
+
+```bash
+curl -X POST https://api.rhino.fi/sda/deposit-addresses \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "depositChains": ["ARBITRUM", "ETHEREUM", "BASE"],
+    "destinationChain": "BASE",
+    "destinationAddress": "0x0",
+    "postBridgeData": {
+      "_tag": "Morpho",
+      },
+    "tokenOut": "USDC"
+    }
+  }'
+```
+
+Just hand the user the returned `depositAddress` for any of the supported source chains. They send funds. The vault deposit happens automatically.
+
+In the example above, the user can send USDC or USDT on Arbitrum, Ethereum and Base (yes, same chain works as well). We process any supported token and your user ends up with Morpho USDC yield token on Base with on the specified destination address.
+
+---
+
+## What Happens If the Action Fails
+
+If the contract call reverts on the destination chain, funds are not lost. Depending on your account configuration, we will either retry (for transient failures), credit the destination token directly to the `destinationAddress`, or notify you via webhook and await instructions.
+
+Test your contract integration before going live. Contact your account representative to enable testnet access.
+
+---
+
+## Limitations
+
+- ERC-20 type tokens only — native gas tokens (ETH, SOL, etc.) cannot be the input to a post-bridge action yet
+- One action per bridge — chaining multiple contract calls in sequence is not currently supported
+- EVM destination chains only — non-EVM destinations (i.e. Solana) are on the roadmap
+- PBA must be enabled on your account — the field is optional but your quote/SDA generation will fail if your account does not have PBA activated
+
+---
+
+## Next Steps
+
+- [Smart Deposit Addresses](/api-integration/smart-deposits) — Full SDA documentation
+- [API Reference — User Quote](/api-reference/bridge/quote/user-quote#body-post-bridge-data) — `postBridgeData` field schema
+- [API Reference — Create Deposit Address](/api-reference/sda/depositaddresses/create-new-deposit-address#body-post-bridge-data) — `postBridgeData` field schema
