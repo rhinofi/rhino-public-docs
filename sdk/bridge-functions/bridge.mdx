@@ -78,6 +78,27 @@ Since the bridge only provides a result at the end, you can use this callback to
 
 Once the deposit into the bridge contract is made, the `bridge` function will poll the Rhino API until the bridge has been confirmed as completed. By default the polling will be aborted after a default timeout of 10 minutes. With this property you can specify a different timeout.
 
+### gasOptions (optional)
+
+Gas options for EVM deposit and approval transactions. Use these to customize gas pricing and limits, for example to add buffer during fee spikes. These options are only used for EVM chains and ignored by other chain adapters.
+
+```typescript
+const bridgeResult = await rhinoSdk.bridge(bridgeData, {
+  getChainAdapter: chainConfig =>
+    getEvmChainAdapterFromPrivateKey('YOUR_PRIVATE_KEY', chainConfig),
+  gasOptions: {
+    maxFeePerGas: 50000000000n, // 50 gwei
+    maxPriorityFeePerGas: 2000000000n, // 2 gwei
+  },
+})
+```
+
+Available properties:
+- `maxFeePerGas` - Maximum fee per gas unit in wei (EIP-1559). Use this to ensure your transaction gets included during fee spikes.
+- `maxPriorityFeePerGas` - Maximum priority fee per gas unit in wei (EIP-1559). This is the tip paid to validators.
+- `gasPrice` - Gas price in wei (legacy transactions). Use this for chains that don't support EIP-1559.
+- `gasLimit` - Gas limit for the transaction. If not provided, it will be estimated automatically.
+
 ### bridgeConfig and swapTokensConfig (optional)
 
 Internally the `bridge` function will fetch the current bridge and swap tokens (if needed) config from the Rhino API. If you already fetched those configs manually for some other purpose you can pass it into this property to avoid the extra network requests.
