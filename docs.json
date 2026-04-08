@@ -26,7 +26,6 @@
             "pages": [
               "get-started/introduction",
               "get-started/what-is-rhino",
-              "get-started/architecture",
               "get-started/fees-and-limits",
               "get-started/sda",
               "get-started/api-keys",

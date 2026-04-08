@@ -17,15 +17,21 @@ The Enhanced Compliance & Risk Management extension provides additional controls
 
 ### Custom AML check rules
 
-Configure additional screening logic tailored to your regulatory environment or risk appetite. This may include custom risk score thresholds, jurisdiction-based blocking rules, or additional data lookups against third-party sanctions lists.
+Integrate your own compliance provider on top of Rhino's existing screening. You provide rules via API and can use any third-party service you prefer — for example, [Chainalysis](https://www.chainalysis.com/), [Elliptic](https://www.elliptic.co/), or your own in-house solution.
 
-Contact your account representative to discuss configuration options. Custom rules are implemented and maintained by the Rhino compliance team.
+This allows you to apply custom risk score thresholds, jurisdiction-based blocking rules, or additional data lookups against third-party sanctions lists tailored to your regulatory environment or risk appetite.
+
+Contact your account representative to discuss configuration options.
 
 ### Real-time AML notifications
 
 When a deposit triggers a compliance flag, a webhook event is dispatched in real time. Your system can react immediately — holding the transaction, alerting your compliance team, or triggering a review workflow — without polling the status endpoint.
 
 AML notification events appear in the standard [Webhooks](/webhook/events-list) event stream. The specific event types are documented on the [Events List](/webhook/events-list) page.
+
+### Slack notifications (optional add-on)
+
+Rhino can enable Slack notifications for your team when any of your end user deposits fail KYT screening. This provides immediate visibility into compliance events without requiring webhook integration. Contact your account representative to set this up.
 
 ---
 

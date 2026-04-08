@@ -55,9 +55,9 @@ Coming soon:
 
 There are some limitations to be aware of:
 
-- Only tokens are supported, no native gas coins such as ETH or MATIC.
+- **Native tokens (ETH, BNB, SOL, etc.):** Native token support is currently in beta rollout, including both direct SDA bridging and native → stablecoin swaps. [Contact us](https://rhino.fi/contact) if you're interested in using native token deposits.
 - Wrong tokens will not be credited and require a manual refund.
-- Deposits below or above set limits will not process and require a manual refund.
+- Deposits below $5 USD equivalent or above set limits will not process and require a manual refund.
 - If liquidity is insufficient, deposits will retry until successful or refunded.
 - Fees can be fetched in real time through the API or fixed by agreement.
 
@@ -74,5 +74,5 @@ Several technologies come together to make Smart Deposit Addresses (SDAs) work i
 
 <DepositAddressDisclaimer />
 
-- You'll need an account in the [Rhino developer dashboard](https://developers.rhino.fi/).
+- You'll need an account in the [Rhino Console](https://developers.rhino.fi/).
 - The [API docs](/api-integration/smart-deposits) are the source of truth for supported chains, tokens, and endpoints.
