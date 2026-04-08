@@ -1,0 +1,62 @@
+---
+title: 'History endpoint'
+description: 'Retrieve transaction history for your account using the history endpoint.'
+---
+
+## Get transaction history
+
+Use the history endpoint to retrieve a list of past bridge transactions for your account.
+
+<Note>
+  rhino.fi prioritizes transaction privacy, so the history endpoint is disabled by default for API keys.
+  If access is required, ensure your API key is kept private and properly configured.
+
+  You can request access to the user history endpoint by contacting us.
+</Note>
+
+```javascript getHistory.js
+export const getHistory = async (jwt) => {
+  const queryParams = new URLSearchParams({
+    page: '1',
+    limit: '20',
+    sortBy: 'createdAt',
+    sortDirection: 'desc',
+  })
+  
+  const request = await fetch(`https://api.rhino.fi/history/user?${queryParams.toString()}`, {
+    headers: {
+      "content-type": "application/json",
+      "authorization": jwt
+    },
+    method: "GET"
+  })
+
+  return await request.json()
+}
+```
+
+### Usage example
+
+```javascript
+import { getHistory } from './getHistory';
+
+const JWT = 'YOUR_JWT'; // Replace with your JWT generated from our API
+
+const history = await getHistory(JWT);
+
+console.log('Transaction history:', history.items);
+```
+
+### Query parameters
+
+- `page` - Page number for pagination (default: 1)
+- `limit` - Number of items per page (default: 20)
+- `sortBy` - Field to sort by (default: createdAt)
+- `sortDirection` - Sort direction: `asc` or `desc` (default: desc)
+
+---
+
+## Next steps
+
+- To check the status of a specific bridge transaction, see [Bridge Status & History](/api-integration/status-history).
+- If you haven't integrated the bridge yet, start with the [Quickstart Guide](/api-integration/bridge#quickstart).
