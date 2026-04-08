@@ -96,7 +96,8 @@
                 "pages": [
                   "api-integration/bridge",
                   "api-integration/swap",
-                  "api-integration/status-history"
+                  "api-integration/status-history",
+                  "api-integration/history"
                 ]
               },
               "api-integration/smart-deposits"
