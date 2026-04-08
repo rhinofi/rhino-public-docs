@@ -1,0 +1,46 @@
+---
+title: Enhanced Compliance & Risk Management
+description: "Custom AML screening rules and real-time AML event notifications for clients with stricter compliance requirements."
+---
+
+## Enhanced Compliance & Risk Management
+
+**Extension tier:** Free + Premium
+
+All Rhino accounts include baseline KYT/AML screening: every deposit is screened before crediting, and any deposit that fails compliance checks is blocked. Clients never receive funds that fail Rhino's standard compliance checks.
+
+The Enhanced Compliance & Risk Management extension provides additional controls for clients with stricter compliance requirements.
+
+---
+
+## What's included
+
+### Custom AML check rules
+
+Configure additional screening logic tailored to your regulatory environment or risk appetite. This may include custom risk score thresholds, jurisdiction-based blocking rules, or additional data lookups against third-party sanctions lists.
+
+Contact your account representative to discuss configuration options. Custom rules are implemented and maintained by the Rhino compliance team.
+
+### Real-time AML notifications
+
+When a deposit triggers a compliance flag, a webhook event is dispatched in real time. Your system can react immediately — holding the transaction, alerting your compliance team, or triggering a review workflow — without polling the status endpoint.
+
+AML notification events appear in the standard [Webhooks](/webhook/events-list) event stream. The specific event types are documented on the [Events List](/webhook/events-list) page.
+
+---
+
+## Baseline compliance (all accounts)
+
+Every account includes:
+
+- 100% KYT screening on all inbound deposits via Smart Deposit Addresses
+- Automatic blocking of deposits from flagged addresses
+- Compliance event logging accessible via the Rhino Console and history API
+
+---
+
+## Related
+
+- [Webhooks — Events List](/webhook/events-list)
+- [Smart Deposit Addresses](/get-started/sda)
+- [Extensions overview](/get-started/extensions)

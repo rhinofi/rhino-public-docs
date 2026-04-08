@@ -1,11 +1,22 @@
 ---
-title: 'Introduction'
+title: 'API Integration'
+description: 'Integrate the Rhino Stablecoin Activation Stack directly via REST API.'
 ---
 
-Rhino offers an API that you can use to integrate the bridge into your application.  
-You can use the API with any programming language you like. However, if you use JavaScript/TypeScript we recommend using our [SDK](/sdk/quickstart) as that will allow you to get started much faster.
+## API Integration
+
+The Rhino API is a REST API that gives you direct access to the full Rhino Stablecoin Activation Stack. Use it to:
+
+- Generate and manage Smart Deposit Addresses
+- Fetch bridge configs, generate quotes, commit quotes, and execute bridges
+- Query transaction status and history
+- Configure Automated Onchain Actions (Extension)
+
+All non-public endpoints are authenticated with a JSON Web Token. See [Authentication](/api-integration/authentication) for details.
+
+If you use JavaScript or TypeScript, the [SDK](/sdk/quickstart) wraps the API and reduces integration time significantly. For all other languages, use the API directly — it is straightforward REST with JSON payloads.
 
 ## Useful resources
 
-- [API Reference](/api-reference/introduction) for details on the API endpoints and request/response formats.
-- [Swagger schema](https://api.rhino.fi/bridge/swagger.json) if you would like to generate client code for your preferred language.
+- [API Reference](/api-reference/introduction) — full endpoint documentation with request/response schemas
+- [Swagger schema](https://api.rhino.fi/swagger) — for generating client code in your preferred language

@@ -1,39 +1,54 @@
 ---
 title: "Get Started"
 "og:title": "Get Started Introduction | Rhino Docs | Rhino.fi"
-description: "Welcome to the rhino.fi developer docs! We’re excited to help you integrate our solution quickly and easily. This guide is designed to get you up and running in no time, with everything you need to make integration smooth and efficient. Let’s get started!"
+description: "Rhino is stablecoin deposits infrastructure built for teams that need reliable, enterprise-grade settlement at scale. This documentation covers everything you need to integrate the Rhino Stablecoin Activation Stack."
 ---
 
 <img
   className="block"
   style={{ borderRadius: '0.5rem' }}
   src="/images/hero.jpg"
+  alt="Stablecoin deposits, activated instantly."
 />
+
+Rhino is stablecoin deposits infrastructure built for teams that need reliable, enterprise-grade settlement at scale. This documentation covers everything you need to integrate the Rhino Stablecoin Activation Stack — from generating your first deposit address to configuring advanced fee management and automated onchain actions.
 
 ## What are you looking to do?
 
-From getting started to advanced features, we have everything you need to build a seamless integration with rhino.fi. Here are some of the key topics you might be interested in:
-
 <CardGroup cols={2}>
   <Card
-    title="Integrate our SDK"
+    title="Smart Deposit Addresses"
+    icon="wallet"
+    href="/get-started/sda"
+  >
+    Generate a single deposit address that accepts stablecoins from any supported chain. Funds are settled to your destination chain automatically — no bridge UI, no user complexity.
+  </Card>
+  <Card
+    title="Bridge & Swap"
+    icon="arrow-right-arrow-left"
+    href="/get-started/architecture"
+  >
+    Accept stablecoin deposits and settle them on 20+ chains with deterministic outcomes, MEV protection, and configurable speed tiers.
+  </Card>
+  <Card
+    title="SDK Quickstart"
     icon="code"
     href="/sdk/quickstart"
   >
-    Learn how to use our SDK to make bridges using only a few lines of code
+    Get running in minutes using the JavaScript/TypeScript SDK.
   </Card>
   <Card
-    title="Integrate our API"
+    title="API Integration"
     icon="screwdriver-wrench"
     href="/api-integration/introduction"
   >
-    Learn how to connect to our API and start building your integration quickly
+    Integrate directly via REST API in any language.
   </Card>
   <Card
     title="API Reference"
-    icon="code"
+    icon="book"
     href="/api-reference/introduction"
   >
-    Dive into our API endpoints, request formats, and response structures
+    Full endpoint reference with request/response schemas.
   </Card>
 </CardGroup>

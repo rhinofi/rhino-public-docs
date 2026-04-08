@@ -1,0 +1,66 @@
+---
+title: Fees & Limits
+description: "Learn how Rhino charges fees, how deposit and withdrawal limits are enforced, and how the Advanced Fee & Limit Management extension gives you control over both."
+---
+
+## How fees work
+
+Rhino charges a per-transaction fee composed of two components:
+
+| Component | Description |
+|---|---|
+| **Bridge fee** | A percentage of the transferred amount, volume-based and agreed at the account level |
+| **Destination gas** | The cost of executing the settlement transaction on the destination chain, passed through at cost |
+
+Fees are quoted before a transaction executes. Rhino honors the quoted fee until the quote expires — there are no surprises at settlement.
+
+### Default fee behaviour
+
+By default:
+
+- Fees are deducted from the deposited amount. The recipient receives the deposited amount minus the total fee.
+- In **receive mode**, the sender pays a slightly higher amount so the recipient receives an exact specified amount. Fees are absorbed in the extra amount paid.
+
+---
+
+## Advanced Fee & Limit Management (Extension)
+
+The [Advanced Fee & Limit Management](/get-started/extensions/advanced-fee-management) extension is available for accounts that need more control over fee handling. It is available in Free and Premium tiers.
+
+### Fee sponsorship
+
+Clients can configure Rhino to sponsor the bridge fee on behalf of their end users. The user pays nothing; the client absorbs the cost. This is useful for onboarding flows where friction needs to be minimised.
+
+### Fee markup
+
+Clients can add a configurable markup on top of the standard Rhino fee. Rhino collects the total fee (its own fee plus the markup) and remits the client's portion via end-of-month invoicing. This allows clients to generate revenue from their bridge integration without operating a fee collection system themselves.
+
+### End-of-month invoicing
+
+Rhino consolidates all collected client markup fees and issues a monthly invoice. Payment is made directly to the client's designated wallet or bank account, depending on the arrangement.
+
+### Limit configuration
+
+Default deposit limits per transaction are:
+
+- **Minimum:** $10 USD equivalent
+- **Maximum:** $100,000 USD equivalent (larger limits available on request up to $10M USD equivalent)
+
+Deposits below the minimum or above the maximum are not processed. With the Advanced Fee & Limit Management extension, minimum and maximum limits can be adjusted by agreement.
+
+---
+
+## Fee transparency in the API
+
+Current fees for any bridge can be queried in real time:
+
+- **Bridge & Swap:** The `/bridge/quote/user` and `/bridge/quote/public` endpoints return a `fees` object in every quote response, including the breakdown of bridge fee and gas cost.
+- **Smart Deposit Addresses:** Fees for SDA deposits can be estimated via the quote endpoints using the expected deposit amount and token.
+
+---
+
+## Related
+
+- [Advanced Fee & Limit Management](/get-started/extensions/advanced-fee-management) — Extension detail page
+- [Bridge quote endpoint](/api-reference/bridge/quote/user-quote) — API reference for fee quotes
+- [Smart Deposit Addresses](/get-started/sda) — How fees apply to SDA deposits

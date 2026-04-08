@@ -1,26 +1,25 @@
 ---
-title: "Post-Bridge Actions"
-description: "Post-Bridge Actions (PBAs) let you specify a smart contract call that executes automatically the moment bridged funds land on the destination chain. You define the target contract, the function to call, and any custom parameters we handle everything else."
+title: "Automated Onchain Actions"
+description: "Automated Onchain Actions let you specify a contract call that executes automatically when settled funds arrive on the destination chain. Configure once; Rhino handles approval, encoding, execution, and error handling."
 ---
 
-#### The result: your user makes one transfer, and arrives at the exact on-chain state you defined.
+Automated Onchain Actions let you specify a smart contract call that executes automatically the moment settled funds arrive on the destination chain. You define the target contract, the function to call, and any custom parameters — Rhino handles everything else.
 
-<aside>
-⭐
+<Note>
+This is a premium Extension. Your account must have Automated Onchain Actions enabled before the `postBridgeData` field will be accepted on quote or SDA generation requests. Contact your account representative to enable it.
+</Note>
 
-**PBA must be configured and enabled on your account before use.** [Contact us to get access.](https://claude.ai/chat/e617942d-d850-4b20-9898-a510665c47dd#)
-
-</aside>
+#### The result: a single deposit produces a fully activated on-chain outcome — no additional steps from your user or your system.
 
 ---
 
 ## How It Works
 
-Enabling a post-bridge action requires no additional API calls or integration steps. You simply include a `postBridgeData` field in your bridge quote or Smart Deposit Address generation request. We take care of the contract approval, encoding, execution, and error handling on the destination chain.
+Enabling an Automated Onchain Action requires no additional API calls or integration steps. You simply include a `postBridgeData` field in your bridge quote or Smart Deposit Address generation request. We take care of the contract approval, encoding, execution, and error handling on the destination chain.
 
 The `postBridgeData` field accepts:
 
-- **Tag** under `_tag` that specifies the post bridge action you want to execute
+- **Tag** under `_tag` that specifies the Automated Onchain Action you want to execute
 - **Optional custom parameters** to specify a custom target like vault, user ID or invoice ID
 
 We configure everything else: tokens and amounts, contract specific inputs, token approval, amount injection, gas estimation, and execution sequencing.
@@ -29,7 +28,7 @@ We configure everything else: tokens and amounts, contract specific inputs, toke
 
 ## Use Cases
 
-PBAs apply wherever you need a defined on-chain outcome rather than just a token credit. 
+Automated Onchain Actions apply wherever you need a defined on-chain outcome rather than just a token credit. 
 
 Common patterns:
 
@@ -39,7 +38,7 @@ Deposit bridged funds directly into a vault, lending pool, or staking contract. 
 
 **Custodial and off-chain crediting**
 
-For custodial platforms and exchanges, PBAs can trigger a contract that signals an off-chain system like crediting a user's account, updating a balance, or notifying a clearing layer, without requiring the user to interact with your chain/system directly.
+For custodial platforms and exchanges, Automated Onchain Actions can trigger a contract that signals an off-chain system like crediting a user's account, updating a balance, or notifying a clearing layer, without requiring the user to interact with your chain/system directly.
 
 **Payments and holding accounts**
 
@@ -97,7 +96,7 @@ This is the recommended pattern for onboarding flows. Generate an SDA per user w
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `_tag` | `string` | ✓ | Specifies the post bridge action configuration. |
+| `_tag` | `string` | ✓ | Specifies the Automated Onchain Action configuration. |
 | optional custom params | `string` / `integer` | - | Specifies a custom target like a user, merchant or payment |
 
 ---
@@ -106,9 +105,9 @@ This is the recommended pattern for onboarding flows. Generate an SDA per user w
 
 A user holds USDT on Arbitrum and wants to enter a USDC yield vault on Base.
 
-**Without PBA**, they would need to: swap USDT → USDC, bridge to Base, approve the vault, and call `deposit()` themselves — four to five steps across two chains.
+**Without Automated Onchain Actions**, they would need to: swap USDT → USDC, bridge to Base, approve the vault, and call `deposit()` themselves — four to five steps across two chains.
 
-**With PBA + SDA**, you generate one deposit address per user. They send USDT on Arbitrum. We swap, bridge, and execute the vault deposit. Their wallet receives vault shares on Base.
+**With Automated Onchain Actions + SDA**, you generate one deposit address per user. They send USDT on Arbitrum. We swap, bridge, and execute the vault deposit. Their wallet receives vault shares on Base.
 
 ```bash
 curl -X POST https://api.rhino.fi/sda/deposit-addresses \
@@ -142,10 +141,10 @@ Test your contract integration before going live. Contact your account represent
 
 ## Limitations
 
-- **ERC-20 type tokens only** — native gas tokens (ETH, SOL, etc.) cannot be the input to a post-bridge action yet
+- **ERC-20 type tokens only** — native gas tokens (ETH, SOL, etc.) cannot be the input to an Automated Onchain Action yet
 - **One action per bridge** — chaining multiple contract calls in sequence is not currently supported
 - **EVM destination chains only** — non-EVM destinations (i.e. Solana) are on the roadmap
-- **PBA must be enabled on your account** — the field is optional but your quote/SDA generation will fail if your account does not have PBA activated
+- **Automated Onchain Actions must be enabled on your account** — the `postBridgeData` field is accepted only on accounts with this Extension active. Contact your account representative to enable it.
 
 ---
 
