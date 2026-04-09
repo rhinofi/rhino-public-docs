@@ -8,11 +8,11 @@ import DepositAddressDisclaimer from "/snippets/deposit-address-disclaimer.mdx";
 See some live use cases here: [5 ways to use SDAs](https://rhino.fi/blog/5-ways-to-use-smart-deposit-addresses)
 
 <Note>
-**Premium Extension: 1:1 Stablecoin Swaps**
+  **Premium Extension: 1:1 Stablecoin Swaps**
 
-When the 1:1 Stablecoin Swaps extension is enabled on your account, cross-stable conversions (USDT→USDC and USDC→USDT) are executed at a guaranteed 1:1 rate with no slippage and no market exposure. This removes the guesswork from mixed-stablecoin deposit flows.
+  When the 1:1 Stablecoin Swaps extension is enabled on your account, cross-stable conversions (USDT→USDC and USDC→USDT) are executed at a guaranteed 1:1 rate with no slippage and no market exposure. This removes the guesswork from mixed-stablecoin deposit flows.
 
-[Learn more →](/get-started/extensions/stablecoin-swaps)
+  [Learn more →](/get-started/extensions/stablecoin-swaps)
 </Note>
 
 ## The Flow
@@ -21,7 +21,7 @@ At a high level, the process works as follows:
 
 1. **Generate an SDA**: Call the API to create a new deposit address, linked to a destination chain and address or a target action (coming soon).\
    We strongly recommend generating an SDA on all available EVM chains immediately to ensure that funds accidentally sent by customers to the wrong chain are automatically detected.
-1. **User deposits**: Any wallet, CEX, or payment service can send supported tokens to the SDA. The user only performs a normal token transfer.
+2. **User deposits**: Any wallet, CEX, or payment service can send supported tokens to the SDA. The user only performs a normal token transfer.
 3. **Monitoring & orchestration**: The system continuously watches for incoming transfers. If a valid deposit arrives (correct token, within limits), it triggers the bridge process.
 4. **Cross-chain execution**: Funds are credited on the destination chain, or the requested Automated Onchain Action (e.g. swap, pool deposit) is performed.
 5. **Reconciliation & sweeping**: After crediting is complete, addresses are swept periodically to consolidate balances and keep monitoring efficient.
@@ -33,8 +33,12 @@ From the client/user perspective: user sends → destination credited → job do
 Key properties that make SDAs flexible:
 
 - **Many-to-one**: Multiple SDAs can funnel to the same destination address.
-- **Multi-chain source support**: SDAs can currently be generated on Ethereum, Arbitrum, Base, BSC, Polygon, Optimism, Kaia, Tron, with Solana in progress.
-- **Any-chain destination**: Funds can settle on any of the 35+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
+- **Multi-chain source support**: SDAs can currently be generated on the top EVM chains like Ethereum, Arbitrum, Base, BSC, Polygon, Optimism, Kaia, Tron, and Solana. Full list available under Supported Chains → Smart Deposit Address.
+  <Info>
+    Generating a Tron (and Solana) SDA requires a separate call. I.e. you can specify all EVMs to generate SDAs across all EVMs. Then generate a Tron and Solana SDA with separate calls.
+  </Info>
+- **Webhooks** – Real-time push updates on deposit results.
+- **Any-chain destination**: Funds can settle on any of the 35\+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
 - **Stablecoin primitives**:
   - Same-to-same (e.g. USDC → USDC)
   - Cross-stable swap (e.g. USDC → USDT) — with the [1:1 Stablecoin Swaps](/get-started/extensions/stablecoin-swaps) extension, cross-stable conversions execute at a guaranteed 1:1 rate with no slippage
@@ -42,14 +46,13 @@ Key properties that make SDAs flexible:
 - **Metadata support**: Attach arbitrary data (e.g. UUID) to track users, payments, or invoices.
 - **Flexible fees**: End users pay standard fees by default. With the [Advanced Fee & Limit Management](/get-started/extensions/advanced-fee-management) extension, clients can sponsor fees on behalf of end users, or add a configurable markup that Rhino collects and remits via end-of-month invoicing.
 - **Validity:** unlimited
-- **Deposit size**: Typically 5-digit USD+ supported, 7-digit on request.
+- **Deposit size**: Typically 5-digit USD\+ supported, 7-digit on request.
 - **100% KYT screening**: Every deposit is screened for KYT/AML before crediting. Clients never receive funds that fail compliance checks. Enhanced screening options and real-time AML notifications are available via the [Enhanced Compliance & Risk Management](/get-started/extensions/enhanced-compliance) extension.
 - **Privacy benefit**: SDAs are naturally decoupled from destination addresses.
 
 Coming soon:
 
 - **Refund address** – Users/clients can specify fallback if a credit fails (\< 1% of cases).
-- **Webhooks** – Real-time push updates on deposit results.
 
 ## The Constraints
 
@@ -57,7 +60,7 @@ There are some limitations to be aware of:
 
 - **Native tokens (ETH, BNB, SOL, etc.):** Native token support is currently in beta rollout, including both direct SDA bridging and native → stablecoin swaps. [Contact us](https://rhino.fi/contact) if you're interested in using native token deposits.
 - Wrong tokens will not be credited and require a manual refund.
-- Deposits below $5 USD equivalent or above set limits will not process and require a manual refund.
+- Deposits below \$5 USD equivalent or above set limits will not process and require a manual refund.
 - If liquidity is insufficient, deposits will retry until successful or refunded.
 - Fees can be fetched in real time through the API or fixed by agreement.
 

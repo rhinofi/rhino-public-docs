@@ -1,5 +1,5 @@
 ---
-title: 1:1 Stablecoin Swaps
+title: "1:1 Stablecoin Swaps"
 description: "USDT↔USDC conversion at a guaranteed 1:1 rate, no slippage, no market exposure."
 ---
 
@@ -46,7 +46,14 @@ To confirm this extension is active on your account, check the [Rhino Console](/
 
 Deposit limits for 1:1 swap routes follow the same limits as standard SDA deposits.
 
-For very large individual transactions (above $1M USD equivalent), contact your account representative to confirm available liquidity.
+For very large individual transactions (above \$1M USD equivalent), contact your account representative to confirm available liquidity.
+
+Volume based limits are applied to protect your app from abuse. These limits are customizable on a case by case basis.
+
+- Account level limit - the total 1:1 swap volume limit over all transactions within a specified time frame (expressed in days)
+- Recipient level limit - the total 1:1 swap volume limit per specific recipient
+
+Once limits are hit, the service falls back to the market rate. If a recipient hits their limit, only their transactions will fall back to the market rate.
 
 ---
 

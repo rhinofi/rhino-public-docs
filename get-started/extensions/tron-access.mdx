@@ -1,5 +1,5 @@
 ---
-title: Tron Access
+title: "Tron Access"
 description: "Enable TRON network deposits and settlement."
 ---
 
@@ -32,7 +32,11 @@ Once Tron Access is enabled on your account, TRON appears in the bridge config (
 
 No code changes are required beyond confirming TRON is listed.
 
-For SDA generation on TRON, include `"TRON"` in the `depositChains` array.
+For SDA generation on TRON, use `"TRON"` in the `depositChains` array.
+
+<Info>
+  Generating a Tron (and Solana) SDA requires a separate call. I.e. you can specify many EVMs to generate SDAs across all EVMs. Then generate a Tron (and Solana) SDA with a separate call.
+</Info>
 
 For TRON as a destination, use `"TRON"` as the `destinationChain`.
 
