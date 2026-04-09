@@ -1,0 +1,64 @@
+---
+title: "1:1 Stablecoin Swaps"
+description: "USDT↔USDC conversion at a guaranteed 1:1 rate, no slippage, no market exposure."
+---
+
+## 1:1 Stablecoin Swaps
+
+**Extension tier:** Premium
+
+When the 1:1 Stablecoin Swaps extension is enabled, cross-stable conversions between USDT and USDC are executed at a guaranteed 1:1 rate. There is no slippage, no market exposure, and no variance between the deposited amount and the settled amount (net of the standard bridge fee).
+
+---
+
+## The problem this solves
+
+Without this extension, a cross-stable swap (e.g. a user deposits USDT and the destination expects USDC) is routed through a market. The settled amount depends on the USDT/USDC market price at the time of execution. In thin conditions, this can deviate from 1:1 by a meaningful amount.
+
+For applications that display a quoted settlement amount to end users — onboarding flows, payment screens, balance estimations — any variance creates a UX problem and potential customer support burden.
+
+---
+
+## How it works
+
+Rhino maintains its own USDT and USDC reserves on supported chains. When a cross-stable deposit arrives, Rhino credits the destination from its reserves at exactly 1:1, then rebalances its own positions off the critical path.
+
+The user's experience is: deposited USDT amount equals settled USDC amount (minus fee).
+
+This applies to:
+
+- USDT → USDC
+- USDC → USDT
+
+Both directions, across all supported chains where USDT and USDC are both available.
+
+---
+
+## Integration
+
+No API change is required. If your account has this extension enabled, any SDA or bridge request that specifies a cross-stable `tokenOut` will automatically use 1:1 pricing.
+
+To confirm this extension is active on your account, check the [Rhino Console](/get-started/rhino-console) under Configuration, or contact your account representative.
+
+---
+
+## Limits
+
+Deposit limits for 1:1 swap routes follow the same limits as standard SDA deposits.
+
+For very large individual transactions (above \$1M USD equivalent), contact your account representative to confirm available liquidity.
+
+Volume based limits are applied to protect your app from abuse. These limits are customizable on a case by case basis.
+
+- Account level limit - the total 1:1 swap volume limit over all transactions within a specified time frame (expressed in days)
+- Recipient level limit - the total 1:1 swap volume limit per specific recipient
+
+Once limits are hit, the service falls back to the market rate. If a recipient hits their limit, only their transactions will fall back to the market rate.
+
+---
+
+## Related
+
+- [Smart Deposit Addresses](/get-started/sda)
+- [Fees & Limits](/get-started/fees-and-limits)
+- [Extensions overview](/get-started/extensions)

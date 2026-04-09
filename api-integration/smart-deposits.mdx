@@ -1,7 +1,7 @@
 ---
 title: "Smart Deposit Addresses"
 "og:title": "Smart Deposit Addresses Integration | Docs | Rhino.fi"
-description: "Smart Deposit Addresses allow you to generate unique addresses that automatically bridge assets to a specified destination upon receiving a transfer."
+description: "Use the Smart Deposit Addresses API to generate addresses that accept stablecoin deposits from any supported chain and automatically settle to a specified destination. Includes support for cross-stable swaps, Automated Onchain Actions, and configurable fee handling."
 ---
 
 import DepositAddressDisclaimer from "/snippets/deposit-address-disclaimer.mdx";
@@ -34,7 +34,13 @@ Smart Deposit Addresses are reusable and can be used for multiple bridges indefi
 
 ## Fees
 
-Standard bridging fees apply to bridging with Smart Deposit Addresss (see [Get a Bridge Quote](/api-integration/bridge#3-get-a-bridge-quote) or [try our bridge](https://app.rhino.fi)). Integrating partners can adjust the way fees are charged to their customers. Get in touch for more details at [partnerships@rhino.fi](mailto:partnerships@rhino.fi).
+Standard bridging fees apply to bridging with Smart Deposit Addresses (see [Get a Bridge Quote](/api-integration/bridge#3-get-a-bridge-quote) or [try our bridge](https://app.rhino.fi)). Integrating partners can adjust the way fees are charged to their customers. Get in touch for more details at [partnerships@rhino.fi](mailto:partnerships@rhino.fi).
+
+<Note>
+**Fee handling**
+
+By default, fees are deducted from the deposited amount before crediting. With the Advanced Fee & Limit Management extension, you can configure fee sponsorship (client absorbs the fee) or add a markup that is collected by Rhino and remitted to your account via end-of-month invoicing. Fee configuration is set at the account level. See [Advanced Fee & Limit Management](/get-started/extensions/advanced-fee-management) for details.
+</Note>
 
 ## Smart Deposit Address expiration
 
@@ -124,6 +130,12 @@ You can provide multiple deposit chains in the request. The API will then genera
 #### Swaps
 
 When creating a Smart Deposit Address you can also specify a `tokenOut` field. This will cause all withdrawals on the destination chain to be in that token, swapping if needed. This is currently only supported for stablecoins (USDC and USDT). The given `tokenOut` needs to be a bridgable token on the destination chain, otherwise creation of the SDA will fail.
+
+<Note>
+**1:1 Stablecoin Swaps (Extension)**
+
+If your account has the 1:1 Stablecoin Swaps extension enabled, cross-stable conversions (e.g. USDT deposited → USDC settled) are processed at a guaranteed 1:1 rate. No slippage. No exposure to market price. This applies automatically to any SDA configured with a cross-stable `tokenOut`. Contact your account representative to enable this extension.
+</Note>
 
 #### Post Bridge Data
 

@@ -1,0 +1,47 @@
+---
+title: "Rhino Console"
+description: "The Rhino Console is the web interface for managing your Rhino integration — transaction history, analytics, team settings, and configuration."
+---
+
+## Rhino Console
+
+The Rhino Console is the web interface for managing your Rhino integration. It is available to all clients at [developers.rhino.fi](https://developers.rhino.fi).
+
+---
+
+## What the Console covers
+
+| Section | Description |
+| --- | --- |
+| **Transaction history** | Full history of all bridges, SDA deposits, and settlement events for your account |
+| **Analytics** | Volume, success rate, fee totals, and per-chain breakdown |
+| **Team settings** | Manage team members and access levels |
+| **API key management** | Create, rotate, and revoke API keys |
+| **Configuration** (coming soon) | View account-level settings, enabled Extensions, and fee configuration |
+| **Status & alerts** (coming soon) | Link to the Rhino status page; incident history |
+
+---
+
+## API keys
+
+API keys are created and managed in the Console. Each key is scoped to your account. Two key types are available:
+
+| Key type | Use |
+| --- | --- |
+| `SECRET_` prefix | Full access — query history, manage addresses, required for sensitive operations |
+| Standard key | Quote generation, bridge execution, public reads |
+
+Store secret keys securely. They cannot be retrieved after creation — only rotated.
+
+---
+
+## Access
+
+The Console requires you to log in using a Google workspace account. You can invite teammates to contribute and manage your project on the Rhino Console.
+
+---
+
+## Related
+
+- [API Keys](/get-started/api-keys) — how to generate and use keys programmatically
+- [Authentication](/api-integration/authentication) — how to authenticate API requests with your keys

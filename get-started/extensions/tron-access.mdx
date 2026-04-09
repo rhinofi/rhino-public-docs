@@ -1,0 +1,57 @@
+---
+title: "Tron Access"
+description: "Enable TRON network deposits and settlement."
+---
+
+## Tron Access
+
+**Extension tier:** Premium
+
+TRON is a high-volume stablecoin network, particularly for USDT. The Tron Access extension enables TRON as a deposit source and/or settlement destination in your integration.
+
+---
+
+## What's enabled
+
+- **TRON as a deposit source** — Smart Deposit Addresses can be generated on TRON. Users can send TRC-20 USDT (or other supported TRC-20 tokens) to a Rhino SDA on TRON, and funds are settled to the configured destination chain.
+- **TRON as a destination** — Bridges can settle to a TRON address.
+
+---
+
+## Why this is a separate extension
+
+TRON requires specific compliance and operational controls that differ from EVM chains. AML screening on TRON operates differently from EVM screening, and Rhino maintains dedicated TRON infrastructure.
+
+Enabling TRON access therefore requires a specific agreement with your account representative, including acknowledgement of the TRON-specific compliance framework.
+
+---
+
+## Integration
+
+Once Tron Access is enabled on your account, TRON appears in the bridge config (`bridgeConfigs`) as an available chain with `enabledDepositAddress: true`.
+
+No code changes are required beyond confirming TRON is listed.
+
+For SDA generation on TRON, use `"TRON"` in the `depositChains` array.
+
+<Info>
+  Generating a Tron (and Solana) SDA requires a separate call. I.e. you can specify many EVMs to generate SDAs across all EVMs. Then generate a Tron (and Solana) SDA with a separate call.
+</Info>
+
+For TRON as a destination, use `"TRON"` as the `destinationChain`.
+
+Token symbols on TRON follow the same naming convention as other chains (e.g. `"USDT"`).
+
+---
+
+## SDK support
+
+TRON chain adapter documentation is available at [Chain Adapters — Tron](/sdk/chain-adapters/tron).
+
+---
+
+## Related
+
+- [Smart Deposit Addresses](/get-started/sda)
+- [Supported Chains](/get-started/supported-chains)
+- [Extensions overview](/get-started/extensions)

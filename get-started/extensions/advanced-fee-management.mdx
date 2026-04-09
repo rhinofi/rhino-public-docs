@@ -1,0 +1,70 @@
+---
+title: "Advanced Fee & Limit Management"
+description: "Control how fees are presented and collected — sponsor fees for end users, add markup, or adjust deposit limits."
+---
+
+## Advanced Fee & Limit Management
+
+**Extension tier:** Free \+ Premium
+
+The Advanced Fee & Limit Management extension gives you control over how fees are presented and collected in your integration. It is designed for clients that want to either remove fee friction from their end users entirely, or use the bridge integration as a revenue source.
+
+---
+
+## Fee sponsorship
+
+When fee sponsorship is enabled, end users pay nothing. Rhino deducts no fee from the deposit; the client's account is charged instead. The full deposited amount (less gas cost) is credited to the destination.
+
+This is the recommended configuration for any onboarding flow where the client wants to absorb fees as a cost of acquisition or service.
+
+**Configuration:** Fee sponsorship is set at the account level. Individual SDA or bridge requests do not need additional parameters when sponsorship is active. Contact your account representative to enable it.
+
+---
+
+## Fee markup
+
+Clients can add a configurable markup on top of the standard Rhino fee. The markup is specified as a fixed amount or percentage, agreed at account setup. Rhino collects the combined fee (its standard fee plus the client markup) on every transaction.
+
+### End-of-month invoicing
+
+Rhino consolidates all collected client markup fees over the calendar month and issues an invoice to the client. Payment is made to the client's designated wallet or bank account.
+
+Invoicing timelines and minimum payout thresholds are agreed in the service agreement.
+
+This means clients can generate revenue from their integration without building a fee collection mechanism, operating any smart contracts, or handling user-facing billing.
+
+---
+
+## Limit configuration
+
+Default deposit limits:
+
+|  | Bridge & Swap | Smart Deposit Addresses |
+| --- | --- | --- |
+| **Minimum deposit** | No minimum | \$0.5 on EVMs and Solana<br />\$5 USD equivalent on Ethereum and Tron (editable on demand) |
+| **Maximum instant deposit** | $100k–$ 1M USD (route dependent) | $100k–$ 1M USD (route dependent) |
+| **Maximum slow deposit** | Up to \$10M USD | Up to \$10M USD |
+
+With this extension, limits can be adjusted by agreement. Contact your account representative to discuss non-standard limits.
+
+Deposits outside the applicable limits are not processed. Funds can be returned via customer support.
+
+---
+
+## Configuration reference
+
+Fee and limit settings are configurable. Please contact your account representative to manage your configuration. 
+
+Changes to fee structure require agreement from your account representative and may be subject to minimum volume commitments.
+
+Coming soon:
+
+- **Configurable and editable** **fees & limits** in the [Rhino Console](https://docs.rhino.fi/get-started/rhino-console).
+
+---
+
+## Related
+
+- [Fees & Limits](/get-started/fees-and-limits) — general fee documentation
+- [Smart Deposit Addresses — fee handling](/api-integration/smart-deposits)
+- [Extensions overview](/get-started/extensions)

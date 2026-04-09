@@ -26,10 +26,22 @@
             "pages": [
               "get-started/introduction",
               "get-started/what-is-rhino",
-              "get-started/architecture",
+              "get-started/fees-and-limits",
               "get-started/sda",
-              "get-started/post-bridge-actions",
               "get-started/api-keys",
+              "get-started/rhino-console",
+              {
+                "group": "Extensions",
+                "pages": [
+                  "get-started/extensions",
+                  "get-started/extensions/enhanced-compliance",
+                  "get-started/extensions/automated-onchain-actions",
+                  "get-started/extensions/stablecoin-swaps",
+                  "get-started/extensions/advanced-fee-management",
+                  "get-started/extensions/custom-chain-token-support",
+                  "get-started/extensions/tron-access"
+                ]
+              },
               "get-started/supported-chains"
             ]
           },
@@ -183,6 +195,12 @@
       ]
     }
   },
+  "redirects": [
+    {
+      "source": "/get-started/post-bridge-actions",
+      "destination": "/get-started/extensions/automated-onchain-actions"
+    }
+  ],
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"

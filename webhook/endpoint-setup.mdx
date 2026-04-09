@@ -2,9 +2,7 @@
 title: 'Server setup'
 ---
 
-Webhooks are HTTP callbacks that Rhino.fi sends to your application when specific events occur during the bridging process. Instead of continuously polling our API to check for transaction updates, webhooks allow you to receive real-time notifications directly to your server.
-
-## Overview
+Rhino webhooks deliver real-time transaction status events to your server — covering deposit detection, settlement confirmation, and action outcomes for Smart Deposit Addresses and bridges.
 
 Setting up a webhook server involves creating an HTTP endpoint that can receive POST requests from Rhino.fi, process the webhook payloads, and respond appropriately. This guide covers the essential components and best practices for webhook server implementation.
 
