@@ -1,32 +1,53 @@
-# Mintlify Starter Kit
+# rhino.fi Public Docs
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+Public documentation for [rhino.fi](https://rhino.fi), built with [Mintlify](https://mintlify.com).
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+## Development
 
-### Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview changes locally:
 
 ```
 npm i -g mintlify
 ```
 
-Run the following command at the root of your documentation (where docs.json is)
+Then run at the project root (where `docs.json` is):
 
 ```
 mintlify dev
 ```
 
-### Publishing Changes
+## Updating the Supported Chains page
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
+The `get-started/supported-chains.mdx` page is generated from the live [bridge configs API](https://api.rhino.fi/bridge/configs). To regenerate it:
 
-#### Troubleshooting
+```
+npx tsx scripts/generateSupportedChains.ts
+```
 
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `docs.json`
+This fetches the current chain/token data from the API and writes the MDX file.
+
+**When a new chain or token is added to the API**, the script will print a warning about missing entries. To add tooltip text for the new token, edit `scripts/tokenConfig.json`:
+
+```jsonc
+// "native" → token is natively issued on this chain
+// "USDT0"  → shows "Represented as USDT0 for this chain"
+// (omit)   → no tooltip shown
+{
+  "representations": {
+    "CHAIN_KEY": {
+      "TOKEN": "native"
+    }
+  }
+}
+```
+
+Then re-run the script.
+
+## Publishing Changes
+
+Changes are deployed to production automatically after pushing to the default branch via the Mintlify GitHub App.
+
+## Troubleshooting
+
+- **Mintlify dev isn't running** — Run `mintlify install` to re-install dependencies.
+- **Page loads as a 404** — Make sure you are running in a folder with `docs.json`.

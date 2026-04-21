@@ -17,14 +17,14 @@ description: 'List of chains that rhino.fi smart contracts are deployed on and t
     > - _USDT on Tron → USDT on Polygon works because USDT is supported on both Tron and Polygon._
     > - _USDT on Sonic → USDT on Paradex will not work as USDT is not supported on Paradex_
 
-    \*To understand what tokens can be swapped between chains please look at ‘Bridging and Swapping’ tab.
+    \*To understand what tokens can be swapped between chains please look at 'Bridging and Swapping' tab.
 
     | Asset | Blockchains it can be bridged between |
     | --- | --- |
-    | USDT | Arbitrum One, Avalanche, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />Ink, Kaia, Katana, Linea, Mantle, Polygon, opBNB, Optimism, Plasma, <br />Scroll, Solana, Sonic, Stable, Starknet, Tempo, Ton, Tron, Unichain, <br />zkSync Era |
-    | USDC | Arbitrum One, Avalanche, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />Ink, Katana, Linea, Mantle, Polygon, Optimism, Paradex, Scroll, Solana, <br />Sonic, Starknet, Tempo, zkSync Era |
-    | ETH | Arbitrum One, Avalanche, BNB Smart Chain, Ethereum, Ink, Katana, <br />Linea, Mantle, Polygon, Optimism, Scroll, Sonic, Starknet, Unichain, <br />zkSync Era |
-    | WBTC | Arbitrum One, BNB Smart Chain, Ethereum, Starknet |
+    | USDT | Arbitrum One, Avalanche, Base, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />Ink, Kaia, Katana, Linea, Mantle, opBNB, Optimism, Plasma, Polygon, <br />Solana, Sonic, Stable, Starknet, Tempo, Ton, Tron, Unichain, <br />zkSync Era |
+    | USDC | Arbitrum One, Avalanche, Base, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />Ink, Katana, Linea, Mantle, Optimism, Paradex, Polygon, Solana, Sonic, <br />Starknet, Tempo, zkSync Era |
+    | ETH | Arbitrum One, Avalanche, Base, BNB Smart Chain, Ethereum, Ink, Katana, <br />Linea, Mantle, Optimism, Polygon, Sonic, Starknet, Unichain, <br />zkSync Era |
+    | WBTC | Arbitrum One, Base, BNB Smart Chain, Ethereum, Starknet |
     | USDe | Avalanche, Ethereum |
     | BNB | BNB Smart Chain, opBNB |
   </Tab>
@@ -40,7 +40,7 @@ description: 'List of chains that rhino.fi smart contracts are deployed on and t
     >
     > _USDC on Optimism → USDT on Celo works because USDC is supported on Optimism and USDT is supported on Celo._
 
-    \*To understand what blockchains the same token can be bridged between, please look at ‘Bridging’ tab
+    \*To understand what blockchains the same token can be bridged between, please look at 'Bridging' tab
 
     | Chain | Stablecoins | Other Assets |
     | --- | --- | --- |
@@ -49,18 +49,18 @@ description: 'List of chains that rhino.fi smart contracts are deployed on and t
     | Base | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | BNB Smart Chain | <Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip> | BNB, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Celo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |  |
-    | Ethereum | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe | ETH, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Ethereum | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe | ETH, SENT, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Gnosis | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> |  |
     | Ink | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Kaia | <Tooltip tip="native">USDT</Tooltip> |  |
     | Katana | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Linea | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
-    | Mantle | <Tooltip tip="Represented as USD.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
-    | Polygon | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
+    | Mantle | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | opBNB | <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip> | <Tooltip tip="Represented as BNB.b for this chain">BNB</Tooltip> |
     | Optimism | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Paradex | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip> |  |
     | Plasma | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |  |
+    | Polygon | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Solana | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |  |
     | Sonic | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Stable | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |  |
@@ -68,7 +68,7 @@ description: 'List of chains that rhino.fi smart contracts are deployed on and t
     | Tempo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |  |
     | Ton | <Tooltip tip="native">USDT</Tooltip> |  |
     | Tron | <Tooltip tip="native">USDT</Tooltip> |  |
-    | Unichain | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
+    | Unichain | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | zkSync Era | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
   </Tab>
   <Tab title="Smart Deposit Addresses">
@@ -85,7 +85,7 @@ description: 'List of chains that rhino.fi smart contracts are deployed on and t
     > - _USDC on Polygon → USDT on Celo works because USDC is supported on Polygon and USDT is supported on Celo._
     > - _USDT on Kaia → USDC on Tron will not work because Tron does not support USDC._
 
-    \*To understand what tokens can be swapped and/or bridged without using Rhino.fi Smart Deposit Addresses, please look at the ‘Bridging’ or ‘Bridging and Swapping’ tab.
+    \*To understand what tokens can be swapped and/or bridged without using Rhino.fi Smart Deposit Addresses, please look at the 'Bridging' or 'Bridging and Swapping' tab.
 
     **Rhino.fi Smart Deposit Addresses have inbuilt bridging and swapping functionality, therefore once these assets are received into the SDA, then they can be swapped and bridged to the chains listed on the 'Bridging and Swapping' tab.**
 
@@ -94,18 +94,19 @@ description: 'List of chains that rhino.fi smart contracts are deployed on and t
     | **Chain** | **Tokens that can be sent to a Smart Deposit Address on this chain** |
     | :-- | :-- |
     | Arbitrum One | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
-    | Base | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip>, EURC, |
-    | BNB Smart Chain | <Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip>, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip> |
+    | Base | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | BNB Smart Chain | <Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip>, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Celo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |
-    | Ethereum | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip>, |
+    | Ethereum | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe, SENT, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Gnosis | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> |
     | Kaia | <Tooltip tip="native">USDT</Tooltip> |
     | Katana | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> |
-    | Mantle | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, |
-    | Polygon | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, |
+    | Mantle | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Optimism | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> |
     | Plasma | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |
+    | Polygon | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Solana | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |
+    | Tempo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |
     | Tron | <Tooltip tip="native">USDT</Tooltip> |
     | Unichain | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |
   </Tab>
