@@ -1,0 +1,122 @@
+{
+  "stablecoins": ["USDC", "USDT", "USDe", "EURC"],
+  "representations": {
+    "ARBITRUM": {
+      "USDC": "native",
+      "USDT": "USDT0",
+      "ETH": "ETH.e",
+      "WBTC": "WBTC0"
+    },
+    "AVALANCHE": {
+      "USDC": "native",
+      "USDT": "USDT.e",
+      "USDe": "USDe0",
+      "ETH": "WETH.e"
+    },
+    "BASE": {
+      "USDC": "native",
+      "USDT": "USDT.e",
+      "ETH": "ETH.e",
+      "WBTC": "WBTC0"
+    },
+    "BINANCE": {
+      "USDC": "USDC.b",
+      "USDT": "USDT.b",
+      "ETH": "ETH.b",
+      "WBTC": "WBTC0"
+    },
+    "CELO": {
+      "USDC": "native",
+      "USDT": "native"
+    },
+    "ETHEREUM": {
+      "USDC": "native",
+      "USDT": "native",
+      "WBTC": "WBTC0"
+    },
+    "GNOSIS": {
+      "USDC": "USDC.e",
+      "USDT": "USDT.e"
+    },
+    "INK": {
+      "USDC": "native",
+      "USDT": "USDT0",
+      "ETH": "ETH.e"
+    },
+    "KAIA": {
+      "USDT": "native"
+    },
+    "KATANA": {
+      "USDC": "USDC.e",
+      "USDT": "USDT.e",
+      "ETH": "ETH.e"
+    },
+    "LINEA": {
+      "USDC": "native",
+      "USDT": "USDT.e",
+      "ETH": "ETH.e"
+    },
+    "MANTLE": {
+      "USDC": "USDC.e",
+      "USDT": "USDT0",
+      "ETH": "ETH.e"
+    },
+    "MATIC_POS": {
+      "USDC": "native",
+      "USDT": "USDT0",
+      "ETH": "ETH.e"
+    },
+    "OPBNB": {
+      "USDT": "USDT.b",
+      "BNB": "BNB.b"
+    },
+    "OPTIMISM": {
+      "USDC": "native",
+      "USDT": "USDT.e",
+      "ETH": "ETH.e"
+    },
+    "PARADEX": {
+      "USDC": "USDC.e"
+    },
+    "PLASMA": {
+      "USDT": "USDT0"
+    },
+    "SOLANA": {
+      "USDC": "native",
+      "USDT": "native"
+    },
+    "SONIC": {
+      "USDC": "native",
+      "USDT": "native",
+      "ETH": "ETH.e"
+    },
+    "STABLE": {
+      "USDT": "USDT0"
+    },
+    "STARKNET": {
+      "USDC": "native",
+      "USDT": "USDT.e",
+      "ETH": "ETH.e",
+      "WBTC": "WBTC0"
+    },
+    "TEMPO": {
+      "USDC": "native",
+      "USDT": "USDT0"
+    },
+    "TON": {
+      "USDT": "native"
+    },
+    "TRON": {
+      "USDT": "native"
+    },
+    "UNICHAIN": {
+      "USDT": "USDT0",
+      "ETH": "ETH.e"
+    },
+    "ZKSYNC": {
+      "USDC": "USDC.e",
+      "USDT": "native",
+      "ETH": "ETH.e"
+    }
+  }
+}
