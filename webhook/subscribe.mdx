@@ -1,20 +1,20 @@
 ---
-title: 'Subscribe to webhooks'
-description: 'You can either setup your webhook URL once for your project in the developer portal or pass it on invidual bridges.'
+title: "Subscribe to webhooks"
+description: "You can either setup your webhook URL once for your project in the developer portal or pass it on invidual bridges."
 ---
 
-## Using developer portal
+## Using the [Rhino.fi](http://Rhino.fi) Console
 
-Go to Rhino.fi developer portal and select your project.
+Go to Rhino.fi Console and select your project.
 
 Under the Webhooks section you can define your webhook URL.
 
 <Warning>
-Please make sure NOT to include the endpoint name `/rhinofi-event`.
+  Please make sure NOT to include the endpoint name `/rhinofi-event`.
 
-You provide: https://my-server.com/prefix
+  You provide: [https://my-server.com/prefix](https://my-server.com/prefix)
 
-Rhino.fi calls: https://my-server.com/prefix/rhinofi-event
+  Rhino.fi calls: [https://my-server.com/prefix/rhinofi-event](https://my-server.com/prefix/rhinofi-event)
 </Warning>
 
 Once defined you'll get webhook events for all the bridges associated with this project. You don't need to pass the webhookUrl parameter every time you get a quote as described in the next section.
@@ -26,20 +26,20 @@ To subscribe to webhooks when using Rhino.fi bridge API, you can pass a `webhook
 You'll then start receiving webhook events on all your bridge status changes ([full list of bridge events](/webhook/events-list#bridge-events)).
 
 Example:
-```
+
+```text
 webhookUrl: "https://my-server.com/prefix"
 ```
 
 <Warning>
-Please make sure NOT to include the endpoint name `/rhinofi-event`.
+  Please make sure NOT to include the endpoint name `/rhinofi-event`.
 
-You provide: https://my-server.com/prefix
+  You provide: [https://my-server.com/prefix](https://my-server.com/prefix)
 
-Rhino.fi calls: https://my-server.com/prefix/rhinofi-event
+  Rhino.fi calls: [https://my-server.com/prefix/rhinofi-event](https://my-server.com/prefix/rhinofi-event)
 </Warning>
 
 For the exact specification, [see the API Reference](https://docs.rhino.fi/api-reference/quote/user-quote-for-bridge-&-swap#body-webhook-url)
-
 
 ## Smart Deposit Addresses API
 
@@ -48,16 +48,17 @@ To subscribe to webhooks when using Rhino.fi Smart Deposit Addresses API, you ca
 You'll then start receiving webhook events on all operations done on this deposit address ([full list of bridge events](/webhook/events-list#smart-deposit-addresses-events)).
 
 Example:
-```
+
+```text
 webhookUrl: "https://my-server.com/prefix"
 ```
 
 <Warning>
-Please make sure NOT to include the endpoint name `/rhinofi-event`.
+  Please make sure NOT to include the endpoint name `/rhinofi-event`.
 
-You provide: https://my-server.com/prefix
+  You provide: [https://my-server.com/prefix](https://my-server.com/prefix)
 
-Rhino.fi calls: https://my-server.com/prefix/rhinofi-event
+  Rhino.fi calls: [https://my-server.com/prefix/rhinofi-event](https://my-server.com/prefix/rhinofi-event)
 </Warning>
 
 For the exact specification, [see the API Reference](https://docs.rhino.fi/api-reference/depositaddresses/create-new-deposit-address#body-webhook-url)
