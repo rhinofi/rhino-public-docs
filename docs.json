@@ -17,6 +17,30 @@
     }
   },
   "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Rhino.fi Console",
+          "icon": "code",
+          "href": "https://developers.rhino.fi"
+        },
+        {
+          "anchor": "Website",
+          "icon": "globe",
+          "href": "https://rhino.fi/"
+        },
+        {
+          "anchor": "Bridge now",
+          "icon": "rainbow",
+          "href": "https://app.rhino.fi/bridge"
+        },
+        {
+          "anchor": "Blog",
+          "icon": "newspaper",
+          "href": "https://rhino.fi/blog/"
+        }
+      ]
+    },
     "tabs": [
       {
         "tab": "Guides",
@@ -169,31 +193,7 @@
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Developer Portal",
-          "href": "https://developers.rhino.fi",
-          "icon": "code"
-        },
-        {
-          "anchor": "Website",
-          "icon": "globe",
-          "href": "https://rhino.fi/"
-        },
-        {
-          "anchor": "Bridge now",
-          "href": "https://app.rhino.fi/bridge",
-          "icon": "rainbow"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://rhino.fi/blog/",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "redirects": [
     {
