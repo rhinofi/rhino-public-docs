@@ -163,7 +163,8 @@
           {
             "group": "General information",
             "pages": [
-              "general/contract-addresses"
+              "general/contract-addresses",
+              "general/status-page"
             ]
           }
         ]
