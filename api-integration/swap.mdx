@@ -161,6 +161,75 @@ bridgeAndSwap();
 
 For a detailed breakdown of API endpoints and parameters, check the [API Reference](/api-reference/introduction).
 
+## Same-chain swaps
+
+When `chainIn === chainOut`, the quote response is flagged as an **atomic same-chain swap** (`isAtomicSwap: true`). These go through a separate contract and a different transaction format than a regular bridge deposit — broadcasting a `depositWithId` / `depositNativeWithId` for an atomic same-chain swap commitment will be rejected by the deposit watcher.
+
+Same-chain swaps are **EVM-only**.
+
+The flow is identical up to step 5 (commit), then diverges:
+
+### Detect the case
+
+After fetching the quote in step 4, check the response:
+
+```javascript
+const isSameChainSwap =
+  quote.chainIn === quote.chainOut && quote.isAtomicSwap === true
+```
+
+### Use a different approval target
+
+For ERC-20 same-chain swaps, the approval target is the chain's `sameChainSwapsAddress` (returned in `GET /bridge/configs` under the chain entry) — **not** the regular `contractAddress`. Native-token swaps don't require an approval.
+
+### Fetch the swap calldata instead of building a deposit tx
+
+Instead of calling the deposit contract, fetch the prepared calldata. The `commitmentId` is the `quoteId` you committed.
+
+```javascript getSwapCalldata.js
+export const getSwapCalldata = async (commitmentId, jwt) => {
+  const request = await fetch(`https://api.rhino.fi/bridge/swap/calldata/${commitmentId}`, {
+    headers: { 'authorization': jwt }
+  })
+
+  return request.json()
+}
+```
+
+The response contains a JSON-stringified transaction object:
+
+```json
+{
+  "calldata": "{\"to\":\"0x...\",\"data\":\"0x...\",\"value\":\"...\"}"
+}
+```
+
+Parse it and submit it as a raw EVM transaction from the depositor wallet:
+
+<CodeGroup>
+```javascript ethers
+import { ethers } from 'ethers'
+
+const { calldata } = await getSwapCalldata(commitResult.quoteId, JWT)
+const { to, data, value } = JSON.parse(calldata)
+
+const tx = await wallet.sendTransaction({ to, data, value: BigInt(value ?? 0) })
+await tx.wait()
+```
+
+```javascript viem
+const { calldata } = await getSwapCalldata(commitResult.quoteId, JWT)
+const { to, data, value } = JSON.parse(calldata)
+
+const hash = await walletClient.sendTransaction({ to, data, value: BigInt(value ?? 0) })
+await publicClient.waitForTransactionReceipt({ hash })
+```
+</CodeGroup>
+
+<Warning>
+Do **not** call `depositWithId` / `depositNativeWithId` on the regular deposit contract for same-chain swaps.
+</Warning>
+
 ## Next steps
 
 For the smart contract integration see - [contract examples](/contracts/contract-examples)
