@@ -3,7 +3,11 @@ title: "Ton Chain Adapter"
 "og:title": "Ton Chain Adapter | Rhino Docs | Rhino.fi"
 ---
 
-To create a chain adapter for TON you will need to pass a [TonConnectUI](https://www.npmjs.com/package/@tonconnect/ui) instance.
+You can either create a TON chain adapter from a [TonConnectUI](https://www.npmjs.com/package/@tonconnect/ui) instance or from a TON private key:
+
+### From wallet
+
+Use this method to use connected wallets.
 
 ```typescript
 import { getTonChainAdapter } from '@rhino.fi/sdk/adapters/ton'
@@ -11,7 +15,22 @@ import { getTonChainAdapter } from '@rhino.fi/sdk/adapters/ton'
 const chainAdapter = getTonChainAdapter(
   tonConnectUI,
   chainConfig,
-  rpcUrl
+  rpcUrl,
+)
+```
+
+### From private key
+
+Use this method to pass a private key directly.
+
+```typescript
+import { getTonChainAdapterFromSecretKey } from '@rhino.fi/sdk/adapters/ton'
+
+const chainAdapter = getTonChainAdapterFromSecretKey(
+  'YOUR_PRIVATE_KEY',
+  'YOUR_PUBLIC_KEY',
+  chainConfig,
+  rpcUrl,
 )
 ```
 
