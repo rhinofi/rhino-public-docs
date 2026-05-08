@@ -9,7 +9,7 @@ To check the status of a specific bridge, use the following API request:
 
 ```javascript getBridgeStatus.js
 export const getBridgeStatus = async (bridgeId, jwt) => {
-  const request = await fetch(`https://api.rhino.fi/history/bridge/${bridgeId}`, {
+  const request = await fetch(`https://api.rhino.fi/bridge/history/bridge/${bridgeId}`, {
     headers: {
       "content-type": "application/json",
       "authorization": jwt
