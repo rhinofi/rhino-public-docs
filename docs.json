@@ -155,9 +155,10 @@
             ]
           },
           {
-            "group": "Widget",
+            "group": "Widgets",
             "pages": [
-              "widget/widget"
+              "widget/widget",
+              "widget/sda-widget"
             ]
           },
           {
