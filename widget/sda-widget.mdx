@@ -1,0 +1,101 @@
+---
+title: "iframe SDA Widget"
+description: "The SDA Widget lets you integrate a fully functional Smart Deposit Address bridge UI into your application with only a few lines of code"
+---
+
+import RequestApiKey from '/snippets/request-api-key.mdx'
+
+## Embedding the Rhino.fi SDA Widget (iframe)
+
+You can easily embed the Rhino.fi SDA Widget into any site using a simple `<iframe>`. It provides a complete UI for generating Smart Deposit Addresses and bridging into a destination address, with no installation or bundling required.
+
+{/*
+## Live Preview
+
+See the SDA widget in action:
+
+<div style={{ background:"#FCDCA4",padding:"24px",textAlign:"center",display:"flex",justifyContent:"center",borderRadius:"24px" }}>
+<iframe id="sda-widget-frame" src="https://address.rhinofi.dev/" style={{ width:"400px",height:"581px",border:"none" }} scrolling="no" />
+
+</div>
+*/}
+
+### ⚡ Quick Start
+
+You can either customize your widget visually using our playground **or** use the example code below directly.
+
+<Card title="Customize Your Theme" icon="wrench" href="https://playground.rhino.fi/">
+  Use our playground to visually design and preview your widget, then copy the embed code.
+</Card>
+
+Paste the following HTML code where you want the widget to appear:
+
+```html
+<iframe
+  src="https://address.rhino.fi/?apiKey=YOUR_API_KEY&chainIn=ETHEREUM&chainOut=BASE&token=USDC&recipient=0xYOUR_RECIPIENT_ADDRESS"
+  style="width: 400px; height: 565px; border: none"
+  scrolling="no"
+/>
+```
+
+Replace `YOUR_API_KEY` with your actual Rhino.fi API key and `0xYOUR_RECIPIENT_ADDRESS` with the destination address you want to receive funds at.
+
+Unlike the bridge widget, the SDA widget has no default configuration — `chainIn`, `chainOut`, `token`, and `recipient` are all required query params.
+
+<RequestApiKey />
+
+## Customization
+
+You can customize the widget's appearance and default values using URL query parameters. Here's a quick overview:
+
+| Query Param       | Required | Description                             | Example                          |
+| ----------------- | :------: | --------------------------------------- | :------------------------------: |
+| <b> apiKey</b>    | ✅       | API key to authenticate                 | `apiKey=YOUR_API_KEY`            |
+| <b> chainIn</b>   | ✅       | Source chain                            | `chainIn=ETHEREUM`               |
+| <b> chainOut</b>  | ✅       | Destination chain                       | `chainOut=BASE`                  |
+| <b> token</b>     | ✅       | Source token                            | `token=USDT`                     |
+| <b> recipient</b> | ✅       | Destination (recipient) address         | `recipient=0x0`                  |
+| <b> tokenOut</b>  |          | Destination token                       | `tokenOut=USDC`                  |
+| <b> amount</b>    |          | Pre-fills the amount in the deposit QR code | `amount=10`                  |
+| <b> mode</b>      |          | Widget mode (light or dark)             | `mode=dark`                      |
+| <b> theme</b>     |          | Theme configuration in JSON             | `theme={...}` (URL-encoded JSON) |
+
+## 🎨 Theming
+
+You can customize the appearance of the widget by passing a `theme` query param in URL-encoded JSON format.
+
+Supported Theme Properties
+
+```ts
+type WidgetTheme = {
+  colors?: {
+    primary?: string               // Primary color / CTA color
+    primaryLight?: string          // Light variation of the primary color
+    secondary?: string             // Secondary color
+    widgetBackground?: string      // Background of the full widget
+    select?: string                // Background of input/select fields
+    textPrimary?: string           // Default widget text color
+    textSecondary?: string         // Secondary or muted text
+    textPrimaryCta?: string        // Text color for primary buttons
+    textSecondaryCta?: string      // Text color for secondary buttons
+    stroke?: string                // Border/stroke color
+  }
+  radius?: {
+    widget?: string                // Border radius for main widget container
+    actionElements?: string        // Radius for buttons and actions
+    tokenSelect?: string           // Radius for token select
+  }
+  tokenInputStroke?: boolean       // Whether to show stroke or fill on token input
+  googleFontFamily?: string        // Google Font family name to load and apply
+}
+```
+
+Example with custom theme:
+
+```html
+<iframe
+  src="https://address.rhino.fi/?apiKey=YOUR_API_KEY&mode=light&theme=%7B%22colors%22%3A%7B%22primary%22%3A%22red%22%7D%7D"
+  style="width: 400px; height: 581px; max-width: 100%; border: none"
+  scrolling="no"
+/>
+```
