@@ -1,6 +1,6 @@
 ---
-title: Prepare bridge
-description: If you need more control over the bridge flow, you can use the `prepareBridge` function instead of the previously discussed `bridge` function.
+title: "Prepare bridge"
+description: "If you need more control over the bridge flow, you can use the `prepareBridge` function instead of the previously discussed `bridge` function."
 ---
 
 ## Use case
@@ -9,7 +9,7 @@ The `prepareBridge` function is particularly useful if you want to make bridges 
 
 ## Usage example
 
-```typescript {5,8,16}
+```typescript highlight={5,8,16}
 // Same parameters as the bridge function
 const preparedBridge = await rhinoSdk.prepareBridge(bridgeData, options)
 
@@ -31,7 +31,6 @@ switch (preparedBridge.type) {
 }
 ```
 
-
 Unlike the `bridge` function, `prepareBridge` will not make any transactions immediately. The initial call will only
 
 - Fetch the bridge config and validate the given parameters
@@ -41,17 +40,17 @@ Unlike the `bridge` function, `prepareBridge` will not make any transactions imm
 
 Then it will return with a discriminated union type with three different cases, highlighted in the code example:
 
-`no-approval-needed`  
+`no-approval-needed`\
 This means that no token approval is needed and the bridge can be initiated directly. The object will contain the generated quote and a `bridge` function that will initiate the actual bridge transaction when called. It will return the same result as the [standard bridge function](/sdk/bridge-functions/bridge).
 
-`approval-needed`  
-This means that a token approval is needed before the bridge can be initiated. The object will contain
+`approval-needed`\
+This means that a token approval is needed before the bridge can be initiated. The object will contain:
 
-- The generate quote
-- Information abouth the currently available and required token allowance
+- The generated quote (including the expiration date that the quote must be committed by - the  `expiresAt`param.)
+- Information about the currently available and required token allowance
 - An `approve` function that can be called to initiate the token approval
 
 The `approval` function will return on object containing a function to make the actual bridge or an error if the token approval failed. This bridge function will behave the same as in the previous case.
 
-`error`  
+`error`\
 This means an error occurred during the preparation. It will contain the same error type as the standard bridge function result.

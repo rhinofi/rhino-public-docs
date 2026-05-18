@@ -1,28 +1,29 @@
 ---
 title: "Events List"
-"og:title": "Events List Documentation | Webhook Docs | Rhino.fi"
+og:title: "Events List Documentation | Webhook Docs | Rhino.fi"
 ---
 
-## Bridge events
+Different events can be received depending on whether the transaction is a bridge/bridge\+swap (generated through the  `POST/quote/bridge-swap/user`endpoint) or a Smart Deposit Address involving transaction (funds are sent to an address as generated through the `POST/deposit-addresses`endpoint).
+
+## Bridge/bridge\+swap events
 
 The following bridge events will be sent to your webhook servers.
 
-The bridge events data structure is the same as the [Bridge Status endpoint](https://docs.rhino.fi/api-reference/history/bridge-status) excluding the `state` field, use the `_tag` for the event type.
+The bridge events data structure is the same as the [**Bridge Status endpoint**](https://docs.rhino.fi/api-reference/bridge/history/bridge-status) excluding the `state` field. The `_tag` field denotes the event type.
 
-- **BRIDGE_PENDING** - sent when the bridge quote is committed
-- **BRIDGE_ACCEPTED** - sent when the deposit transaction was received and validated
-- **BRIDGE_EXECUTED** - sent when the bridge is completed and received on the destination chain
-- **BRIDGE_REFUNDED** - when a swap is involved, the bridge might get refunded if the token price moved too much since the quote was emitted
-- **BRIDGE_CANCELLED** - sent when a committed bridge is CANCELLED (note that that cancelled bridges can still be actioned if a matching deposit is detected on-chain, subsequent bridge events will be sent)
+- **BRIDGE\_PENDING** - sent when the bridge quote is committed
+- **BRIDGE\_ACCEPTED** - sent when the deposit transaction was received and validated
+- **BRIDGE\_EXECUTED** - sent when the bridge is completed and received on the destination chain
+- **BRIDGE\_REFUNDED** - when a swap is involved, the bridge might get refunded if the token price moved too much since the quote was emitted
+- **BRIDGE\_CANCELLED** - sent when a committed bridge is CANCELLED (note that that cancelled bridges can still be actioned if a matching deposit is detected on-chain, subsequent bridge events will be sent)
 
 ## Smart Deposit Addresses events
 
-### **DEPOSIT_ADDRESS_CREATED**
+The following events will be sent to your webhook servers for any activity involving a [<u>Rhino.fi</u>](http://Rhino.fi) Smart Deposit Address.
 
-When a new Smart Deposit Address is generated, the `DEPOSIT_ADDRESS_CREATED` event will be sent.
+- **DEPOSIT\_ADDRESS\_CREATED -** sent when a new Smart Deposit Address is generated Event structure:
 
-Event structure:
-```
+```text
 {
   _tag: "DEPOSIT_ADDRESS_CREATED",
   depositChain: string
@@ -35,17 +36,10 @@ Event structure:
 }
 ```
 
-### **BRIDGE_\***
+- **BRIDGE\_\* -** the same BRIDGE\_PENDING, BRIDGE\_ACCEPTED and BRIDGE\_EXECUTED events as described above will be sent for Smart Deposit Address related activity.
+- **DEPOSIT\_ADDRESS\_BRIDGE\_REJECTED -** sent when a Smart Deposit Address bridge is rejected. Event structure:
 
-The same `BRIDGE_PENDING`, `BRIDGE_ACCEPTED` and `BRIDGE_EXECUTED` events as described above will be sent for Smart Deposit Addresses.
-
-
-### **DEPOSIT_ADDRESS_BRIDGE_REJECTED**
-
-When a Smart Deposit Address bridge is rejected, the `DEPOSIT_ADDRESS_BRIDGE_REJECTED` event will be sent.
-
-Event structure:
-```
+```text
 {
   _tag: "DEPOSIT_ADDRESS_BRIDGE_REJECTED",
   _id: string, // bridge ID
@@ -67,12 +61,31 @@ Event structure:
 }
 ```
 
-### **DEPOSIT_ADDRESS_BRIDGE_DELAYED**
+- **DEPOSIT\_ADDRESS\_BRIDGE\_REJECTED - UNSUPPORTED\_TOKEN** - sent when a Smart Deposit Address bridge is rejected as the token sent is not supported by [<u>Rhino.fi</u>](http://Rhino.fi). The full list of supported chains and assets can be found here:  [rhino.fi](http://rhino.fi)[ - Docs\*\*<u>Supported Chains - </u>\*\*](https://docs.rhino.fi/get-started/supported-chains)[**<u>rhino.fi</u>**](http://rhino.fi)**<u>[ - Docs](https://docs.rhino.fi/get-started/supported-chains)</u>**. N.B [Rhino.fi](http://Rhino.fi) monitors for a selection of unsupported tokens per chain however this does not cover all scenarios where an unsupported token may be sent to an Smart Deposit Address. The event structure is:
+  ```text
+  {
+    _tag: "DEPOSIT_ADDRESS_BRIDGE_REJECTED - UNSUPPORTED_TOKEN",
+    _id: string, // bridge ID
+    tokenSymbol: string
+    tokenAddress: string
+    amount: string
+    amountUsd: string
+    amountWei: string
+    sender: string // depositor address
+    txHash: string // deposit transaction hash
+    reason: string // reason why it was rejected, e.g "UNDER_MIN"
+    createdAt: string
+    depositAddress: { // associated deposit address parameters
+      depositChain: string
+      depositAddress: string
+      destinationChain: string
+      destinationAddress: string
+    }
+  }
+  ```
+- **DEPOSIT\_ADDRESS\_BRIDGE\_DELAYED -** send when a bridged transaction is taking longer than expected. This may be due to onchain congestion. The bridge transaction will be re-tried, there is no action required of the user. The event structure is:
 
-Sometimes some bridges can take a bit longer than usual, in this case the `DEPOSIT_ADDRESS_BRIDGE_DELAYED` event is sent.
-
-Event structure:
-```
+```text
 {
   _tag: "DEPOSIT_ADDRESS_BRIDGE_DELAYED",
   _id: string, // bridge ID
@@ -93,3 +106,6 @@ Event structure:
 }
 ```
 
+## Webhook Event Flows
+
+Information about the transition between different webhook events can be found [here](https://learn.rhino.fi/articles/8943216896-webhook-event-state-transitions)
