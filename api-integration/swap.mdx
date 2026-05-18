@@ -1,11 +1,12 @@
 ---
-title: 'Making a bridge & swap'
-description: 'This guide walks you through integrating our bridge API into your application. By following these steps, you’ll be able to transfer and swap assets between chains using our API and smart contract interactions.'
+title: "Making a bridge & swap"
+description: "This guide walks you through integrating our bridge API into your application. By following these steps, you’ll be able to transfer and swap assets between chains using our API and smart contract interactions."
 ---
 
 ## Quickstart
 
 The whole process consists of:
+
 <Steps>
   <Step title="Authentication">
     Get a JWT to authenticate your requests.
@@ -31,6 +32,7 @@ The whole process consists of:
 All non-public API endpoints are authenticated using a JSON Web Token. To authenticate your requests, include the token in the `Authorization` header. [Learn about API authentication](/api-integration/authentication).
 
 ### 2. Fetch Bridge Configs
+
 Retrieve available chains to ensure your transaction uses the correct parameters.
 
 ```javascript getBridgeConfigs.js
@@ -39,10 +41,11 @@ export const getBridgeConfigs = async () => {
   return request.json()
 }
 ```
+
 For the exact response format and more details, see the [API Reference](/api-reference/configs).
 
-
 ### 3. Fetch Swap token config
+
 Retrieve available tokens for swap transactions.
 
 ```javascript
@@ -51,9 +54,11 @@ export const getSwapTokenConfig = async () => {
   return request.json()
 }
 ```
+
 For the exact response format and more details, see the [API Reference](/api-reference/configs/get-all-token-configs-for-bridge-and-swap).
 
 ### 4. Get a Bridge & Swap Quote
+
 Before executing a bridge transaction, you must generate a quote that provides transaction details, including fees and amounts.
 
 ```javascript getBridgeSwapUserQuote.js
@@ -69,13 +74,13 @@ export const getBridgeSwapUserQuote = async (payload, jwt) => {
 
   return request.json()
 }
-
 ```
 
 For the exact request / response format and more details, see the [API Reference](/api-reference/quote/user-quote-for-bridge-&-swap).
 
 ### 5. Commit the Quote
-Once you have a quote, you must commit it to confirm the transaction before execution.
+
+Once you have a quote, you must commit it to confirm the transaction before execution. The deadline to commit a quote is provided within the `expiresAt`param within the quote response.
 
 ```javascript commitBridgeSwapUserQuote.js
 export const commitBridgeSwapUserQuote = async (quoteId, jwt) => {
@@ -91,14 +96,16 @@ export const commitBridgeSwapUserQuote = async (quoteId, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](/api-reference/quote/commit-quote).
+For the exact request / response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/quote/commit-quote).
 
 ### 6. Execute the Bridge & Swap Transaction
+
 Now, you can execute the bridge transaction by interacting with the smart contract.
 
 See [examples](/contracts/contract-examples) for interacting with the bridge smart contracts across different blockchain environments.
 
 ### 7. Full Example
+
 Here’s the complete implementation combining all the steps above:
 
 ```javascript index.js
@@ -207,6 +214,7 @@ The response contains a JSON-stringified transaction object:
 Parse it and submit it as a raw EVM transaction from the depositor wallet:
 
 <CodeGroup>
+
 ```javascript ethers
 import { ethers } from 'ethers'
 
@@ -224,10 +232,11 @@ const { to, data, value } = JSON.parse(calldata)
 const hash = await walletClient.sendTransaction({ to, data, value: BigInt(value ?? 0) })
 await publicClient.waitForTransactionReceipt({ hash })
 ```
+
 </CodeGroup>
 
 <Warning>
-Do **not** call `depositWithId` / `depositNativeWithId` on the regular deposit contract for same-chain swaps.
+  Do **not** call `depositWithId` / `depositNativeWithId` on the regular deposit contract for same-chain swaps.
 </Warning>
 
 ## Next steps
@@ -235,4 +244,3 @@ Do **not** call `depositWithId` / `depositNativeWithId` on the regular deposit c
 For the smart contract integration see - [contract examples](/contracts/contract-examples)
 
 To track your bridge transaction status, see [Bridge Status & History](/api-integration/status-history).
-

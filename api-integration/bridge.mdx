@@ -1,11 +1,12 @@
 ---
-title: 'Making a bridge'
-description: 'This guide walks you through integrating our bridge API into your application. By following these steps, you’ll be able to transfer assets between chains using our API and smart contract interactions.'
+title: "Making a bridge"
+description: "This guide walks you through integrating our bridge API into your application. By following these steps, you’ll be able to transfer assets between chains using our API and smart contract interactions."
 ---
 
 ## Quickstart
 
 The whole process consists of:
+
 <Steps>
   <Step title="Authentication">
     Get a JWT to authenticate your requests.
@@ -31,6 +32,7 @@ The whole process consists of:
 All non-public API endpoints are authenticated using a JSON Web Token. To authenticate your requests, include the token in the `Authorization` header. [Learn about API authentication](/api-integration/authentication).
 
 ### 2. Fetch Bridge Configs
+
 Retrieve available chains and supported tokens to ensure your transaction uses the correct parameters.
 
 ```javascript getBridgeConfigs.js
@@ -38,12 +40,12 @@ export const getBridgeConfigs = async () => {
   const request = await fetch('https://api.rhino.fi/bridge/configs')
   return request.json()
 }
-
 ```
+
 For the exact response format and more details, see the [API Reference](/api-reference/configs).
 
-
 ### 3. Get a Bridge Quote
+
 Before executing a bridge transaction, you must generate a quote that provides transaction details, including fees and amounts.
 
 ```javascript getBridgeUserQuote.js
@@ -59,13 +61,13 @@ export const getBridgeUserQuote = async (payload, jwt) => {
 
   return request.json()
 }
-
 ```
 
 For the exact request / response format and more details, see the [API Reference](/api-reference/quote/user-quote).
 
 ### 4. Commit the Quote
-Once you have a quote, you must commit it to confirm the transaction before execution.
+
+Once you have a quote, you must commit it to confirm the transaction before execution. The deadline to commit a quote is provided within the `expiresAt` param within the quote response.
 
 ```javascript commitBridgeUserQuote.js
 export const commitBridgeUserQuote = async (quoteId, jwt) => {
@@ -81,14 +83,16 @@ export const commitBridgeUserQuote = async (quoteId, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](/api-reference/quote/commit-quote).
+For the exact request / response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/quote/commit-quote).
 
 ### 5. Execute the Bridge Transaction
+
 Now, you can execute the bridge transaction by interacting with the smart contract.
 
 See [examples](/contracts/contract-examples) for interacting with the bridge smart contracts across different blockchain environments.
 
 ### 6. Full Example
+
 Here’s the complete implementation combining all the steps above:
 
 ```javascript index.js
@@ -150,4 +154,3 @@ For a detailed breakdown of API endpoints and parameters, check the [API Referen
 For the smart contract integration see - [contract examples](/contracts/contract-examples)
 
 To track your bridge transaction status, see [Bridge Status & History](/api-integration/status-history).
-
