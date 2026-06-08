@@ -1,6 +1,6 @@
 ---
 title: "Smart Deposit Addresses"
-description: "Smart Deposit Addresses are the core deposit primitive in the Rhino Stablecoin Activation Stack. Generate one address per user; Rhino handles chain detection, routing, settlement, and compliance automatically."
+description: "Smart Deposit Addresses are the core deposit primitive in the Rhino.fi Stablecoin Activation Stack. Generate one address per user; Rhino.fi handles chain detection, routing, settlement, and compliance automatically."
 ---
 
 import DepositAddressDisclaimer from "/snippets/deposit-address-disclaimer.mdx";
@@ -19,10 +19,10 @@ See some live use cases here: [5 ways to use SDAs](https://rhino.fi/blog/5-ways-
 
 At a high level, the process works as follows:
 
-1. **Generate an SDA**: Call the API to create a new deposit address, linked to a destination chain and address or a target action (coming soon).\
+1. **Generate an Smart Deposit Address (SDA)**: Call the API to create a new deposit address, linked to a destination chain and address or a target action.\
    We strongly recommend generating an SDA on all available EVM chains immediately to ensure that funds accidentally sent by customers to the wrong chain are automatically detected.
-2. **User deposits**: Any wallet, CEX, or payment service can send supported tokens to the SDA. The user only performs a normal token transfer.
-3. **Monitoring & orchestration**: The system continuously watches for incoming transfers. If a valid deposit arrives (correct token, within limits), it triggers the bridge process.
+2. **User deposits**: Any wallet, CEX, or payment service can send supported tokens to the Smart Deposit Address. The user only performs a normal token transfer.
+3. **Monitoring & orchestration**: The system continuously watches for incoming transfers. If a valid deposit arrives (correct token, within limits), it triggers the bridge and swap process.
 4. **Cross-chain execution**: Funds are credited on the destination chain, or the requested Automated Onchain Action (e.g. swap, pool deposit) is performed.
 5. **Reconciliation & sweeping**: After crediting is complete, addresses are swept periodically to consolidate balances and keep monitoring efficient.
 
@@ -33,33 +33,31 @@ From the client/user perspective: user sends → destination credited → job do
 Key properties that make SDAs flexible:
 
 - **Many-to-one**: Multiple SDAs can funnel to the same destination address.
-- **Multi-chain source support**: SDAs can currently be generated on the top EVM chains like Ethereum, Arbitrum, Base, BSC, Polygon, Optimism, Kaia, Tron, and Solana. Full list available under [Supported Chains → Smart Deposit Address](https://docs.rhino.fi/get-started/supported-chains#smart-deposit-address).
+- **Multi-chain source support**: SDAs can currently be generated on the top EVM chains like Ethereum, Arbitrum, Base, BSC, Polygon, Optimism, Kaia, Tron, and Solana. \
+  Full list available under [Supported Chains → Smart Deposit Address](https://docs.rhino.fi/get-started/supported-chains#smart-deposit-addresses).
   <Info>
     Generating a Tron (and Solana) SDA requires a separate call. I.e. you can specify all EVMs to generate SDAs across all EVMs. Then generate a Tron and Solana SDA with separate calls.
   </Info>
-- **Webhooks** – Real-time push updates on deposit results.
-- **Any-chain destination**: Funds can settle on any of the 35\+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
+- **Webhooks**: Real-time push updates on deposit results.
+- **Any-chain destination**: Funds can settle on any of the 20\+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
 - **Stablecoin primitives**:
   - Same-to-same (e.g. USDC → USDC)
   - Cross-stable swap (e.g. USDC → USDT) — with the [1:1 Stablecoin Swaps](/get-started/extensions/stablecoin-swaps) extension, cross-stable conversions execute at a guaranteed 1:1 rate with no slippage
+- **Native asset support:** Users can send ETH (and soon additional native assets) to the [Rhino.fi](http://Rhino.fi) Smart Deposit Addresses and either bridge as ETH to supported chains or have embedded swap and bridge functionality to receive it on the destination chain as a stablecoin.
 - **Programmable actions**: Trigger Automated Onchain Actions like swaps, pool deposits, or contract interactions.
 - **Metadata support**: Attach arbitrary data (e.g. UUID) to track users, payments, or invoices.
 - **Flexible fees**: End users pay standard fees by default. With the [Advanced Fee & Limit Management](/get-started/extensions/advanced-fee-management) extension, clients can sponsor fees on behalf of end users, or add a configurable markup that Rhino collects and remits via end-of-month invoicing.
-- **Validity:** unlimited
+- **Validity:** Unlimited. Smart Deposit Addresses are monitored for 7 years ensuring that no later transactions are missed.
 - **Deposit size**: Typically 5-digit USD\+ supported, 7-digit on request.
 - **100% KYT screening**: Every deposit is screened for KYT/AML before crediting. Clients never receive funds that fail compliance checks. Enhanced screening options and real-time AML notifications are available via the [Enhanced Compliance & Risk Management](/get-started/extensions/enhanced-compliance) extension.
 - **Privacy benefit**: SDAs are naturally decoupled from destination addresses.
 
-Coming soon:
-
-- **Refund address** – Users/clients can specify fallback if a credit fails (\< 1% of cases).
+- **Refund address**:  Users/clients can specify fallback if a transaction fails (\< 1% of cases) or can use our concierge approach to processing refunds e.g in the case of unsupported tokens being received into the SDA. 
 
 ## The Constraints
 
 There are some limitations to be aware of:
 
-- **Native tokens (ETH, BNB, SOL, etc.):** Native token support is currently in beta rollout, including both direct SDA bridging and native → stablecoin swaps. [Contact us](https://rhino.fi/contact) if you're interested in using native token deposits.
-- Wrong tokens will not be credited and require a manual refund.
 - Deposits below \$5 USD equivalent or above set limits will not process and require a manual refund.
 - If liquidity is insufficient, deposits will retry until successful or refunded.
 - Fees can be fetched in real time through the API or fixed by agreement.
@@ -70,12 +68,12 @@ Several technologies come together to make Smart Deposit Addresses (SDAs) work i
 
 - **API / SDK (SDA generation)**: Developers generate deposit addresses via Rhino's API or SDK with zero blockchain complexity. No private key management or contract deployment is required.
 - **Wallet & App Transfers (funding SDA)**: Any wallet, CEX, or app that supports token transfers can send funds to an SDA. This keeps the user interaction primitive and universal.
-- **Rhino Solver & Liquidity Layer (orchestration & crediting)**: Our solver system monitors deposits in real time and uses Rhino's liquidity to credit the specified destination chain/address.
+- **Rhino.fi Solver & Liquidity Layer (orchestration & crediting)**: Our solver system monitors deposits in real time and uses Rhino's liquidity to credit the specified destination chain/address.
 - **Reconciliation (sweeping)**: On EVM chains we use **EIP-7702**; for non-EVMs we maintain custom implementations. This ensures SDA balances are reconciled safely after crediting.
 
 ## Before You Start
 
 <DepositAddressDisclaimer />
 
-- You'll need an account in the [Rhino Console](https://console.rhino.fi/).
+- You'll need an account in the [Rhino.fi Console](https://console.rhino.fi/).
 - The [API docs](/api-integration/smart-deposits) are the source of truth for supported chains, tokens, and endpoints.
