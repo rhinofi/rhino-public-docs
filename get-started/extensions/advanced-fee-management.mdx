@@ -9,57 +9,42 @@ description: "Control how fees are presented and collected — sponsor fees for 
 
 The Advanced Fee & Limit Management extension gives you control over how fees are presented and collected in your integration. It is designed for clients that want to either remove fee friction from their end users entirely, or use the bridge integration as a revenue source.
 
----
-
-## Fee sponsorship
-
-When fee sponsorship is enabled, end users pay nothing. Rhino deducts no fee from the deposit; the client's account is charged instead. The full deposited amount (less gas cost) is credited to the destination.
-
-This is the recommended configuration for any onboarding flow where the client wants to absorb fees as a cost of acquisition or service.
-
-**Configuration:** Fee sponsorship is set at the account level. Individual SDA or bridge requests do not need additional parameters when sponsorship is active. Contact your account representative to enable it.
+It is accessible within the [Rhino.fi](http://Rhino.fi) Console to provide quick and easy access to view limit information and set fee policies.
 
 ---
 
-## Fee markup
+### Client Surcharge
 
-Clients can add a configurable markup on top of the standard Rhino fee. The markup is specified as a fixed amount or percentage, agreed at account setup. Rhino collects the combined fee (its standard fee plus the client markup) on every transaction.
+PAYG and Subscription clients may choose to add on an additional charge that is passed directly through to their customers for their [Rhino.fi](http://Rhino.fi) activity. This is called a 'client surcharge' and is able to be a fixed \$ amount and/or a fixed % amount. This amount is deducted from the end of month Rhino.fi invoice that the client pays. 
 
-### End-of-month invoicing
+For example: 
 
-Rhino consolidates all collected client markup fees over the calendar month and issues an invoice to the client. Payment is made to the client's designated wallet or bank account.
+- ClientA may add a client surcharge of 1% 
+- ClientB may add a client surcharge of \$0.50
+- ClientC may add a client surcharge of 0.25% \+ \$0.30
 
-Invoicing timelines and minimum payout thresholds are agreed in the service agreement.
+For clients without the Advanced Fee and Limit Management extension, this surcharge is applied across all customers and all routes.
 
-This means clients can generate revenue from their integration without building a fee collection mechanism, operating any smart contracts, or handling user-facing billing.
+However with the Advanced Fee and Limit Management extension, clients are able to apply a 'Default Policy' to one or more projects which applied to all customers and all routes, but then also set 'Fee Policies' which override the default policy when specified conditions are met.
 
----
+These fee policies can be set at the customer lever or route level.
 
-## Limit configuration
+- **Customer Fee Policies:** Clients are able to specify one or more customers (via a customerID or [Rhino.fi](http://Rhino.fi) Smart Deposit Addresses) that the client surcharge should be applied to. This enables fee structures where subsets of customers are charged different rates e.g 0.1% for VIP customers vs 0.4% for all other customers. 
+- **Route Fee Policies:** Clients are able to specify one or more chains that fees should be applied to. It is also possible to specify whether this is as the source and/or destination chain. This enables fee structures where certain chains are charged at different rates e.g for Solana to Base there is a \$1 fee, and for transaction involving Ethereum (whether the source or destination chain) the fee should be \$2. It is also possible to specify one or more tokens - as either/or the source or destination token, and set different rates for them. Route Fee Policies can also be a combination of chains and tokens.\
+  \
+  This comprehensive configurability allows for clients to set bespoke fee policies which meet their individual needs. 
 
-Default deposit limits:
+We will continue to build to build out additional fee policy structures and configurations so please reach out if you have additional requirements not facilitated by the above. 
 
-|  | Bridge & Swap | Smart Deposit Addresses |
-| --- | --- | --- |
-| **Minimum deposit** | No minimum | \$0.5 on EVMs and Solana<br />\$5 USD equivalent on Ethereum and Tron (editable on demand) |
-| **Maximum instant deposit** | $100k–$ 1M USD (route dependent) | $100k–$ 1M USD (route dependent) |
-| **Maximum slow deposit** | Up to \$10M USD | Up to \$10M USD |
+### Limit Information
 
-With this extension, limits can be adjusted by agreement. Contact your account representative to discuss non-standard limits.
+Within Advanced Fee and Limit Management there is information about Smart Deposit Address limits as well as, where the extension is enabled, 1:1 Stablecoin Swap Limits. This ensures that clients have access to this information directly.
 
-Deposits outside the applicable limits are not processed. Funds can be returned via customer support.
+Smart Deposit Address (SDA) Limits shows the number of generated Smart Deposit Addresses, in total and over various time periods, and how the tracks towards the client's total SDA limit. Information on the minimum and maximum deposit per SDA, per project is also visible.
 
----
+1:1 Limits shows a comprehensive view of which projects have 1:1 enabled on, what the 30 day volume vs the limit is including the daily volume, rolling 30d total and projected volume to help clients best manage their activity. The max USD per recipient limit is also included. 
 
-## Configuration reference
-
-Fee and limit settings are configurable. Please contact your account representative to manage your configuration. 
-
-Changes to fee structure require agreement from your account representative and may be subject to minimum volume commitments.
-
-Coming soon:
-
-- **Configurable and editable** **fees & limits** in the [Rhino Console](https://docs.rhino.fi/get-started/rhino-console).
+For more information on [Rhino.fi](http://Rhino.fi) limits generally [https://docs.rhino.fi/get-started/](https://docs.rhino.fi/get-started/introduction)limits
 
 ---
 
