@@ -43,7 +43,7 @@ Key properties that make SDAs flexible:
 - **Stablecoin primitives**:
   - Same-to-same (e.g. USDC → USDC)
   - Cross-stable swap (e.g. USDC → USDT) — with the [1:1 Stablecoin Swaps](/get-started/extensions/stablecoin-swaps) extension, cross-stable conversions execute at a guaranteed 1:1 rate with no slippage
-- **Native asset support:** Users can send ETH (and soon additional native assets) to the [Rhino.fi](http://Rhino.fi) Smart Deposit Addresses and either bridge as ETH to supported chains or have embedded swap and bridge functionality to receive it on the destination chain as a stablecoin.
+- **Native asset support:** Users can send ETH (and soon additional native assets) to the Rhino.fi Smart Deposit Addresses and either bridge as ETH to supported chains or have embedded swap and bridge functionality to receive it on the destination chain as a stablecoin.
 - **Programmable actions**: Trigger Automated Onchain Actions like swaps, pool deposits, or contract interactions.
 - **Metadata support**: Attach arbitrary data (e.g. UUID) to track users, payments, or invoices.
 - **Flexible fees**: End users pay standard fees by default. With the [Advanced Fee & Limit Management](/get-started/extensions/advanced-fee-management) extension, clients can sponsor fees on behalf of end users, or add a configurable markup that Rhino collects and remits via end-of-month invoicing.
@@ -51,8 +51,7 @@ Key properties that make SDAs flexible:
 - **Deposit size**: Typically 5-digit USD\+ supported, 7-digit on request.
 - **100% KYT screening**: Every deposit is screened for KYT/AML before crediting. Clients never receive funds that fail compliance checks. Enhanced screening options and real-time AML notifications are available via the [Enhanced Compliance & Risk Management](/get-started/extensions/enhanced-compliance) extension.
 - **Privacy benefit**: SDAs are naturally decoupled from destination addresses.
-
-- **Refund address**:  Users/clients can specify fallback if a transaction fails (\< 1% of cases) or can use our concierge approach to processing refunds e.g in the case of unsupported tokens being received into the SDA. 
+- **Refund address**:  Users/clients can specify fallback if a transaction fails (\< 1% of cases) or can use our concierge approach to processing refunds e.g in the case of unsupported tokens being received into the SDA.
 
 ## The Constraints
 
@@ -62,7 +61,6 @@ There are some limitations to be aware of:
 - If liquidity is insufficient, deposits will retry until successful or refunded.
 - Fees can be fetched in real time through the API or fixed by agreement.
 - Internal native token transfers (like ETH) are only supported on Base, Ethereum and Optimism currently. If such a transfer is sent on an unsupported chain, funds can be returned through our customer service.
-
 
 ### Core Technologies
 

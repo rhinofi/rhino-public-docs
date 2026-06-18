@@ -19,7 +19,7 @@ The bridge events data structure is the same as the [**Bridge Status endpoint**]
 
 ## Smart Deposit Addresses events
 
-The following events will be sent to your webhook servers for any activity involving a [<u>Rhino.fi</u>](http://Rhino.fi) Smart Deposit Address.
+The following events will be sent to your webhook servers for any activity involving a [Rhino.fi](http://Rhino.fi) Smart Deposit Address.
 
 - **DEPOSIT\_ADDRESS\_CREATED -** sent when a new Smart Deposit Address is generated Event structure:
 
@@ -61,7 +61,7 @@ The following events will be sent to your webhook servers for any activity invol
 }
 ```
 
-- **DEPOSIT\_ADDRESS\_BRIDGE\_REJECTED - UNSUPPORTED\_TOKEN** - sent when a Smart Deposit Address bridge is rejected as the token sent is not supported by [<u>Rhino.fi</u>](http://Rhino.fi). The full list of supported chains and assets can be found here:  [rhino.fi](http://rhino.fi)[ - Docs\*\*<u>Supported Chains - </u>\*\*](https://docs.rhino.fi/get-started/supported-chains)[**<u>rhino.fi</u>**](http://rhino.fi)**<u>[ - Docs](https://docs.rhino.fi/get-started/supported-chains)</u>**. N.B [Rhino.fi](http://Rhino.fi) monitors for a selection of unsupported tokens per chain however this does not cover all scenarios where an unsupported token may be sent to an Smart Deposit Address. The event structure is:
+- **DEPOSIT\_ADDRESS\_BRIDGE\_REJECTED - UNSUPPORTED\_TOKEN** - sent when a Smart Deposit Address bridge is rejected as the token sent is not supported by Rhino.fi. The full list of supported chains and assets can be found here:  [rhino.fi](http://rhino.fi)[ - Docs\*\*<u>Supported Chains - </u>\*\*](https://docs.rhino.fi/get-started/supported-chains)**[<u>rhino.fi</u>](http://rhino.fi)<u>[ - Docs](https://docs.rhino.fi/get-started/supported-chains)</u>**. N.B Rhino.fi monitors for a selection of unsupported tokens per chain however this does not cover all scenarios where an unsupported token may be sent to an Smart Deposit Address. The event structure is:
   ```text
   {
     _tag: "DEPOSIT_ADDRESS_BRIDGE_REJECTED - UNSUPPORTED_TOKEN",

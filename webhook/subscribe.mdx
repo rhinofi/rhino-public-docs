@@ -3,7 +3,7 @@ title: "Subscribe to webhooks"
 description: "You can either setup your webhook URL once for your project in the Rhino Console or pass it on invidual bridges."
 ---
 
-## Using the [Rhino.fi](http://Rhino.fi) Console
+## Using the Rhino.fi Console
 
 Within the <u>Rhino.fi</u> Console, navigate to the ‘Integrate’ section within the navigation bar. Under the ‘Webhooks’ section you are able to set up a new webhook and view an existing webhook.
 
@@ -12,14 +12,14 @@ To add a new webhook, enter the webhook URL.
 <Warning>
   Please make sure NOT to include the suffix `/rhinofi-event`.
 
-  e.g you should provide: [https://my-server.com/prefix](https://my-server.com/prefix), and [Rhino.fi](http://Rhino.fi) will then call: [https://my-server.com/prefix/rhinofi-event](https://my-server.com/prefix/rhinofi-event)
+  e.g you should provide: [https://my-server.com/prefix](https://my-server.com/prefix), and Rhino.fi will then call: [https://my-server.com/prefix/rhinofi-event](https://my-server.com/prefix/rhinofi-event)
 </Warning>
 
 The list of webhook event types are available here: [<u>https://docs.rhino.fi/webhook/events-list</u>](https://docs.rhino.fi/webhook/events-list)
 
 ## Including within API calls
 
-The [<u>Rhino.fi</u>](http://Rhino.fi) Console routes enables you to receive all webhook evenst through to a single webhook URL. However it’s also possible to specify a different URL per bridge, bridge\+swap or Smart Deposit Address.
+The <u>Rhino.fi</u> Console routes enables you to receive all webhook evenst through to a single webhook URL. However it’s also possible to specify a different URL per bridge, bridge\+swap or Smart Deposit Address.
 
 This can be achieved by passing a URL within the `webhookUrl` param in the:
 
