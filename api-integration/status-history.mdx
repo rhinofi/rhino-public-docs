@@ -67,22 +67,19 @@ For the full response format and more details, see the [API Reference](/api-refe
 To retrieve a list of past transactions:
 
 <Note>
-  rhino.fi prioritizes transaction privacy, so the history endpoint is disabled by default for API keys.
-  If access is required, ensure your API key is kept private and properly configured.
-
-
-  You can request access to the user history endpoint by contacting us.
+  rhino.fi prioritizes transaction privacy, so the history endpoint is disabled for public API keys.
+  Only secret API keys can access the history endpoint. Those API keys should only be used in code that is not run client side.
 </Note>
 
 ```javascript getBridgeUserHistory.js
-export const getBridgeUserHistory = async (jwt) => {
+export const getBridgeUserHistory = async (jwt, pageToken) => {
     const queryParams = new URLSearchParams({
-    page: '1',
-    limit: '20',
+    pageSize: '20',
     sortBy: 'createdAt',
     sortDirection: 'desc',
+    pageToken,
   })
-  const request = await fetch(`https://api.rhino.fi/history/user?${queryParams.toString()}`, {
+  const request = await fetch(`https://api.rhino.fi/history-cursor/user?${queryParams.toString()}`, {
     headers: {
       "content-type": "application/json",
       "authorization": jwt
@@ -101,10 +98,17 @@ const JWT = 'YOUR_JWT'; // Replace with your JWT generated from our API
 
 const history = await getBridgeUserHistory(JWT);
 
-console.log('Bridge history:', history.items);
+console.log('Bridge history page 1:', history.items);
+
+# Fetch next page by using the nextPageToken
+const nextPage = await getBridgeUserHistory(JWT, history.nextPageToken);
+
+console.log('Bridge history page 2:', nextPage.items);
 ````
 
+The response will contain a `nextPageToken` field if there are more items matching the query. That field can then be passed into a followup requests with the same parameters to fetch the next page.
 
+<Warning>The page + limit based endpoint previously described on this page is deprecated and will be removed soon. Please use the cursor based endpoint described above which has better performance on larger history sizes.</Warning>
 
 ---
 

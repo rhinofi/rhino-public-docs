@@ -55,7 +55,7 @@ If you want to check the status of a bridge or fetch the history of your app, yo
 
 ```typescript
 const statusResult = await rhinoSdk.api.bridge.getBridgeStatus(quoteId)
-const historyResult = await rhinoSdk.api.bridge.getUserBridgeHistory({page: 1, limit: 10 })
+const historyResult = await rhinoSdk.api.bridge.getUserBridgeHistoryCursor({ pageSize: 10 })
 ```
 
 <Warning>

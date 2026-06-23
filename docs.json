@@ -98,14 +98,15 @@
                   "sdk/chain-adapters/paradex",
                   "sdk/chain-adapters/custom-chain-adapters"
                 ]
-              },
-              {
-                "group": "Migration guides",
-                "pages": [
-                  "sdk/migration-guides/to-1x",
-                  "sdk/migration-guides/from-api"
-                ]
               }
+            ]
+          },
+          {
+            "group": "Migration guides",
+            "pages": [
+              "migration-guides/to-1x",
+              "migration-guides/from-api",
+              "migration-guides/deprecated-endpoints"
             ]
           },
           {
@@ -192,6 +193,13 @@
             "openapi": {
               "source": "https://api.rhino.fi/sda/swagger.json",
               "directory": "api-reference/sda"
+            }
+          },
+          {
+            "group": "Webhook endpoints",
+            "openapi": {
+              "source": "https://api.rhino.fi/webhook/swagger.json",
+              "directory": "api-reference/webhook"
             }
           }
         ]

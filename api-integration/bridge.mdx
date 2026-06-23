@@ -42,7 +42,7 @@ export const getBridgeConfigs = async () => {
 }
 ```
 
-For the exact response format and more details, see the [API Reference](/api-reference/configs).
+For the exact response format and more details, see the [API Reference](/api-reference/bridge/configs/configs-chains-&-tokens).
 
 ### 3. Get a Bridge Quote
 
@@ -50,7 +50,7 @@ Before executing a bridge transaction, you must generate a quote that provides t
 
 ```javascript getBridgeUserQuote.js
 export const getBridgeUserQuote = async (payload, jwt) => {
-  const request = await fetch(`https://api.rhino.fi/bridge/quote/user`, {
+  const request = await fetch(`https://api.rhino.fi/bridge-swap/quote/user`, {
     headers: {
       "content-type": "application/json",
       "authorization": jwt
@@ -63,7 +63,7 @@ export const getBridgeUserQuote = async (payload, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](/api-reference/quote/user-quote).
+For the exact request / response format and more details, see the [API Reference](/api-reference/bridge/quote/user-quote-for-bridge-&-swap).
 
 ### 4. Commit the Quote
 
@@ -83,7 +83,7 @@ export const commitBridgeUserQuote = async (quoteId, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/quote/commit-quote).
+For the exact request / response format and more details, see the [API Reference](/api-reference/bridge/quote/commit-quote).
 
 ### 5. Execute the Bridge Transaction
 
@@ -118,7 +118,8 @@ const bridge = async () => {
     amount,
     chainIn,
     chainOut,
-    token,
+    tokenIn: token,
+    tokenOut: token,
     mode: 'receive',
     depositor: depositorAddress,
     recipient: recipientAddress,
@@ -147,7 +148,7 @@ const bridge = async () => {
 bridge();
 ```
 
-For a detailed breakdown of API endpoints and parameters, check the [API Reference](/api-reference/introduction).
+For a detailed breakdown of API endpoints and parameters, check the [API Reference](/api-reference).
 
 ## Next steps
 
