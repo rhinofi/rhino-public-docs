@@ -1,0 +1,122 @@
+---
+title: "Deprecated endpoints"
+description: "Learn how to migrate off deprecated API endpoints and onto their replacements."
+---
+
+## Summary
+
+We are gradually deprecating a number of older API endpoints in favour of improved replacements. The deprecated endpoints continue to work for now, but they will be removed in a future release, so we recommend migrating at your earliest convenience.
+
+If you use the SDK, upgrading to the latest version covers most of this automatically: quote and deposit address calls are routed to the new endpoints with no code changes required. The history endpoint is the one exception and requires a manual change, which is described below.
+
+<Note>
+  We recommend keeping your SDK up to date regardless of the changes below, so that you always benefit from the latest endpoints, fixes and improvements.
+</Note>
+
+## Quote endpoints
+
+The `user` and `public` quote endpoints are deprecated in favour of the bridge and swap quote endpoints, which return quotes for both plain bridges and bridge-swaps:
+
+* `POST /bridge/quote/user` is replaced by `POST /bridge/quote/bridge-swap/user`
+* `POST /bridge/quote/public` is replaced by `POST /bridge/quote/bridge-swap/public`
+
+### Using the SDK
+
+No code change is required. From the latest version, the existing quote functions are aliased to the new endpoints behind the scenes — you only need to upgrade your SDK.
+
+```typescript
+// Unchanged — now routed to the bridge & swap quote endpoint internally
+const quote = await rhinoSdk.api.bridge.getUserQuote(quoteArgs)
+// Preferred: Use the bridge-swap quote function always for consistency
+const quote = await rhinoSdk.api.bridge.getSwapUserQuote(quoteArgs)
+```
+
+### Calling the API directly
+
+Point your requests at the new endpoint. The bridge & swap quote endpoint returns quotes for both bridges and bridge-swaps.
+
+```typescript
+// Deprecated
+const res = await fetch('https://api.rhino.fi/bridge/quote/user', requestOptions)
+
+// Replacement
+const res = await fetch('https://api.rhino.fi/bridge/quote/bridge-swap/user', requestOptions)
+```
+
+<Note>
+  The request body for the bridge & swap quote endpoint differs slightly from the deprecated endpoint. See the [API Reference](/api-reference/bridge/quote/user-quote-for-bridge-&-swap) for the full request and response format.
+</Note>
+
+## History endpoint
+
+The `user` history endpoint is deprecated in favour of a new cursor-based endpoint that paginates large histories more efficiently. **This migration requires code changes** because the request parameters and the response shape are different.
+
+* `GET /history/user` (offset pagination) is replaced by the new cursor-based history endpoint
+
+### Using the SDK
+
+Updating the SDK does **not** move you across automatically. The existing history function keeps calling the deprecated endpoint; the latest version exposes a separate function for the cursor-based endpoint. Switch to the new function to complete the migration.
+
+### Calling the API directly
+
+The deprecated endpoint uses `page` and `limit` offset pagination while the new endpoint uses cursor-based pagination which returns a `nextPageToken` which can be passed to the next requests to fetch subsequent pages.
+
+```typescript
+// Deprecated — offset pagination
+const params = new URLSearchParams({
+  page: '1',
+  limit: '20',
+  sortBy: 'createdAt',
+  sortDirection: 'desc',
+})
+
+const res = await fetch(`https://api.rhino.fi/history/user?${params}`, {
+  headers: { 'content-type': 'application/json', authorization: jwt },
+})
+
+const newParams = new URLSearchParams({
+  pageSize: '20',
+  sortBy: 'createdAt',
+  sortDirection: 'desc',
+  pageToken,
+})
+const res = await fetch(`https://api.rhino.fi/history-cursor/user?${newParams}`, {
+  headers: { 'content-type': 'application/json', authorization: jwt },
+})
+```
+
+<Note>
+  The cursor-based endpoint is not a drop-in replacement. The request parameters and response schema differ from the deprecated endpoint, so you need to update both how you request pages and how you parse the results. See the [API Reference](/api-reference/bridge/history/user-history-1) for more information on request and response formats.
+</Note>
+
+## Webhook events endpoint
+
+The endpoint to fetch webhook events has also been deprecated in favour of a new cursor-based endpoint that paginates large histories more efficiently. The migration here is equivalent to the history endpoint changes described above. You can find the full request and response types in the [API Reference](/api-reference/webhook/user-events/webhook-user-events-cursor).
+
+## Deposit address (SDA) endpoints
+
+The deposit address endpoints under the bridge namespace are deprecated and have moved to the `/sda` namespace. The endpoints are otherwise identical — only the base path changes.
+
+### Using the SDK
+
+No code change is required. The latest version calls the `/sda` endpoints for you, so you only need to upgrade your SDK.
+
+### Calling the API directly
+
+Replace the deprecated `/bridge` deposit address base path with `/sda`:
+
+```typescript
+// Deprecated
+'https://api.rhino.fi/bridge/deposit-addresses/...'
+
+// Replacement
+'https://api.rhino.fi/sda/...'
+```
+
+<Note>
+  The `/sda` endpoints are identical to their deprecated counterparts. See the [API Reference](/api-reference/sda) for the full list of deposit address endpoints and their paths.
+</Note>
+
+## Need help?
+
+If you would like a hand checking your integration for deprecated endpoint usage, reach out to your Rhino contact or email [feedback@rhino.fi](mailto:feedback@rhino.fi).

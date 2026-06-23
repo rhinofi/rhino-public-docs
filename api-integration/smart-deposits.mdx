@@ -85,7 +85,7 @@ The following examples showcase the use of our API to manage Smart Deposit Addre
 You can generate a new Smart Deposit Address with the following API call:
 
 ```javascript
-const response = await fetch('https://api.rhino.fi/bridge/deposit-addresses', {
+const response = await fetch('https://api.rhino.fi/sda/deposit-addresses', {
   method: 'POST',
   body: JSON.stringify({
     depositChains: ['ETHEREUM'],
@@ -179,7 +179,7 @@ You can also check the current status of a Smart Deposit Address with the follow
 ```javascript
 const depositAddress = '0x123...'
 const depositChain = 'ETHEREUM'
-const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}`, {
+const response = await fetch(`https://api.rhino.fi/sda/deposit-addresses/${depositAddress}/${depositChain}`, {
   headers: {
     'authorization': 'YOUR_JWT',
   },
@@ -195,7 +195,7 @@ You can check the history of a Smart Deposit Address with the following call:
 ```javascript
 const depositAddress = '0x123...'
 const depositChain = 'ETHEREUM'
-const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}/history`, {
+const response = await fetch(`https://api.rhino.fi/sda/deposit-addresses/${depositAddress}/${depositChain}/history`, {
   headers: {
     'authorization': 'YOUR_JWT_FROM_SECRET_KEY',
   },
@@ -214,7 +214,7 @@ Example:
 const depositAddress = '0x123...'
 const depositChain = 'ETHEREUM'
 const destinationAddress = '0x456...'
-const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}/public-status?destinationAddress=${destinationAddress}`, {
+const response = await fetch(`https://api.rhino.fi/sda/deposit-addresses/${depositAddress}/${depositChain}/public-status?destinationAddress=${destinationAddress}`, {
   headers: {
     'authorization': 'YOUR_JWT_FROM_SECRET_KEY',
   },
@@ -224,23 +224,6 @@ const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${de
 The response will contain the last bridge (accepted or rejected) through the Smart Deposit Address in the `lastBridges` field. If this array is empty it means that no transfer has been picked up yet.\
 Please note that this array will currently only contain the last event. In the future this endpoint will be expanded with the option to return all bridges after a certain timestamp.
 
-### Reactivating a Smart Deposit Address
-
-If the `isActive` flag returned by the status check is `false` you can reactivate the Smart Deposit Address manually with the following call:
-
-```javascript
-const depositAddress = '0x123...'
-const depositChain = 'ETHEREUM'
-const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositAddress}/${depositChain}/activate`, {
-  method: 'PATCH',
-  headers: {
-    'authorization': 'YOUR_JWT',
-  },
-})
-```
-
-This will cause the address to be monitored again. Additionally the address will be checked for transfers since the last activity to process transfers made while the address was inactive.
-
 ### Supported tokens
 
 To get the list of tokens supported between a deposit chain and destination chain you can execute the following code:
@@ -249,7 +232,7 @@ To get the list of tokens supported between a deposit chain and destination chai
 const depositChain = 'ETHEREUM'
 const destinationChain = 'BASE'
 const tokenOut = 'USDT' // optional
-const response = await fetch(`https://api.rhino.fi/bridge/deposit-addresses/${depositChain}/${destinationChain}/supported-tokens?tokenOut=${tokenOut}`, {
+const response = await fetch(`https://api.rhino.fi/sda/deposit-addresses/${depositChain}/${destinationChain}/supported-tokens?tokenOut=${tokenOut}`, {
   method: 'GET',
   headers: {
     'authorization': 'YOUR_JWT',
@@ -285,7 +268,7 @@ const pageSize = 20 // optional, default to 20, max 50
 const pageToken = "eyJkZXBvc2l0Q2hhaW4iOiJCQVNFIiwiZGVwb3NpdEFkZHJlc3MiOiIweDlmYTE1MDdiNTY0YzRlNWM1YmJjN2E5Yzc1ZWQ1MmFhMTc5ODIxNjkifQ==" // optional, returns the first page of results if not provided
 
 const response = await fetch(
-  `https://api.rhino.fi/bridge/deposit-addresses/search?addressNote=${addressNote}&depositChain=${depositChain}&destinationChain=${destinationChain}&destinationAddress=${destinationAddress}&page=${page}&limit=${limit}`,
+  `https://api.rhino.fi/sda/deposit-addresses/search?addressNote=${addressNote}&depositChain=${depositChain}&destinationChain=${destinationChain}&destinationAddress=${destinationAddress}&page=${page}&limit=${limit}`,
   {
     method: 'GET',
     headers: {
