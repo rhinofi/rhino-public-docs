@@ -23,7 +23,7 @@ The following events will be sent to your webhook servers for any activity invol
 
 - **DEPOSIT\_ADDRESS\_CREATED -** sent when a new Smart Deposit Address is generated Event structure:
 
-```text
+```javascript
 {
   _tag: "DEPOSIT_ADDRESS_CREATED",
   depositChain: string
@@ -39,7 +39,7 @@ The following events will be sent to your webhook servers for any activity invol
 - **BRIDGE\_\* -** the same BRIDGE\_PENDING, BRIDGE\_ACCEPTED and BRIDGE\_EXECUTED events as described above will be sent for Smart Deposit Address related activity.
 - **DEPOSIT\_ADDRESS\_BRIDGE\_REJECTED -** sent when a Smart Deposit Address bridge is rejected. Event structure:
 
-```text
+```javascript
 {
   _tag: "DEPOSIT_ADDRESS_BRIDGE_REJECTED",
   _id: string, // bridge ID
@@ -62,7 +62,7 @@ The following events will be sent to your webhook servers for any activity invol
 ```
 
 - **DEPOSIT\_ADDRESS\_BRIDGE\_REJECTED - UNSUPPORTED\_TOKEN** - sent when a Smart Deposit Address bridge is rejected as the token sent is not supported by Rhino.fi. The full list of supported chains and assets can be found here:  [rhino.fi](http://rhino.fi)[ - Docs\*\*<u>Supported Chains - </u>\*\*](https://docs.rhino.fi/get-started/supported-chains)**[<u>rhino.fi</u>](http://rhino.fi)<u>[ - Docs](https://docs.rhino.fi/get-started/supported-chains)</u>**. N.B Rhino.fi monitors for a selection of unsupported tokens per chain however this does not cover all scenarios where an unsupported token may be sent to an Smart Deposit Address. The event structure is:
-  ```text
+  ```javascript
   {
     _tag: "DEPOSIT_ADDRESS_BRIDGE_REJECTED - UNSUPPORTED_TOKEN",
     _id: string, // bridge ID
@@ -83,9 +83,9 @@ The following events will be sent to your webhook servers for any activity invol
     }
   }
   ```
-- **DEPOSIT\_ADDRESS\_BRIDGE\_DELAYED -** send when a bridged transaction is taking longer than expected. This may be due to onchain congestion. The bridge transaction will be re-tried, there is no action required of the user. The event structure is:
+- **DEPOSIT\_ADDRESS\_BRIDGE\_DELAYED -** sent when a bridged transaction is taking longer than expected. This may be due to onchain congestion. The bridge transaction will be re-tried, there is no action required of the user. The event structure is:
 
-```text
+```javascript
 {
   _tag: "DEPOSIT_ADDRESS_BRIDGE_DELAYED",
   _id: string, // bridge ID
@@ -105,6 +105,35 @@ The following events will be sent to your webhook servers for any activity invol
   }
 }
 ```
+
+- **SDA\_REFUND\_COMPLETED** sent when a a refund is issued from an SDA.
+
+```javascript
+{
+  _tag: "SDA_REFUND_COMPLETED"
+  refundId: string,
+  depositAddress: string,
+  depositChain: string,
+  recipient: string, // recipient of the refund
+  trigger: {
+    _tag: "REJECTED_BRIDGE" | "UNSUPPORTED_TOKEN",
+    rejectedDepositAddressBridgeId: string | undefined,
+    nativeToken: boolean, // If this is true, tokenAddress will be undefined as native tokens don't have an address
+    amountWei: string,
+    amount: string | undefined, // Human readable refund amount
+    amountUsd: string | undefined,
+    tokenAddress: string | undefined,
+    tokenSymbol: string | undefined,
+  },
+  "originalDepositTxHash": string | undefined, // hash of the deposit transaction that is refunded
+  txHash: string, // hash of the refund transaction
+  txTimestamp: string, // timestamp of the refund transaction
+}
+```
+
+The `trigger` field provides information on the reason for the refund:
+- `REJECTED_BRIDGE`: Reason is a deposit we detected but rejected. `originalDepositTxHash` will contain the hash of the original deposit transaction and the `amount`  and `tokenSymbol` fields will have values.
+- `UNSUPPORTED_TOKEN`: Reason is a deposit with an unsupported token. `originalDepositTxHash` will not be available for this as we did not detect the transaction in our system.
 
 ## Webhook Event Flows
 
