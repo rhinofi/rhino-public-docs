@@ -26,6 +26,8 @@ It is also possible to enable the Tron extension for Tron Smart Deposit Addresse
 
 The onchain cost for activity (moving funds from Smart Deposit Addresses and settlement through the Rhino.fi Bridge) are initially borne by Rhino.fi and charged to clients within the end of month invoice. This fee-related information is transparently provided within generated quotes for bridge\+swap within the `POST/quote/bridge-swap/user`endpoint, and when using Rhino.fi Smart Deposit Addresses, the fee information can be obtained prior to the transaction by providing `isSda = true`within the request body. Rhino.fi will honor the quoted fee until the quote expires — there are no surprises at settlement (the timestamp of the expiry is provides within the `expiresAt`param within the response).
 
+Further information about specific onchain costs for Tron and Solana can be found here: [https://learn.rhino.fi/articles/7749894324-tron-and-solana-onchain-gas-costs](https://learn.rhino.fi/articles/7749894324-tron-and-solana-onchain-gas-costs)
+
 It is possible for clients to add on an additional charge that is passed directly through to their customers for their Rhino.fi activity. This is called a 'client surcharge' and is able to be a fixed \$ amount and/or a fixed % amount. This amount is deducted from the end of month invoice amount.
 
 _For example: ClientA may wish to levy a 1% charge to their customers for any Rhino.fi activity. At the end of the month, the total onchain costs borne by Rhino.fi for all clientA's PAYG activity is \$1000. The total Client Surcharge collected by Rhino.fi on behalf of clientA was \$300. The end of month invoice for clientA is therefore \$700._
@@ -54,6 +56,8 @@ It is also possible to enable a wide variety of extensions, including;
 and more.
 
 The onchain cost for activity (moving funds from Smart Deposit Addresses and settlement through the Rhino.fi Bridge) are borne by Rhino.fi and clients are charged their fixed monthly fee. This provides cost predictability to clients and removes the volatility of onchain costs. The underlying fee-related information is still transparently provided within generated quotes for bridge\+swap within the `POST/quote/bridge-swap/user`endpoint, and when using Rhino.fi Smart Deposit Addresses, the fee information can be obtained prior to the transaction by providing `isSda = true`within the request body. Rhino.fi will honor the quoted fee until the quote expires — there are no surprises at settlement (the timestamp of the expiry is provides within the `expiresAt`param within the response).
+
+Further information about specific onchain costs for Tron and Solana can be found here: [https://learn.rhino.fi/articles/7749894324-tron-and-solana-onchain-gas-costs](https://learn.rhino.fi/articles/7749894324-tron-and-solana-onchain-gas-costs)
 
 It is possible for clients to add on an additional charge that is passed directly through to their customers for their Rhino.fi activity. This is called a 'client surcharge' and is able to be a fixed \$ amount and/or a fixed % amount. This amount is deducted from the end of month invoice amount.
 
