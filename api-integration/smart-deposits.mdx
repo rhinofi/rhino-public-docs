@@ -16,10 +16,10 @@ Smart Deposit Addresses are the core deposit primitive in the Rhino.fi Stablecoi
 
 <Steps>
   <Step title="Generate address">
-    Call our API to generate a Smart Deposit Address which will allow funds to be received across multiple chains: [https://docs.rhino.fi/api-reference/sda/depositaddresses/create-new-deposit-address](https://docs.rhino.fi/api-reference/sda/depositaddresses/create-new-deposit-address)<br />We strongly recommend generating an SDA on all available EVM chains immediately to ensure that funds accidentally sent by customers to the wrong chain are automatically detected. For more best practices: [https://learn.rhino.fi/articles/9715155695-what-are-best-practices-when-operating-sdas](https://learn.rhino.fi/articles/9715155695-what-are-best-practices-when-operating-sdas)
+    Call [our API](https://docs.rhino.fi/api-reference/sda/depositaddresses/create-new-deposit-address) to generate a Smart Deposit Address which will allow funds to be received across multiple chains<br />We strongly recommend generating an SDA on all available EVM chains immediately to ensure that funds accidentally sent by customers to the wrong chain are automatically detected. More best practices can be found [here](https://learn.rhino.fi/articles/9715155695-what-are-best-practices-when-operating-sdas).
   </Step>
   <Step title="Transfer funds">
-    Any supported asset can then be sent to the Smart Deposit Address: [https://docs.rhino.fi/get-started/supported-chains](https://docs.rhino.fi/get-started/supported-chains)
+    Any [supported assets](https://docs.rhino.fi/get-started/supported-chains) can then be sent to the Smart Deposit Address.
   </Step>
   <Step title="Receive funds">
     Rhino.fi monitors the Smart Deposit Addresses to detect when funds are received and will then take the necessary bridging and swapping actions to ensure funds land in an activated state on the specified destination. 
@@ -32,9 +32,9 @@ Smart Deposit Addresses are reusable and can be used for multiple bridges indefi
 
 Your Rhino.fi PAYG/Subscription covers use of both the Rhino.fi Bridge as well as Smart Deposit Addresses. Therefore your Flow Credit allocation is across both. To understand how many Flow Credits a transaction into a Smart Deposit Address will consume, the `POST/bridge/quote/bridge-swap/user` endpoint should be called with the `isSda` parameter set as `true`. The response will also provide a fee breakdown showing what additional fees are charged to the client (such as onchain [gas fee charges](https://learn.rhino.fi/articles/7749894324-tron-and-solana-onchain-gas-costs)) or are being passed onto the end customer. Where a Client Surcharge is being applied, this will be shown in the fee amount and settled up to the client within end of month invoicing. 
 
-To learn more about Rhino.fi's fee structure: [https://learn.rhino.fi/articles/4043100177-fees-commercial-structure](https://learn.rhino.fi/articles/4043100177-fees-commercial-structure). 
+Learn more about Rhino.fi's fee structure [here.](https://learn.rhino.fi/articles/4043100177-fees-commercial-structure)
 
-N.B for clients on the legacy pricing structure, any fees will be deducted from the amount settled on the destination chain: [https://learn.rhino.fi/articles/4088519114-how-fees-are-applied](https://learn.rhino.fi/articles/4088519114-how-fees-are-applied)
+N.B for clients on the [legacy pricing structure](https://learn.rhino.fi/articles/4088519114-how-fees-are-applied), any fees will be deducted from the amount settled on the destination chain.
 
 <Note>
   **Advanced Fee and Limit Management**
@@ -48,7 +48,7 @@ Smart Deposit Addresses are re-usable, meaning they can function as a receive fo
 
 ## Supported chains and tokens
 
-Smart Deposit Addresses are enabled across a wide variety of tokens and chains: [https://docs.rhino.fi/get-started/supported-chains](https://docs.rhino.fi/get-started/supported-chains). This is a growing list and based on client demand so please do reach out with any specific token or chain requests. 
+Smart Deposit Addresses are enabled across a [wide variety of tokens and chains](https://docs.rhino.fi/get-started/supported-chains). This is a growing list and based on client demand so please do reach out with any specific token or chain requests. 
 
 The general bridge config endpoint provides a boolean `enabledDepositAddress` flag that can be used to find chains that Smart Deposit Addresses are enabled for. Example:
 
