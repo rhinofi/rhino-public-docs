@@ -1,6 +1,6 @@
 ---
-title: 'Bridge Status & History'
-description: 'This section explains how to retrieve the status and history of your bridge transactions. You can use these endpoints to monitor transaction progress and confirm successful transfers.'
+title: "Bridge Status & History"
+description: "This section explains how to retrieve the status and history of your bridge transactions. You can use these endpoints to monitor transaction progress and confirm successful transfers."
 ---
 
 ## **1. Get Bridge Transaction Status**
@@ -37,18 +37,18 @@ const withdrawTxHash = status.state === 'EXECUTED' ? status.withdrawTxHash : ''
 console.log('Bridge status:', status.state);
 console.log('Deposit transaction hash:', depositTxHash);
 console.log('Withdraw transaction hash:', withdrawTxHash);
-````
+```
 
 #### **Possible state values:**
 
 **Bridge (non‑swap) flows**
 
 - `PENDING` – Quote committed; we’re waiting for a deposit on the source chain.
-- `PENDING_CONFIRMATION` – *Fast chains only (WebSocket monitored)*. We’ve detected the deposit and are waiting for network confirmations. Not every bridge moves through this state.
+- `PENDING_CONFIRMATION` – _Fast chains only (WebSocket monitored)_. We’ve detected the deposit and are waiting for network confirmations. Not every bridge moves through this state.
 - `ACCEPTED` – We’ve detected the deposit and are executing on the destination chain.
 - `EXECUTED` – Bridge is complete; funds are credited on the destination chain.
-- `CANCELLED` – *Cosmetic state*. Can occur only if the user cancels a **pending** bridge via API. If the deposit later arrives, the bridge will move out of this state and be executed. Useful for hiding pending records you no longer intend to fund.
-- `FAILED` – *Rare, manual state*. Used only when there’s a specific issue and no way to complete the bridge. The user should contact Customer Support for a refund if one hasn’t already been issued.
+- `CANCELLED` – _Cosmetic state_. Can occur only if the user cancels a **pending** bridge via API. If the deposit later arrives, the bridge will move out of this state and be executed. Useful for hiding pending records you no longer intend to fund.
+- `FAILED` – _Rare, manual state_. Used only when there’s a specific issue and no way to complete the bridge. The user should contact Customer Support for a refund if one hasn’t already been issued.
 
 **Additional states for swap flows**
 
@@ -56,7 +56,7 @@ console.log('Withdraw transaction hash:', withdrawTxHash);
 - `SWAP_FAILED` – The swap failed; we’ll look into issuing a refund.
 - `SWAP_FAILED_REFUNDED` – The swap failed and a refund was successfully issued.
 
-For the full response format and more details, see the [API Reference](/api-reference/history/bridge-history).
+For the full response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/history/user-history-1).
 
 ![Rhino Bridge Status Flow Diagram](/images/history-diagram.png)
 
@@ -67,8 +67,7 @@ For the full response format and more details, see the [API Reference](/api-refe
 To retrieve a list of past transactions:
 
 <Note>
-  rhino.fi prioritizes transaction privacy, so the history endpoint is disabled for public API keys.
-  Only secret API keys can access the history endpoint. Those API keys should only be used in code that is not run client side.
+  rhino.fi prioritizes transaction privacy, so the history endpoint is disabled for public API keys. Only secret API keys can access the history endpoint. Those API keys should only be used in code that is not run client side.
 </Note>
 
 ```javascript getBridgeUserHistory.js
@@ -104,11 +103,13 @@ console.log('Bridge history page 1:', history.items);
 const nextPage = await getBridgeUserHistory(JWT, history.nextPageToken);
 
 console.log('Bridge history page 2:', nextPage.items);
-````
+```
 
 The response will contain a `nextPageToken` field if there are more items matching the query. That field can then be passed into a followup requests with the same parameters to fetch the next page.
 
-<Warning>The page + limit based endpoint previously described on this page is deprecated and will be removed soon. Please use the cursor based endpoint described above which has better performance on larger history sizes.</Warning>
+<Warning>
+  The page \+ limit based endpoint previously described on this page is deprecated and will be removed soon. Please use the cursor based endpoint described above which has better performance on larger history sizes.
+</Warning>
 
 ---
 
@@ -116,4 +117,3 @@ The response will contain a `nextPageToken` field if there are more items matchi
 
 - If you haven’t integrated the bridge yet, start with the [Quickstart Guide](/api-integration/bridge#quickstart).
 - For contract-level interactions, see [Contract Examples](/contracts/contract-examples).
-
