@@ -81,7 +81,8 @@
                   "sdk/bridge-functions/bridge",
                   "sdk/bridge-functions/prepare-bridge",
                   "sdk/bridge-and-swap",
-                  "sdk/bridge-api"
+                  "sdk/bridge-api",
+                  "interacting-with-stellar"
                 ]
               },
               "sdk/concepts",
