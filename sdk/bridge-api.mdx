@@ -23,16 +23,14 @@ const tokenConfigResult = await rhinoSdk.api.bridge.getTokenConfig({
 ## Generate and commit bridge quotes
 
 ```typescript
-const publicQuoteResult = await rhinoSdk.api.bridge.getPublicQuote({
+const userQuoteResult = await rhinoSdk.api.bridge.getUserQuote({
   token: SupportedTokens.USDT,
   chainIn: SupportedChains.ETHEREUM,
   chainOut: SupportedChains.SOLANA,
   amount: '100',
   mode: 'pay',
-})
-
-const userQuoteResult = await rhinoSdk.api.bridge.getUserQuote({
-  /// Same args as public quote with additional depositor and recipient address added
+  depositor: '0x1234567890abcdef1234567890abcdef12345678',
+  recipient: '11111111111111111111111111111112',
 })
 if(userQuoteResult.error) {
   throw new Error(`Error fetching user quote: ${userQuoteResult.error}`)

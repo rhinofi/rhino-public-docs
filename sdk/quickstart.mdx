@@ -111,12 +111,6 @@ const status = await rhinoSdk.api.depositAddresses.getStatus({
   depositAddress: '0x457...',
   depositChain: 'ETHEREUM',
 })
-
-// Reactivate an inactive SDA
-await rhinoSdk.api.depositAddresses.activate({
-  depositAddress: '0x457...',
-  depositChain: 'ETHEREUM',
-})
 ```
 
 <Tip>We recommend generating SDAs on all available EVM chains at once to ensure funds sent to the wrong chain are still detected automatically.</Tip>

@@ -44,7 +44,7 @@ N.B for clients on the [legacy pricing structure](https://learn.rhino.fi/article
 
 ## Smart Deposit Address Expiration
 
-Smart Deposit Addresses are re-usable, meaning they can function as a receive for customer funds repeatedly and Rhino.fi will continue to actively monitor for deposits and process bridging and swapping activity to the destination of choice.  Rhino.fi will monitor a Smart Deposit Address for **7 years**, and thereafter it switches into an unmonitored state to conserve resources. However any dormant Smart Deposit Address can be easily reactivated to ensure longer term Smart Deposit Address use. 
+Smart Deposit Addresses are re-usable, meaning they can function as a receive for customer funds repeatedly and Rhino.fi will continue to actively monitor for deposits and process bridging and swapping activity to the destination of choice. Rhino.fi will monitor a Smart Deposit Address for **7 years**, and thereafter it switches into an unmonitored state to conserve resources.
 
 ## Supported chains and tokens
 
@@ -160,7 +160,7 @@ Rhino.fi provides the option to pass a refund address when creating a Smart Depo
 
 When creating a Smart Deposit Address you can provide a `addressNote` field to be stored in our database. This field will be returned from all status endpoints as well.<br />Additionally, a `reusePolicy` can be specified when creating a Smart Deposit Address. It can have the following values:
 
-- `reuse-existing`: Reuse an existing Smart Deposit Address if it exists. Only create a new one if no existing address matches the given parameters. An existing Smart Deposit Address that is reused this way is also reactivated automatically.
+- `reuse-existing`: Reuse an existing Smart Deposit Address if it exists. Only create a new one if no existing address matches the given parameters.
 - `create-new`: Always create a new Smart Deposit Address.
 
 When no `reusePolicy` is specified it defaults to `reuse-existing`.
