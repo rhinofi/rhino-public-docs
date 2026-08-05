@@ -106,8 +106,7 @@
             "group": "Migration guides",
             "pages": [
               "migration-guides/to-1x",
-              "migration-guides/from-api",
-              "migration-guides/deprecated-endpoints"
+              "migration-guides/from-api"
             ]
           },
           {
@@ -187,7 +186,29 @@
             "openapi": {
               "source": "https://api.rhino.fi/bridge/swagger.json",
               "directory": "api-reference/bridge"
-            }
+            },
+            "pages": [
+              "GET /bridge-swap-token-configs",
+              "GET /config/tokens",
+              "GET /config/{chain}/{token}",
+              "GET /configs",
+              "GET /deposit-addresses/search",
+              "GET /deposit-addresses/{depositAddress}/{depositChain}/public-status",
+              "GET /deposit-addresses/{depositChain}/{destinationChain}/supported-tokens",
+              "PATCH /deposit-addresses/{depositAddress}/{depositChain}/activate",
+              "GET /history-cursor/user",
+              "GET /history/bridge/by-deposit-hash/{depositTxHash}",
+              "GET /history/bridge/by-hash/{withdrawTxHash}",
+              "GET /history/bridge/by-withdraw-hash/{withdrawTxHash}",
+              "GET /history/bridge/{bridgeId}",
+              "PATCH /history/bridge/{bridgeId}",
+              "GET /history/user",
+              "GET /quote/bridge-swap/public",
+              "POST /quote/bridge-swap/user",
+              "POST /quote/commit/{quoteId}",
+              "GET /quote/public",
+              "GET /swap/calldata/{commitmentId}"
+            ]
           },
           {
             "group": "SDA endpoints",

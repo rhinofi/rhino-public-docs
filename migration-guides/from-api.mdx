@@ -20,7 +20,7 @@ If your use case requires you to be in control of all API calls, you can still r
 
 ```typescript
 // Manual API call
-const result = await fetch('https://api.rhino.fi/bridge/quote/user', {
+const result = await fetch('https://api.rhino.fi/bridge/quote/bridge-swap/user', {
   method: 'POST',
   headers: {
     "content-type": "application/json",
@@ -30,7 +30,7 @@ const result = await fetch('https://api.rhino.fi/bridge/quote/user', {
 })
 
 // SDK replacement
-const result = rhinoSdk.api.bridge.getUserQuote(quoteArgs)
+const result = rhinoSdk.api.bridge.getSwapUserQuote(quoteArgs)
 ```
 
 Under `api.bridge` and `api.config` in the SDK you will find equivalent functions to all the manual API calls that you may have used before. The parameters are mostly the same, although some minor convenience tweaks have been made in certain wrappers.
