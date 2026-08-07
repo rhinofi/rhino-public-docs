@@ -50,7 +50,7 @@ Before executing a bridge transaction, you must generate a quote that provides t
 
 ```javascript getBridgeUserQuote.js
 export const getBridgeUserQuote = async (payload, jwt) => {
-  const request = await fetch(`https://api.rhino.fi/bridge-swap/quote/user`, {
+  const request = await fetch(`https://api.rhino.fi/bridge/quote/bridge-swap/user`, {
     headers: {
       "content-type": "application/json",
       "authorization": jwt
