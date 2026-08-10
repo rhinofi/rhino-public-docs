@@ -26,8 +26,9 @@ description: 'List of chains that Rhino.fi smart contracts are deployed on and t
     | USDT | Arbitrum One, Avalanche, Base, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />HyperEVM, Ink, Kaia, Katana, Linea, Mantle, opBNB, Optimism, Plasma, <br />Polygon, Solana, Stable, Starknet, Tempo, Ton, Tron |
     | USDC | Arbitrum One, Avalanche, Base, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />HyperEVM, Ink, Katana, Linea, Mantle, Optimism, Polygon, Solana, <br />Starknet, Stellar, Tempo |
     | ETH | Arbitrum One, <Tooltip tip="Represented as WETH for this chain">Avalanche</Tooltip>, Base, BNB Smart Chain, Ethereum, Ink, Katana, <br />Linea, Mantle, Optimism, Polygon, Starknet |
-    | USDe | Arbitrum One, Avalanche, Base, BNB Smart Chain, Ethereum, HyperEVM, <br />Mantle, Optimism, Plasma |
+    | USDe | Arbitrum One, Avalanche, Base, BNB Smart Chain, Ethereum, HyperEVM, <br />Mantle, Optimism, Plasma, Solana |
     | WBTC | Arbitrum One, Avalanche, Base, BNB Smart Chain, Ethereum, Starknet |
+    | USDS | Arbitrum One, Base, Ethereum, Solana |
     | EURC | Base, Ethereum, Starknet |
     | BNB | BNB Smart Chain, opBNB |
     | USD1 | BNB Smart Chain, Ethereum |
@@ -52,12 +53,13 @@ description: 'List of chains that Rhino.fi smart contracts are deployed on and t
 
     | Chain | Stablecoins | Other Assets |
     | --- | --- | --- |
-    | Arbitrum One | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, USDe | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Arbitrum One | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, USDe | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Avalanche | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <Tooltip tip="Represented as USDe0 for this chain">USDe</Tooltip> | <Tooltip tip="Represented as WETH.e for this chain">ETH</Tooltip>, WBTC |
-    | Base | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, USDe | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Base | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, USDe | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Bitcoin |  | BTC |
     | BNB Smart Chain | <Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip>, USDe | BNB, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip>, USD1, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Celo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |  |
-    | Ethereum | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe | ETH, SENT, USAT, USD1, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Ethereum | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe | ETH, PYUSD, SENT, USAT, USD1, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Gnosis | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> |  |
     | HyperEVM | USDC, USDT, USDe |  |
     | Ink | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
@@ -69,7 +71,7 @@ description: 'List of chains that Rhino.fi smart contracts are deployed on and t
     | Optimism | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, USDe | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
     | Plasma | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, USDe |  |
     | Polygon | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
-    | Solana | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |  |
+    | Solana | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe | USDS |
     | Stable | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |  |
     | Starknet | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Stellar | USDC |  |
@@ -99,11 +101,12 @@ description: 'List of chains that Rhino.fi smart contracts are deployed on and t
 
     | **Chain** | **Tokens that can be sent to a Smart Deposit Address on this chain** |
     | :-- | :-- |
-    | Arbitrum One | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, USDe, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
-    | Base | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, USDe, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Arbitrum One | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, USDe, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Base | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, USDe, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Bitcoin | BTC |
     | BNB Smart Chain | <Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip>, USDe, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip>, USD1, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Celo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |
-    | Ethereum | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe, SENT, USAT, USD1, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
+    | Ethereum | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe, PYUSD, SENT, USAT, USD1, USDS, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Gnosis | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> |
     | Kaia | <Tooltip tip="native">USDT</Tooltip> |
     | Katana | <Tooltip tip="Represented as USDC.e for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip> |
@@ -111,7 +114,7 @@ description: 'List of chains that Rhino.fi smart contracts are deployed on and t
     | Optimism | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, USDe |
     | Plasma | <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, USDe |
     | Polygon | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip>, <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip> |
-    | Solana | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |
+    | Solana | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe, USDS |
     | Stellar | USDC |
     | Tempo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT0 for this chain">USDT</Tooltip> |
     | Tron | <Tooltip tip="native">USDT</Tooltip> |
