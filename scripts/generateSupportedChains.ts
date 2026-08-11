@@ -58,6 +58,13 @@ function formatToken(
   return `<Tooltip tip="Represented as ${rep} for this chain">${token}</Tooltip>`
 }
 
+// Chains that only support their native asset (e.g. Bitcoin) come back from the
+// API with an empty `tokens` map — fall back to the native token name.
+function chainTokens(c: ChainConfig): string[] {
+  const tokens = Object.keys(c.tokens)
+  return tokens.length ? tokens : [c.nativeTokenName]
+}
+
 function wrapLines(text: string, max = 70): string {
   if (text.length <= max) return text
   const parts: string[] = []
@@ -105,7 +112,7 @@ function genBridgingTab(
   // Invert: token → [chainKey, chainName]
   const tokenChains: Record<string, [string, string][]> = {}
   for (const [key, c] of chains) {
-    for (const token of Object.keys(c.tokens)) {
+    for (const token of chainTokens(c)) {
       ;(tokenChains[token] ??= []).push([key, c.name])
     }
   }
@@ -145,7 +152,7 @@ function genSwappingTab(
   const stablecoins = new Set(config.stablecoins)
   return chains
     .map(([key, c]) => {
-      const tokens = Object.keys(c.tokens)
+      const tokens = chainTokens(c)
       const stables = tokens.filter((t) => stablecoins.has(t)).sort()
       const others = tokens.filter((t) => !stablecoins.has(t)).sort()
       const stableCell = stables.map((t) => formatToken(t, key, reps)).join(', ')
@@ -163,9 +170,12 @@ function genSDATab(
   return chains
     .filter(([, c]) => c.enabledDepositAddress)
     .map(([key, c]) => {
-      const tokens = Object.keys(c.tokens).filter(
-        (t) => t !== c.nativeTokenName,
-      )
+      // The native token is normally excluded (it is the gas token), but on
+      // native-only chains it *is* the deposit asset — keep it there.
+      const available = chainTokens(c)
+      const tokens = Object.keys(c.tokens).length
+        ? available.filter((t) => t !== c.nativeTokenName)
+        : available
       const stables = tokens.filter((t) => stablecoins.has(t)).sort()
       const others = tokens.filter((t) => !stablecoins.has(t)).sort()
       const all = [...stables, ...others]
@@ -287,7 +297,7 @@ async function main() {
   // Warn about missing representations
   const missing: string[] = []
   for (const [key, c] of enabled) {
-    for (const token of Object.keys(c.tokens)) {
+    for (const token of chainTokens(c)) {
       if (!reps[key]?.[token]) {
         missing.push(`  ${c.name} (${key}): ${token}`)
       }
