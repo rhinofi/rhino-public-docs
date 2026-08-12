@@ -188,26 +188,39 @@
               "directory": "api-reference/bridge"
             },
             "pages": [
-              "GET /bridge-swap-token-configs",
-              "GET /config/tokens",
-              "GET /config/{chain}/{token}",
-              "GET /configs",
-              "GET /deposit-addresses/search",
-              "GET /deposit-addresses/{depositAddress}/{depositChain}/public-status",
-              "GET /deposit-addresses/{depositChain}/{destinationChain}/supported-tokens",
-              "PATCH /deposit-addresses/{depositAddress}/{depositChain}/activate",
-              "GET /history-cursor/user",
-              "GET /history/bridge/by-deposit-hash/{depositTxHash}",
-              "GET /history/bridge/by-hash/{withdrawTxHash}",
-              "GET /history/bridge/by-withdraw-hash/{withdrawTxHash}",
-              "GET /history/bridge/{bridgeId}",
-              "PATCH /history/bridge/{bridgeId}",
-              "GET /history/user",
-              "GET /quote/bridge-swap/public",
-              "POST /quote/bridge-swap/user",
-              "POST /quote/commit/{quoteId}",
-              "GET /quote/public",
-              "GET /swap/calldata/{commitmentId}"
+              {
+                "group": "quote",
+                "pages": [
+                  "GET /quote/bridge-swap/public",
+                  "POST /quote/bridge-swap/user",
+                  "POST /quote/commit/{quoteId}"
+                ]
+              },
+              {
+                "group": "configs",
+                "pages": [
+                  "GET /configs",
+                  "GET /config/tokens",
+                  "GET /config/{chain}/{token}",
+                  "GET /bridge-swap-token-configs"
+                ]
+              },
+              {
+                "group": "history",
+                "pages": [
+                  "GET /history/bridge/{bridgeId}",
+                  "PATCH /history/bridge/{bridgeId}",
+                  "GET /history/bridge/by-deposit-hash/{depositTxHash}",
+                  "GET /history/bridge/by-withdraw-hash/{withdrawTxHash}",
+                  "GET /history-cursor/user"
+                ]
+              },
+              {
+                "group": "swap",
+                "pages": [
+                  "GET /swap/calldata/{commitmentId}"
+                ]
+              }
             ]
           },
           {
