@@ -26,6 +26,10 @@ interface TokenInfo {
   token: string
   address: string
   decimals: number
+  // Absent for most tokens. Explicitly 0 means settlement is not automatic:
+  // deposits are accepted but the withdrawal is processed on demand. A
+  // non-zero value (e.g. Tron USDT) is an ordinary cap, not an on-demand flag.
+  maxWithdrawLimit?: number
 }
 
 interface ChainConfig {
@@ -47,15 +51,37 @@ interface Config {
 // Helpers
 // ---------------------------------------------------------------------------
 
+const ON_DEMAND_TIP =
+  'Activated on request: acceptance enabled, settlement on demand'
+
+// `maxWithdrawLimit: 0` marks a token that is accepted on a chain but settled
+// on demand rather than automatically. The field is absent for most tokens,
+// so check for an explicit zero — `!maxWithdrawLimit` would catch those too.
+function isOnDemand(c: ChainConfig, token: string): boolean {
+  return c.tokens[token]?.maxWithdrawLimit === 0
+}
+
+// Tooltips cannot nest, so a token that is both represented under another
+// name and settled on demand carries a single combined tip.
+function joinTips(tips: string[]): string {
+  return tips
+    .map((t, i) => (i === 0 ? t : t.charAt(0).toLowerCase() + t.slice(1)))
+    .join('; ')
+}
+
 function formatToken(
   token: string,
   chainKey: string,
   reps: Representations,
+  onDemand = false,
 ): string {
   const rep = reps[chainKey]?.[token]
-  if (!rep) return token
-  if (rep === 'native') return `<Tooltip tip="native">${token}</Tooltip>`
-  return `<Tooltip tip="Represented as ${rep} for this chain">${token}</Tooltip>`
+  const tips: string[] = []
+  if (rep === 'native') tips.push('native')
+  else if (rep) tips.push(`Represented as ${rep} for this chain`)
+  if (onDemand) tips.push(ON_DEMAND_TIP)
+  if (!tips.length) return token
+  return `<Tooltip tip="${joinTips(tips)}">${token}</Tooltip>`
 }
 
 // Chains that only support their native asset (e.g. Bitcoin) come back from the
@@ -109,16 +135,18 @@ function genBridgingTab(
 ): string {
   const stablecoins = new Set(config.stablecoins)
 
-  // Invert: token → [chainKey, chainName]
-  const tokenChains: Record<string, [string, string][]> = {}
+  // Invert: token → [chainKey, chainConfig]
+  const tokenChains: Record<string, [string, ChainConfig][]> = {}
   for (const [key, c] of chains) {
     for (const token of chainTokens(c)) {
-      ;(tokenChains[token] ??= []).push([key, c.name])
+      ;(tokenChains[token] ??= []).push([key, c])
     }
   }
 
+  // Tokens on a single chain cannot be bridged anywhere, but they are still
+  // listed here so this table stays a complete view of supported assets —
+  // the dagger footnote explains that they are swap-only.
   return Object.entries(tokenChains)
-    .filter(([, cs]) => cs.length >= 2)
     .sort(([tA, a], [tB, b]) => {
       if (b.length !== a.length) return b.length - a.length
       const sa = stablecoins.has(tA) ? 0 : 1
@@ -127,11 +155,12 @@ function genBridgingTab(
       return tA.localeCompare(tB)
     })
     .map(([token, cs]) => {
-      const sorted = [...cs].sort(([, a], [, b]) => a.localeCompare(b))
+      const sorted = [...cs].sort(([, a], [, b]) => a.name.localeCompare(b.name))
       // Wrap on plain names first so rows without tooltips are unaffected,
       // then inject the chain-name tooltips.
-      let cell = wrapLines(sorted.map(([, name]) => name).join(', '))
-      for (const [key, name] of sorted) {
+      let cell = wrapLines(sorted.map(([, c]) => c.name).join(', '))
+      for (const [key, c] of sorted) {
+        const name = c.name
         const ticker = bridgingRepTicker(token, key, reps)
         if (!ticker) continue
         const re = new RegExp(`(?<![A-Za-z])${escapeRegExp(name)}(?![A-Za-z])`)
@@ -140,7 +169,14 @@ function genBridgingTab(
           `<Tooltip tip="Represented as ${ticker} for this chain">${name}</Tooltip>`,
         )
       }
-      return `    | ${token} | ${cell} |`
+      // On demand is a per chain/token property, but this table lists chains
+      // rather than tokens, so it is flagged once on the asset whenever it
+      // applies to any of them. The per-chain detail is on the next tab.
+      const onDemand = sorted.some(([, c]) => isOnDemand(c, token))
+      const asset = onDemand
+        ? `<Tooltip tip="${ON_DEMAND_TIP}">${token}</Tooltip>`
+        : token
+      return `    | ${asset} | ${cell} |`
     })
     .join('\n')
 }
@@ -155,11 +191,56 @@ function genSwappingTab(
       const tokens = chainTokens(c)
       const stables = tokens.filter((t) => stablecoins.has(t)).sort()
       const others = tokens.filter((t) => !stablecoins.has(t)).sort()
-      const stableCell = stables.map((t) => formatToken(t, key, reps)).join(', ')
-      const otherCell = others.map((t) => formatToken(t, key, reps)).join(', ')
+      const fmt = (t: string) => formatToken(t, key, reps, isOnDemand(c, t))
+      const stableCell = stables.map(fmt).join(', ')
+      const otherCell = others.map(fmt).join(', ')
       return `    | ${c.name} | ${stableCell} | ${otherCell} |`
     })
     .join('\n')
+}
+
+function tokenList(tokens: string[]): string {
+  return `  ${[...tokens].sort((a, b) => a.localeCompare(b)).join(', ')}`
+}
+
+// Both caveats below are otherwise only discoverable by hovering a tooltip or
+// by noticing that a row lists a single chain. Neither survives the page being
+// flattened to plain markdown (llms.txt, an agent fetching the docs), so they
+// are spelled out once below the tables where they can actually be read.
+function genNotes(chains: [string, ChainConfig][]): string {
+  const onDemand = new Set<string>()
+  const tokenChains: Record<string, string[]> = {}
+  for (const [, c] of chains) {
+    for (const token of chainTokens(c)) {
+      ;(tokenChains[token] ??= []).push(c.name)
+      if (isOnDemand(c, token)) onDemand.add(token)
+    }
+  }
+
+  const sections: string[] = []
+  if (onDemand.size) {
+    sections.push(
+      `  **Assets activated on request.** The assets below are supported, but acceptance is enabled with settlement on demand rather than automatic, so they are activated on request. If a route you need involves one of them, [talk to the team](https://rhino.fi/contact) to have it enabled.
+
+${tokenList([...onDemand])}`,
+    )
+  }
+  const single = Object.keys(tokenChains).filter(
+    (t) => tokenChains[t].length === 1,
+  )
+  if (single.length) {
+    sections.push(
+      `  **Assets supported on a single chain.** The assets below are supported on one chain only, so they cannot be bridged. They can still be swapped to an asset on another chain via Bridge \\+ swap.
+
+${tokenList(single)}`,
+    )
+  }
+  if (!sections.length) return ''
+  return `<Note>
+${sections.join('\n\n')}
+</Note>
+
+`
 }
 
 function genSDATab(
@@ -179,7 +260,9 @@ function genSDATab(
       const stables = tokens.filter((t) => stablecoins.has(t)).sort()
       const others = tokens.filter((t) => !stablecoins.has(t)).sort()
       const all = [...stables, ...others]
-      const cell = all.map((t) => formatToken(t, key, reps)).join(', ')
+      const cell = all
+        .map((t) => formatToken(t, key, reps, isOnDemand(c, t)))
+        .join(', ')
       return `    | ${c.name} | ${cell} |`
     })
     .join('\n')
@@ -189,7 +272,12 @@ function genSDATab(
 // MDX template
 // ---------------------------------------------------------------------------
 
-function template(bridging: string, swapping: string, sda: string): string {
+function template(
+  bridging: string,
+  swapping: string,
+  sda: string,
+  notes: string,
+): string {
   return `---
 title: "Supported Chains"
 description: 'List of chains that Rhino.fi smart contracts are deployed on and tokens supported. The chains in the "Smart Deposit Address" tab are those chains on which you can generate SDAs. Funds from these deposit addresses can be bridged to any of our supported chains.'
@@ -264,7 +352,8 @@ ${swapping}
 ${sda}
   </Tab>
 </Tabs>
-`
+
+${notes}`
 }
 
 // ---------------------------------------------------------------------------
@@ -289,7 +378,7 @@ async function main() {
   const swapping = genSwappingTab(enabled, reps)
   const sda = genSDATab(enabled, reps)
 
-  const mdx = template(bridging, swapping, sda)
+  const mdx = template(bridging, swapping, sda, genNotes(enabled))
   const out = resolve('../get-started/supported-chains.mdx')
   writeFileSync(out, mdx)
   console.log(`Written to ${out}`)
