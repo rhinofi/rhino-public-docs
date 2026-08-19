@@ -42,7 +42,7 @@ export const getBridgeConfigs = async () => {
 }
 ```
 
-For the exact response format and more details, see the [API Reference](/api-reference/bridge/configs/configs-chains-&-tokens).
+For the exact response format and more details, see the [API Reference](/api-reference/bridge/configs/obtain-token-and-chain-details-for-swapping-andor-bridging-activity).
 
 ### 3. Get a Bridge Quote
 
@@ -63,7 +63,7 @@ export const getBridgeUserQuote = async (payload, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](/api-reference/bridge/quote/user-quote-for-bridge-&-swap).
+For the exact request / response format and more details, see the [API Reference](/api-reference/bridge/quote/generate-a-bridgebridge+swap-quote).
 
 ### 4. Commit the Quote
 
@@ -83,7 +83,7 @@ export const commitBridgeUserQuote = async (quoteId, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](/api-reference/bridge/quote/commit-quote).
+For the exact request / response format and more details, see the [API Reference](/api-reference/bridge/quote/commit-an-already-generated-quote).
 
 ### 5. Execute the Bridge Transaction
 

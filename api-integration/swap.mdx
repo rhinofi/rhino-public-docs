@@ -42,7 +42,7 @@ export const getBridgeConfigs = async () => {
 }
 ```
 
-For the exact response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/configs/configs-chains-&-tokens).
+For the exact response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/configs/obtain-token-and-chain-details-for-swapping-andor-bridging-activity).
 
 ### 3. Fetch Swap token config
 
@@ -55,7 +55,7 @@ export const getSwapTokenConfig = async () => {
 }
 ```
 
-For the exact response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/configs/get-all-token-configs-for-bridge-and-swap).
+For the exact response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/configs/obtain-details-for-which-swap-tokens-are-supported-by-rhinofi-on-which-chains).
 
 ### 4. Get a Bridge & Swap Quote
 
@@ -76,7 +76,7 @@ export const getBridgeSwapUserQuote = async (payload, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/quote/user-quote-for-bridge-&-swap).
+For the exact request / response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/quote/generate-a-bridgebridge+swap-quote).
 
 ### 5. Commit the Quote
 
@@ -96,7 +96,7 @@ export const commitBridgeSwapUserQuote = async (quoteId, jwt) => {
 }
 ```
 
-For the exact request / response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/quote/commit-quote).
+For the exact request / response format and more details, see the [API Reference](https://docs.rhino.fi/api-reference/bridge/quote/commit-an-already-generated-quote).
 
 ### 6. Execute the Bridge & Swap Transaction
 
