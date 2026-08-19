@@ -19,10 +19,10 @@ Smart Deposit Addresses are the core deposit primitive in the Rhino.fi Stablecoi
     Get a JWT to authenticate your requests.
   </Step>
   <Step title="Fetching Smart Deposit Address configs">
-    Retrieve supported [chains](https://docs.rhino.fi/api-reference/bridge/configs/configs-chains-&-tokens) and [tokens](https://docs.rhino.fi/api-reference/sda/depositaddresses/get-supported-tokens-between-a-deposit-chain-and-a-destination-chain).
+    Retrieve supported [chains](https://docs.rhino.fi/api-reference/bridge/configs/obtain-token-and-chain-details-for-swapping-andor-bridging-activity) and [tokens](https://docs.rhino.fi/api-reference/sda/depositaddresses/obtain-the-supported-tokens-for-a-smart-deposit-address).
   </Step>
   <Step title="Generate address">
-    Call our API to [generate a Smart Deposit Address](https://docs.rhino.fi/api-reference/sda/depositaddresses/create-new-deposit-address) which will allow funds to be received across multiple chains. We strongly recommend generating an SDA on all available EVM chains to ensure that funds accidentally sent by customers to the wrong chain and automatically detected. More best practices can be found [here.](https://learn.rhino.fi/articles/9715155695-what-are-best-practices-when-operating-sdas) 
+    Call our API to [generate a Smart Deposit Address](https://docs.rhino.fi/api-reference/sda/depositaddresses/generate-a-new-smart-deposit-address) which will allow funds to be received across multiple chains. We strongly recommend generating an SDA on all available EVM chains to ensure that funds accidentally sent by customers to the wrong chain and automatically detected. More best practices can be found [here.](https://learn.rhino.fi/articles/9715155695-what-are-best-practices-when-operating-sdas) 
   </Step>
   <Step title="Transfer funds">
     Any [supported assets](https://docs.rhino.fi/get-started/supported-chains) can then be sent to the Smart Deposit Address.
@@ -95,7 +95,7 @@ const response = await fetch(`https://api.rhino.fi/sda/deposit-addresses/${depos
 
 It will return the list of supported tokens between the 2 specified chains along with their associated deposit limit.
 
-For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/get-supported-tokens-between-a-deposit-chain-and-a-destination-chain).
+For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/obtain-the-supported-tokens-for-a-smart-deposit-address).
 
 ## API interactions
 
@@ -140,7 +140,7 @@ The response will then look like this:
 }]
 ```
 
-For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/create-new-deposit-address).
+For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/generate-a-new-smart-deposit-address).
 
 The first highlighted line contains the generated Smart Deposit Address. Funds can be sent there to be bridged.<br />However, only tokens from the supportedTokens list will be processed. Transfers of tokens that are not in this list will not be processed. Transfers that are smaller than the `minDepositLimitUsd` or larger than the `maxDepositLimitUsd` will not be processed (there is a "grace" window to account for different price sources and price fluctuations). If this happens, funds can be returned through our Account Management team.
 
@@ -226,7 +226,7 @@ const response = await fetch(`https://api.rhino.fi/sda/deposit-addresses/${depos
 
 The response will contain a list of transfers that have been processed through the Smart Deposit Address. By default it gives you the transfers from the last 7 days. To see older transfers you can provide a `from` and `to` query parameter with a timestamp in milliseconds. Only a `SECRET_` key is allowed to access history.
 
-For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/get-deposit-address-history).
+For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/obtain-a-list-of-previous-activity-for-a-smart-deposit-address).
 
 ### Checking Smart Deposit Address bridge status with a PUBLIC API key
 
@@ -281,4 +281,4 @@ const response = await fetch(
 )
 ```
 
-For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/search-deposit-addresses-by-different-fields).
+For the exact response format and more details, see the [**API Reference**](https://docs.rhino.fi/api-reference/sda/depositaddresses/obtain-a-specific-smart-deposit-addresses-based-on-various-criteria).
