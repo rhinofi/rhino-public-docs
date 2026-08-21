@@ -66,7 +66,9 @@ description: "List of chains and tokens that Rhino.fi support for Smart Deposit 
 
     N.B ETH can be bridged to/from on the below chains when sending from an Externally Owned Account (EOA). If sending from a smart contract then Base is not supported. Please also note that ETH cannot be specified as the destination asset, it can only be the source asset and swapped to stablecoins.
 
-    1: ETH can only be the destination asset when the transaction is bringing ETH from one chain to another, no swapping into ETH is supported.
+    1: ETH can only be the destination asset when the transaction is bridging ETH from one chain to another, no swapping into ETH is supported.
+
+    2: BNB can only be the destination asset when the transaction is bridging BNB from one chain to another, no swapping into BNB is supported.
 
     **The following table details what tokens  can be sent into and out from the [Rhino.fi](http://Rhino.fi) bridge**
 
@@ -76,7 +78,7 @@ description: "List of chains and tokens that Rhino.fi support for Smart Deposit 
     | Avalanche | **Stablecoins**<br />USDC, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <Tooltip tip="Represented as USDe0 for this chain">USDe</Tooltip><br /><br />**Other Assets**<br /><Tooltip tip="Represented as WETH.e for this chain">ETH</Tooltip>, WBTC | **Stablecoins**<br />USDC, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <Tooltip tip="Represented as USDe0 for this chain">USDe</Tooltip><br /><br />**Other Assets**<br /><Tooltip tip="Represented as WETH.e for this chain">ETH</Tooltip> <sup>1 </sup>, WBTC |
     | Base | **Stablecoins**<br />EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDe</Tooltip><br /><br />**Other Assets**<br /><Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDS</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip><br /> | **Stablecoins**<br />EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <br /><br />**Other Assets**<br /><Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip><sup>1</sup>,  <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Bitcoin | **Stablecoins**<br /><br /><br />**Other Assets**<br />BTC | **Stablecoins**<br /><br /><br />**Other Assets**<br /><br /> |
-    | BNB Smart Chain | **Stablecoins**<br /><br />**Other Assets** | **Stablecoins**<br /><br /><br />**Other Assets**<br /><br /> |
+    | BNB Smart Chain | **Stablecoins**<br /><Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDe</Tooltip><br /><br />**Other Assets**<br />BNB, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USD1</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> | **Stablecoins**<br /><Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip><br /><br />**Other Assets**<br />BNB<sup>2</sup>, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip><Tooltip tip="Activated on request: acceptance enabled, settlement on demand" /><Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip><br /><br /> |
     |  | **Stablecoins**<br /><br /><br />**Other Assets**<br /><br /> | **Stablecoins**<br /><br /><br />**Other Assets** |
     |  | **Stablecoins**<br /><br /><br />**Other Assets**<br /><br /> | **Stablecoins**<br /><br /><br />**Other Assets** |
     |  | **Stablecoins**<br /><br /><br />**Other Assets** | **Stablecoins**<br /><br /><br />**Other Assets**<br /><br /> |
@@ -97,10 +99,6 @@ description: "List of chains and tokens that Rhino.fi support for Smart Deposit 
 
     | Chain | Stablecoins | Other Assets |
     | --- | --- | --- |
-    |  |  |  |
-    |  |  |  |
-    | Base | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="Represented as USDT.e for this chain">USDT</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDe</Tooltip> | <Tooltip tip="Represented as ETH.e for this chain">ETH</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDS</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
-    |  |  |  |
     | BNB Smart Chain | <Tooltip tip="Represented as USDC.b for this chain">USDC</Tooltip>, <Tooltip tip="Represented as USDT.b for this chain">USDT</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDe</Tooltip> | BNB, <Tooltip tip="Represented as ETH.b for this chain">ETH</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USD1</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
     | Celo | <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip> |  |
     | Ethereum | EURC, <Tooltip tip="native">USDC</Tooltip>, <Tooltip tip="native">USDT</Tooltip>, USDe | ETH, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">EURCV</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">EURE</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">PYUSD</Tooltip>, SENT, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USAT</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USD1</Tooltip>, <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDS</Tooltip>, <Tooltip tip="Represented as WBTC0 for this chain">WBTC</Tooltip> |
