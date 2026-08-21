@@ -6,45 +6,6 @@ description: "List of chains and tokens that Rhino.fi support for Smart Deposit 
 <Tabs>
   <Tab title="Smart Deposit Addresses (SDAs)">
   </Tab>
-  <Tab title="Rhino.fi Bridge">
-    Rhino.fi supports two route types:
-
-    - **Bridge:** moves the same token between chains
-    - **Bridge \+ swap:** moves between chains and convert into a different supported token on the destination
-
-    For bridge-only activity, always check that the source chain and destination chain support the same token
-
-    > **Bridge- only Example:**
-    >
-    > - _USDT on Tron → USDT on Polygon works because USDT is supported on both Tron and Polygon._
-    > - _USDT on Sonic → USDT on Paradex will not work as USDT is not supported on Paradex_
-
-    For bridge and swap activity, check that the token you wish to send is supported on the source chain and the token you wish to receive is supported on the destination chain
-
-    > **Bridge and Swap Example:**
-    >
-    > _USDC on Optimism → USDT on Celo works because USDC is supported on Optimism and USDT is supported on Celo._
-
-    **The following table details what chains a token can be bridged across:**
-
-    | Asset | Blockchains it can be bridged between |
-    | --- | --- |
-    | USDT | Arbitrum One, Avalanche, Base, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />HyperEVM, Ink, Kaia, Katana, Linea, Mantle, opBNB, Optimism, Plasma, <br />Polygon, Solana, Stable, Starknet, Tempo, Ton, Tron |
-    | USDC | Arbitrum One, Avalanche, Base, BNB Smart Chain, Celo, Ethereum, Gnosis, <br />HyperEVM, Ink, Katana, Linea, Mantle, Optimism, Polygon, Solana, <br />Starknet, Stellar, Tempo |
-    | ETH | Arbitrum One, <Tooltip tip="Represented as WETH for this chain">Avalanche</Tooltip>, Base, BNB Smart Chain, Ethereum, Ink, Katana, <br />Linea, Mantle, Optimism, Polygon, Starknet |
-    | <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDe</Tooltip> | Arbitrum One, Avalanche, Base, BNB Smart Chain, Ethereum, HyperEVM, <br />Mantle, Optimism, Plasma, Solana |
-    | WBTC | Arbitrum One, Avalanche, Base, BNB Smart Chain, Ethereum, Starknet |
-    | <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USDS</Tooltip> | Arbitrum One, Base, Ethereum, Solana |
-    | EURC | Base, Ethereum, Starknet |
-    | <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USD1</Tooltip> | BNB Smart Chain, Ethereum, Solana |
-    | BNB | BNB Smart Chain, opBNB |
-    | <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">EURE</Tooltip> | Ethereum, Gnosis |
-    | BTC | Bitcoin |
-    | <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">EURCV</Tooltip> | Ethereum |
-    | <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">PYUSD</Tooltip> | Ethereum |
-    | SENT | Ethereum |
-    | <Tooltip tip="Activated on request: acceptance enabled, settlement on demand">USAT</Tooltip> | Ethereum |
-  </Tab>
   <Tab title="Bridging and Swapping">
     Rhino.fi supports two route types:
 
