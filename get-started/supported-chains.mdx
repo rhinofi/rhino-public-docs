@@ -51,17 +51,27 @@ description: "List of chains and tokens that Rhino.fi support for Smart Deposit 
     - **Bridge:** moves the same token between chains
     - **Bridge \+ swap:** moves between chains and convert into a different supported token on the destination
 
+    For bridge-only activity, always check that the source chain and destination chain support the same token
+
+    > **Bridge- only Example:**
+    >
+    > - _USDT on Tron → USDT on Polygon works because USDT is supported on both Tron and Polygon._
+    > - _USDT on Sonic → USDT on Paradex will not work as USDT is not supported on Paradex_
+
     For bridge and swap activity, check that the token you wish to send is supported on the source chain and the token you wish to receive is supported on the destination chain
 
     > **Bridge and Swap Example:**
     >
     > _USDC on Optimism → USDT on Celo works because USDC is supported on Optimism and USDT is supported on Celo._
 
-    \*To understand what blockchains the same token can be bridged between, please look at 'Bridging' tab
-
     N.B ETH can be bridged to/from on the below chains when sending from an Externally Owned Account (EOA). If sending from a smart contract then Base is not supported. Please also note that ETH cannot be specified as the destination asset, it can only be the source asset and swapped to stablecoins.
 
-    **The following table details what tokens can be sent from, and swapped to, using the Rhino.fi bridge:**
+    **The following table details what tokens  can be sent into and out from the [Rhino.fi](http://Rhino.fi) bridge**
+
+    |  |  |  |
+    | --- | --- | --- |
+    |  |  |  |
+    |  |  |  |
 
     | Chain | Stablecoins | Other Assets |
     | --- | --- | --- |
