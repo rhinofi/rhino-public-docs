@@ -53,6 +53,16 @@ When using the `prepareBridge` function with swaps or using the `checkQuote` hoo
 
 ## Failed swaps
 
-The 
+The main reasons that a swap fails are:
+
+**1. Unsupported Quote Mode (**`mode: "receive"`**)** <br />Returns HTTP 422 (`Receive mode is not supported for the selected tokens`)
+
+This error is generated where receive mode is incompatible with the chain and token pairings provided. To solve this, change the chain and tokens, or select pay mode instead.
+
+**2. Amount Below Minimum Threshold / Fees Exceed Output** <br />Returns HTTP 422 or 500
+
+This error is generated when the amount being sent on the source chainis below Rhino's minimum threshold or when the amount that will be received on the destination chain is below the applicable fees.  To solve this, send a larger amount.
+
+1. **Unsupported Route or Unconfigured Token Pair** — Returns HTTP 422 (`No common aggregators found` or `Operation unavailable at this time`). Occurs when requesting pairs not supported by aggregators, submitting SDA-only chains (e.g. `chainIn = bitcoin`) to the bridge quote endpoint [\[4\]](https://rhinofi.slack.com/archives/C08RWAAMT0D/p1787732590831589?thread_ts=1787124854.713199&cid=C08RWAAMT0D), or hitting compliance/AML blocks [\[5\]](https://rhinofi.slack.com/archives/C02NN21QD0D/p1782728033003149?thread_ts=1782728033.003149&cid=C02NN21QD0D).
 
 Swaps can fail for a number of reasons, most commonly due to market volatility. Rhino will automatically refund failed swaps to the depositor address on the origin chain. The bridge function will in this case return an error with type `SwapFailed` that contains metadata about the refund (refund chain, token, amount and transaction hash).<br />Additionally, the `onBridgeStatusChange` hook will also first report `swap-failed` and then follow up with `failed-swap-refunded` once the refund has been processed. The latter update will contain the same metadata about the swap refund as the returned error.
