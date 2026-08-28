@@ -1,23 +1,26 @@
 ---
-title: Bridge and swap
-description: Rhino also supports cross chain swaps using external swap aggregators.
+title: "Bridge and swap"
+description: "The SDK offers convenient functions to make bridge and swaps that handle all the low level logic of fetching/committing quotes and making the correct blockchain transactions needed."
 ---
 
 ## Introduction
 
-Cross chain swaps in general work the same way as a normal bridge:
+Cross chain swaps in general work the same way as a standard bridge:
 
 1. Fetch bridge config and additionally also a new config for supported swap tokens.
-2. Generate a special swap quote.
+2. Generate a swap quote.
 3. Commit the quote.
 4. Deposit funds into the bridge contract.
 5. Rhino handles the swap and bridge logic under the hood and sends the funds to the recipient on the destination chain.
 
 ## Making  cross chain swaps
 
-To make cross chain swaps you can use the same `bridge` or `prepareBridge` functions. The only difference is that the arguments are slightly different compared to normal bridges:
+To make cross chain swaps you can use the same `bridge` or `prepareBridge` functions. The only difference is:
 
-```typescript {2,4,5}
+- Instead of the `token` field, a swap requires `tokenIn` and `tokenOut` fields
+- The `type: 'bridgeSwap'` to indicate that a swap should be performed
+
+```typescript highlight={2,4-5}
 const bridgeResult = await rhinoSdk.bridge({
   type: 'bridgeSwap',
   amount: '100',
@@ -37,15 +40,9 @@ const bridgeResult = await rhinoSdk.bridge({
 })
 ```
 
-Instead of the `token` field, a swap requires `tokenIn` and `tokenOut` fields as well as `type: 'bridgeSwap'` to indicate that a swap should be performed.
-
-<Warning>
-When using swaps only the `pay` mode is available. `receive` mode is only supported for bridges without swaps.
-</Warning>
-
 ## Swap quotes
 
-When using the `prepareBridge` function with swaps or using the `checkQuote` hook, you will receive a quote object that contains some additional properties compared to the quote for normal bridges. You will need to compare the `_tag` field against `bridgeSwap` first to narrow the type down to the swap quote case to get access to those properties:
+When using the `prepareBridge` function with swaps or using the `checkQuote` hook, you will receive a quote object that contains familiar properties to a bridge only transaction. However in the edge case that the swap is being facilitated by an external aggregator then there will be additional properties in the response such as: 
 
 - `bridgePayAmount`: The amount of `tokenIn` that will be paid
 - `bridgePayAmountUsd`: The USD value of the pay amout
@@ -56,5 +53,20 @@ When using the `prepareBridge` function with swaps or using the `checkQuote` hoo
 
 ## Failed swaps
 
-Swaps can fail for a number of reasons, most commonly due to market volatility. Rhino will automatically refund failed swaps to the depositor address on the origin chain. The bridge function will in this case return an error with type `SwapFailed` that contains metadata about the refund (refund chain, token, amount and transaction hash).  
-Additionally, the `onBridgeStatusChange` hook will also first report `swap-failed` and then follow up with `failed-swap-refunded` once the refund has been processed. The latter update will contain the same metadata about the swap refund as the returned error.
+The main reasons that a swap fails are:
+
+**1. Unsupported Quote Mode (**`mode: "receive"`**)** <br />Returns HTTP 422 (`Receive mode is not supported for the selected tokens`)
+
+This error is generated where receive mode is incompatible with the chain and token pairings provided. To solve this, change the chain and tokens, or select pay mode instead.
+
+**2. Amount Below Minimum Threshold / Fees Exceed Output** <br />Returns HTTP 422 or 500
+
+This error is generated when the amount being sent on the source chainis below Rhino's minimum threshold or when the amount that will be received on the destination chain is below the applicable fees.  To solve this, send a larger amount.
+
+**3. Unsupported Route or Unconfigured Token Pair**<br />Returns HTTP 422 (`No common aggregators found` or `Operation unavailable at this time`)
+
+This error is generated when the requesting pairs not supported. This could be because the token does not exist on the chain e.g `tokenIn = USDT` and `chainIn = Base`,   or where the token/chain is not supported through the [Rhino.fi](http://Rhino.fi) feature e.g `chainIn = BITCOIN` for a bridge transaction rather than an Smart Deposit Address related transaction. To solve this, check the supported token and chain pairings in the Bridge and Smart Deposit Address config. 
+
+Any failed swaps will either be returned to the given `refundAddress` or will be manually refunded via the [Rhino.fi](http://Rhino.fi) compliance team. 
+
+N.B where a swap fails then the bridge function will return an error with type `SwapFailed` that contains metadata about the refund (refund chain, token, amount and transaction hash), and the `onBridgeStatusChange` hook will also first report `swap-failed` and then follow up with `failed-swap-refunded` once the refund has been processed.
