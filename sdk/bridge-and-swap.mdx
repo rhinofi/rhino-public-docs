@@ -1,6 +1,6 @@
 ---
-title: Bridge and swap
-description: Rhino also supports cross chain swaps using external swap aggregators.
+title: "Bridge and swap"
+description: "The SDK offers convenient functions to make bridge and swaps that handle all the low level logic of fetching/committing quotes and making the correct blockchain transactions needed."
 ---
 
 ## Introduction
@@ -17,7 +17,7 @@ Cross chain swaps in general work the same way as a normal bridge:
 
 To make cross chain swaps you can use the same `bridge` or `prepareBridge` functions. The only difference is that the arguments are slightly different compared to normal bridges:
 
-```typescript {2,4,5}
+```typescript highlight={2,4-5}
 const bridgeResult = await rhinoSdk.bridge({
   type: 'bridgeSwap',
   amount: '100',
@@ -40,7 +40,7 @@ const bridgeResult = await rhinoSdk.bridge({
 Instead of the `token` field, a swap requires `tokenIn` and `tokenOut` fields as well as `type: 'bridgeSwap'` to indicate that a swap should be performed.
 
 <Warning>
-When using swaps only the `pay` mode is available. `receive` mode is only supported for bridges without swaps.
+  When using swaps only the `pay` mode is available. `receive` mode is only supported for bridges without swaps.
 </Warning>
 
 ## Swap quotes
@@ -56,5 +56,4 @@ When using the `prepareBridge` function with swaps or using the `checkQuote` hoo
 
 ## Failed swaps
 
-Swaps can fail for a number of reasons, most commonly due to market volatility. Rhino will automatically refund failed swaps to the depositor address on the origin chain. The bridge function will in this case return an error with type `SwapFailed` that contains metadata about the refund (refund chain, token, amount and transaction hash).  
-Additionally, the `onBridgeStatusChange` hook will also first report `swap-failed` and then follow up with `failed-swap-refunded` once the refund has been processed. The latter update will contain the same metadata about the swap refund as the returned error.
+Swaps can fail for a number of reasons, most commonly due to market volatility. Rhino will automatically refund failed swaps to the depositor address on the origin chain. The bridge function will in this case return an error with type `SwapFailed` that contains metadata about the refund (refund chain, token, amount and transaction hash).<br />Additionally, the `onBridgeStatusChange` hook will also first report `swap-failed` and then follow up with `failed-swap-refunded` once the refund has been processed. The latter update will contain the same metadata about the swap refund as the returned error.

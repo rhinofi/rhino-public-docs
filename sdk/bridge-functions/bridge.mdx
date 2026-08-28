@@ -1,7 +1,7 @@
 ---
 title: "Bridge"
-"og:title": "Bridge | Bridge Functions | Rhino.fi"
-description: The SDK offers convenience functions to make bridges that handle all the low level logic of fetching/committing quotes and making the correct blockchain transactions needed.
+og:title: "Bridge | Bridge Functions | Rhino.fi"
+description: "The SDK offers convenient functions to make bridges that handle all the low level logic of fetching/committing quotes and making the correct blockchain transactions needed."
 ---
 
 ## Example
@@ -48,6 +48,7 @@ if (bridgeResult.data) {
 ## Bridge data
 
 The first parameter of this function specifies the main parameters of the bridge.
+
 - `amount` & `token` specify how much of which token should be bridged.
 - `chainIn` & `chainOut` specify the origin (`chainIn`) and destination (`chainOut`) chain.
 - `depositor` specifies the address that will send the funds on the origin chain.
@@ -61,14 +62,11 @@ The second parameter of this function is an options object that allows you to cu
 
 ### getChainAdapter
 
-This function has to return a [chain adapter](/sdk/chain-adapters/overview) that matches the origin chain. It will be used to check if the depositors balance is sufficient, handle token approvals (if needed) and deposit the funds into the bridge contract.  
-Since all chain adapters included in this SDK will require the Rhino chain config to be initialized, this function will provide it as an argument to simply be passed through into the chain adapter function.  
-This modular design allows you to only import the chain adapters that you actually need which will ensure that only the code you actually need will be included in your final bundle.
+This function has to return a [chain adapter](/sdk/chain-adapters/overview) that matches the origin chain. It will be used to check if the depositors balance is sufficient, handle token approvals (if needed) and deposit the funds into the bridge contract.<br />Since all chain adapters included in this SDK will require the Rhino chain config to be initialized, this function will provide it as an argument to simply be passed through into the chain adapter function.<br />This modular design allows you to only import the chain adapters that you actually need which will ensure that only the code you actually need will be included in your final bundle.
 
 ### hooks.checkQuote (optional)
 
-You can provide a predicate function that will receive the generated quote and has to return a boolean indicating if the quote is acceptable or not. If `false` is returned, the bridge will be aborted.  
-You can use this to make sure you only make bridges under a certain fee threshold for example.
+You can provide a predicate function that will receive the generated quote and has to return a boolean indicating if the quote is acceptable or not. If `false` is returned, the bridge will be aborted.<br />You can use this to make sure you only make bridges under a certain fee threshold for example.
 
 ### hooks.onBridgeStatusChange (optional)
 
@@ -94,6 +92,7 @@ const bridgeResult = await rhinoSdk.bridge(bridgeData, {
 ```
 
 Available properties:
+
 - `maxFeePerGas` - Maximum fee per gas unit in wei (EIP-1559). Use this to ensure your transaction gets included during fee spikes.
 - `maxPriorityFeePerGas` - Maximum priority fee per gas unit in wei (EIP-1559). This is the tip paid to validators.
 - `gasPrice` - Gas price in wei (legacy transactions). Use this for chains that don't support EIP-1559.
@@ -104,7 +103,7 @@ Available properties:
 Internally the `bridge` function will fetch the current bridge and swap tokens (if needed) config from the Rhino API. If you already fetched those configs manually for some other purpose you can pass it into this property to avoid the extra network requests.
 
 <Warning>
-Please make sure that you pass in a somewhat recent bridge/swap tokens config. Using a too old config can lead to errors in the quote handling later.
+  Please make sure that you pass in a somewhat recent bridge/swap tokens config. Using a too old config can lead to errors in the quote handling later.
 </Warning>
 
 ## Handling the bridge result
@@ -127,4 +126,3 @@ If an error occurred during the bridge, the `error` property will contain the ex
 ```
 
 This error would indicate that you tried to bridge ETH from or to Solana but Rhino does not support this combination.
-
