@@ -20,27 +20,25 @@ Tron, Solana and Bitcoin all have higher onchain transaction costs and as such a
 
 ## Why this is a separate extension
 
-These chains requires specific compliance and operational controls that differ from EVM chains. AML screening on TRON operates differently from EVM screening, and Rhino maintains dedicated TRON infrastructure.
+These chains requires specific infrastructure, compliance controls and operational processes that differ from EVM chains and have a higher per-transaction cost. 
 
-Enabling TRON access therefore requires a specific agreement with your account representative, including acknowledgement of the TRON-specific compliance framework.
+To enable this extension, please speak with your Rhino.fi Account Manager. 
 
 ---
 
 ## Integration
 
-Once Tron Access is enabled on your account, TRON appears in the bridge config (`bridgeConfigs`) as an available chain with `enabledDepositAddress: true`.
+Once Tron, Solana and Bitcoin Access is enabled on your account, Tron and Solana will appear in the bridge config (`bridgeConfigs`) as an available chain with `enabledDepositAddress: true`.
 
-No code changes are required beyond confirming TRON is listed.
+No code changes are required beyond confirming that these chains are listed.
 
-For SDA generation on TRON, use `"TRON"` in the `depositChains` array.
+For SDA generation on Tron and Bitcoin, use `"TRON"` or `"BITCOIN"` in the `depositChains` array.
 
 <Info>
-  Generating a Tron (and Solana) SDA requires a separate call. I.e. you can specify many EVMs to generate SDAs across all EVMs. Then generate a Tron (and Solana) SDA with a separate call.
+  Generating a Tron or Solana or Bitcoin SDA requires a separate call. I.e. you can specify many EVMs to generate SDAs across all EVMs. Then generate a Tron (or Solana or Bitcoin) SDA with a separate call.
 </Info>
 
-For TRON as a destination, use `"TRON"` as the `destinationChain`.
-
-Token symbols on TRON follow the same naming convention as other chains (e.g. `"USDT"`).
+For Tron as a destination, use `"TRON"` as the `destinationChain`. For Solana, use `"SOLANA"`.
 
 ---
 
