@@ -1,52 +1,50 @@
 ---
-title: "Tron Access"
-description: "Enable TRON network deposits and settlement."
+title: "Tron, Solana and Bitcoin Access"
+description: "Enable transactions on Tron, Solana and Bitcoin where there are higher onchain costs"
 ---
-
-## Tron Access
 
 **Extension tier:** Premium
 
-TRON is a high-volume stablecoin network, particularly for USDT. The Tron Access extension enables TRON as a deposit source and/or settlement destination in your integration.
+Tron, Solana and Bitcoin all have higher onchain transaction costs and as such access to these chains must be enabled through this extension. 
 
 ---
 
 ## What's enabled
 
-- **TRON as a deposit source** — Smart Deposit Addresses can be generated on TRON. Users can send TRC-20 USDT (or other supported TRC-20 tokens) to a Rhino SDA on TRON, and funds are settled to the configured destination chain.
-- **TRON as a destination** — Bridges can settle to a TRON address.
+- **Deposits to a Tron Smart Deposit Address** — Smart Deposit Addresses can be generated on Tron. Users can send [supported tokens](https://docs.rhino.fi/get-started/supported-chains) to a Rhino.fi SDA on Tron, and funds are settled to the configured destination chain. For all deposits to a Tron Smart Deposit Address there is a per-transaction \$1.40 cost.
+- **Tron as a destination** — Bridges can settle to a Tron address. There is a per-transaction \$1.40 cost for this.
+- **Solana as a destination** — Bridges can settle to a Solana address. There is a per-transaction \$0.50 cost for this.
+- **Deposits to a Bitcoin Smart Deposit Address** — Smart Deposit Addresses can be generated on Bitcoin. Users can send [supported tokens](https://docs.rhino.fi/get-started/supported-chains) to a Rhino.fi SDA on Bitcoin, and funds are settled to the configured destination chain. For all deposits to a Bitcoin Smart Deposit Address there is a per-transaction \$1 plus 20bps cost.
 
 ---
 
 ## Why this is a separate extension
 
-TRON requires specific compliance and operational controls that differ from EVM chains. AML screening on TRON operates differently from EVM screening, and Rhino maintains dedicated TRON infrastructure.
+These chains requires specific infrastructure, compliance controls and operational processes that differ from EVM chains and have a higher per-transaction cost. 
 
-Enabling TRON access therefore requires a specific agreement with your account representative, including acknowledgement of the TRON-specific compliance framework.
+To enable this extension, please speak with your Rhino.fi Account Manager. 
 
 ---
 
 ## Integration
 
-Once Tron Access is enabled on your account, TRON appears in the bridge config (`bridgeConfigs`) as an available chain with `enabledDepositAddress: true`.
+Once Tron, Solana and Bitcoin Access is enabled on your account, Tron and Solana will appear in the bridge config (`bridgeConfigs`) as an available chain with `enabledDepositAddress: true`.
 
-No code changes are required beyond confirming TRON is listed.
+No code changes are required beyond confirming that these chains are listed.
 
-For SDA generation on TRON, use `"TRON"` in the `depositChains` array.
+For SDA generation on Tron and Bitcoin, use `"TRON"` or `"BITCOIN"` in the `depositChains` array.
 
 <Info>
-  Generating a Tron (and Solana) SDA requires a separate call. I.e. you can specify many EVMs to generate SDAs across all EVMs. Then generate a Tron (and Solana) SDA with a separate call.
+  Generating a Tron or Solana or Bitcoin SDA requires a separate call. I.e. you can specify many EVMs to generate SDAs across all EVMs. Then generate a Tron (or Solana or Bitcoin) SDA with a separate call.
 </Info>
 
-For TRON as a destination, use `"TRON"` as the `destinationChain`.
-
-Token symbols on TRON follow the same naming convention as other chains (e.g. `"USDT"`).
+For Tron as a destination, use `"TRON"` as the `destinationChain`. For Solana, use `"SOLANA"`.
 
 ---
 
 ## SDK support
 
-TRON chain adapter documentation is available at [Chain Adapters — Tron](/sdk/chain-adapters/tron).
+Chain adapter documentation is available at [Chain Adapters](https://docs.rhino.fi/sdk/chain-adapters/overview)
 
 ---
 

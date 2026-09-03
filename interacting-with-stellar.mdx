@@ -17,7 +17,7 @@ When `chainOut` is `Stellar`, the `recipient` field accepts either:
 - A **muxed address** (`M…`) — the preferred format, encodes both the destination G address and the memo in a single string.
 - A **base account** (`G…`) — use only if the destination is a plain Stellar account with no memo required.
 
-> ⚠️ **There is no separate memo field in the API.** If the destination requires a specific memo (e.g. your user's account on an exchange or a custodian), you must construct the muxed M address yourself from the G address \+ memo ID before passing it as `recipient`.
+> ⚠️ **There is no separate memo field in the API.** If the destination requires a specific memo (e.g. your user's account on an exchange or a custodian), you must construct the muxed M address yourself from the G address + memo ID before passing it as `recipient`.
 
 The API always returns `recipient` as specified in the quote — either an M address or a G address.
 
@@ -135,12 +135,12 @@ Use `POST /deposit-addresses` with `"STELLAR"` in the `depositChains` array.
 ### What's different about this response
 
 - `depositAddress` is **always** a muxed address (`M…`). This is the canonical identifier for the SDA — it is what you must use across all SDA-related endpoints.
-- `chainMetadata` is present whenever `depositChain` is `STELLAR`. The `baseAddress` is [rhino.fi](http://rhino.fi)'s hotwallet — it is identical across all SDAs and is **not** a per-user identifier. The `memoId` is the per-user identifier. Surface `baseAddress` \+ `memoId` only when a user's wallet cannot accept a muxed address directly.
+- `chainMetadata` is present whenever `depositChain` is `STELLAR`. The `baseAddress` is [rhino.fi](http://rhino.fi)'s hotwallet — it is identical across all SDAs and is **not** a per-user identifier. The `memoId` is the per-user identifier. Surface `baseAddress` + `memoId` only when a user's wallet cannot accept a muxed address directly.
 - Currently only `USDC` is supported as a deposit token.
 
 **SDA identification:** All SDA endpoints (`/status`, `/history`, `/search`) use the **M address** to identify a specific SDA. The `baseAddress` (`G…`) in `chainMetadata` is [rhino.fi](http://rhino.fi)'s hotwallet and is not a valid SDA identifier.
 
-**Displaying to end users:** Show the muxed address by default. If a user's wallet requires a base address \+ memo, surface both `chainMetadata.baseAddress` and `chainMetadata.memoId` and make clear that **both values must be used together**. A transaction sent to the base address without the correct memo ID cannot be credited.
+**Displaying to end users:** Show the muxed address by default. If a user's wallet requires a base address + memo, surface both `chainMetadata.baseAddress` and `chainMetadata.memoId` and make clear that **both values must be used together**. A transaction sent to the base address without the correct memo ID cannot be credited.
 
 ### Checking status and history
 
@@ -172,7 +172,7 @@ The regular bridge flow uses `POST /quote/bridge-swap/user` with `"chainIn": "ST
 3. Commit a quote by calling `POST /quote/commit/{quoteId}`
 4. Create a transaction on Stellar network by passing the `quoteId` as `MEMO_TEXT` with the deposit to the Stellar [contract address](https://docs.rhino.fi/general/contract-addresses)
 
-### Why MEMO\_TEXT and not a muxed address?
+### Why MEMO_TEXT and not a muxed address?
 
 The bridge commitment ID is a 96-bit value. Muxed addresses and `MEMO_ID` are capped at 64 bits which is too small. `MEMO_TEXT` (28-byte capacity) fits the 24-character hex encoding and allows to differentiate between bridge and SDA deposits.
 
@@ -187,6 +187,6 @@ The bridge commitment ID is a 96-bit value. Muxed addresses and `MEMO_ID` are ca
 
 ## SDK note
 
-The SDK requires `"depositChains": ["STELLAR"]` when generating a Stellar SDA. The response will provide a muxed address and the base address \+ memo ID combination. We recommend our clients to surface the muxed address in the UI as a default and allow toggling to display the base address and memo ID as a fallback for wallets/systems that don’t support muxed addresses.
+The SDK requires `"depositChains": ["STELLAR"]` when generating a Stellar SDA. The response will provide a muxed address and the base address + memo ID combination. We recommend our clients to surface the muxed address in the UI as a default and allow toggling to display the base address and memo ID as a fallback for wallets/systems that don’t support muxed addresses.
 
 Please note that you need to generate a Stellar SDA separately from SDAs on other chains. As a reminder, you can generate SDAs on all EVM chains with one call. Stellar, Tron and Solana each require a separate call to generate an SDA.

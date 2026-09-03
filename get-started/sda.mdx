@@ -37,7 +37,7 @@ Key properties that make SDAs flexible:
     Generating a Tron (and Solana) SDA requires a separate call. I.e. you can specify all EVMs to generate SDAs across all EVMs. Then generate a Tron and Solana SDA with separate calls.
   </Info>
 - **Webhooks**: Real-time push updates on deposit results.
-- **Any-chain destination**: Funds can settle on any of the 20\+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
+- **Any-chain destination**: Funds can settle on any of the 20+ Rhino-supported chains, including non-EVMs (Starknet, Ton, Solana, etc.).
 - **Stablecoin primitives**:
   - Same-to-same (e.g. USDC → USDC)
   - Cross-stable swap (e.g. USDC → USDT) — with the [1:1 Stablecoin Swaps](/get-started/extensions/stablecoin-swaps) extension, cross-stable conversions execute at a guaranteed 1:1 rate with no slippage
@@ -46,7 +46,7 @@ Key properties that make SDAs flexible:
 - **Metadata support**: Attach arbitrary data (e.g. UUID) to track users, payments, or invoices.
 - **Flexible fees**: It is possible for fees to be paid by you or passed directly onto the end customer. More information on fees can be found [here](https://learn.rhino.fi/collections/8556189802-fees).
 - **Validity:** Unlimited. Smart Deposit Addresses are monitored for 7 years ensuring that no later transactions are missed.
-- **Deposit size**: Typically 5-digit USD\+ supported, 7-digit on request.
+- **Deposit size**: Typically 5-digit USD+ supported, 7-digit on request.
 - **100% KYT screening**: Every deposit is screened for KYT/AML before crediting. Clients never receive funds that fail compliance checks. Enhanced screening options and real-time AML notifications are available via the [Enhanced Compliance & Risk Management](/get-started/extensions/enhanced-compliance) extension.
 - **Privacy benefit**: SDAs are naturally decoupled from destination addresses.
 - **Refund address**:  Users/clients can specify fallback if a transaction fails (\< 1% of cases) or can use our concierge approach to processing refunds e.g in the case of unsupported tokens being received into the SDA.
