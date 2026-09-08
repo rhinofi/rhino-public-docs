@@ -47,6 +47,8 @@ Use `POST /deposit-addresses` with `"BITCOIN"` in the `depositChains` array. A B
 - If `tokenOut` is **not** specified, the deposit settles into WBTC by default, provided WBTC is available on the destination chain.
 - If `tokenOut` **is** specified, the deposit settles into that asset instead. If the requested route isn't supported, address generation returns an error.
 
+The API will return an error if the specified route is not supported for any reason. Contact your account manager to enable it.
+
 ### Settling into a wrapped BTC position via a Post Bridge Action
 
 A Bitcoin deposit address can be configured with a Automated Onchain Action to deliver into a destination contract, such as a vault. Specify `tokenOut` for the asset the destination actually expects, as a safety measure - even when a PBA is configured. For example, to accept BTC but deliver into a vault as USDT, set `tokenOut: "USDT"`.
