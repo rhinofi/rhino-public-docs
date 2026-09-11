@@ -1,0 +1,87 @@
+---
+title: "Interacting with Bitcoin"
+---
+
+This page covers accepting native Bitcoin deposits via Smart Deposit Addresses. Bitcoin is currently **deposit-only** - bridging _to_ Bitcoin (i.e. delivering native BTC as a destination asset) is not yet supported.
+
+## Creating a Bitcoin deposit address
+
+Use `POST /deposit-addresses` with `"BITCOIN"` in the `depositChains` array. A Bitcoin SDA is created the same way as an SDA on any other chain, but must be requested separately - Bitcoin, Tron and Solana each require their own call to generate an SDA (you can generate SDAs on all EVM chains with a single call).
+
+**Sample request** - accepting BTC, settling to USDC on Base:
+
+```json
+{
+  "depositChains": ["BITCOIN"],
+  "destinationChain": "BASE",
+  "destinationAddress": "0x7c9cfcf64a02200f0b3fa4ffd1773758fc082749",
+  "tokenOut": "USDC"
+}
+```
+
+**Sample response:**
+
+```json
+[
+  {
+    "depositChain": "BITCOIN",
+    "depositAddress": "bc1pwvza3f5hz85h9xdsmar8vjznsta9un82r5m5rvdsyys56u4xg75qytn3t4",
+    "destinationChain": "BASE",
+    "destinationAddress": "0x7c9cfcf64a02200f0b3fa4ffd1773758fc082749",
+    "supportedTokens": [
+      {
+        "symbol": "BTC",
+        "minDepositLimitUsd": 10,
+        "maxDepositLimitUsd": 50000
+      }
+    ],
+    "isActive": true
+  }
+]
+```
+
+`supportedTokens` on a Bitcoin SDA will always only contain `BTC`.
+
+## Choosing a settlement asset
+
+- If `tokenOut` is **not** specified, the deposit settles into WBTC by default, provided WBTC is available on the destination chain.
+- If `tokenOut` **is** specified, the deposit settles into that asset instead. If the requested route isn't supported, address generation returns an error.
+
+### Settling into a wrapped BTC position via a Post Bridge Action
+
+A Bitcoin deposit address can be configured with a Automated Onchain Action to deliver into a destination contract, such as a vault. Specify `tokenOut` for the asset the destination actually expects, as a safety measure - even when a PBA is configured. For example, to accept BTC but deliver into a vault as USDT, set `tokenOut: "USDT"`.
+
+## Limits
+
+- **Minimum deposit:** 5,000 sats is the absolute minimum. A \$10 minimum is surfaced in the API for consistency.
+- **Maximum deposit:** \$50,000 per transaction at launch, expected to rise over time. Higher limits can be requested via your account manager.
+
+## Speed
+
+A Bitcoin deposit is processed after one network confirmation. Confirmation time depends on Bitcoin network conditions and typically falls between 5–20 minutes, though high network traffic can delay this further.
+
+## Fees
+
+A flat \$1 fee applies per Bitcoin deposit.
+
+## Swap details in the history response
+
+Because settling a Bitcoin deposit involves a currency conversion, the transaction history response for a Bitcoin SDA includes swap details in the `preSwap` / `postSwap` fields:
+
+- **`preSwap`** - always present. Represents BTC converting into the settlement asset: WBTC or USDC, used as a middle step in our liquidity provision.
+- **`postSwap`** - present only when the requested destination asset differs from the settlement asset (e.g. USDT, EURC). Represents the settlement asset converting into the requested `tokenOut`.
+
+Quoting is based on the deposited BTC amount at the live market rate at time of deposit confirmation. Above the maximum deposit limit, the settled amount may incur slippage.
+
+### Checking status and history
+
+```text
+GET /deposit-addresses/{depositAddress}/{depositChain}/status
+GET /deposit-addresses/{depositAddress}/{depositChain}/history
+```
+
+## Constraints
+
+- Currently one-directional: native BTC deposits settle into other supported assets. Converting other assets back into native BTC is not yet supported.
+- Available through the SDK, but only via the SDA route - not through the bridge & swap quote endpoint, so there are no committed quotes for Bitcoin.
+- Native Bitcoin support is being rolled out client by client. Contact your account manager to enable it for your integration.
