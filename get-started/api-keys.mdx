@@ -15,4 +15,16 @@ Public API keys can't be used to access the bridge history of your app as that w
 ### Secret API keys 
 Secret API keys work just the same as public ones with the difference that they can be used to access the entire bridge history of your app. You should only use secret API keys in code that is not run client side.
 
+### IP allowlisting
+
+Optionally, you can restrict an API key so it only works when requests come from a specific set of IP addresses. This applies to both public and secret keys and is off by default — existing keys, and any new key created without an allowlist, keep working from any IP.
+
+- You can add up to 5 IP addresses per key.
+- A request made with the key from an IP that isn't on the list is rejected.
+- You can add, remove, or change the allowlist on an existing key at any time, including clearing it back to no restriction.
+
+<Note>
+  Setting an IP allowlist doesn't change a key's other permissions — a public key with IP restrictions still can't access bridge history, for example.
+</Note>
+
 <RequestApiKey />
